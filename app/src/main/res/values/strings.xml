@@ -20,5 +20,11 @@
     <string name="employer">Employer</string>
     <string name="university">University</string>
     <string name="student">Student</string>
+    <string name="university_address">University Address</string>
+    <string name="university_email_address">University Email Address</string>
+    <string name="university_website_link">University Website link</string>
+    <string name="contract_person_email">Contract person Email</string>
+    <string name="contract_person_phone">Contract Person Phone</string>
+    <string name="contract_person_name">Contract Person Name</string>
 
 </resources>

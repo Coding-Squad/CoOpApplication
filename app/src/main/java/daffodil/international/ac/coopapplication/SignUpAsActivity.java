@@ -13,6 +13,12 @@ public class SignUpAsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_as);
     }
 
+    public void goToUniversitySignUpPage(View view) {
+        Intent universitySignUpIntent = new Intent(this, UniversitySignUpActivity.class);
+        startActivity(universitySignUpIntent);
+
+    }
+
     public void goToStudentSignUpPage(View view) {
         Intent studentSignUpIntent = new Intent(this, StudentSignUpActivity.class);
         startActivity(studentSignUpIntent);

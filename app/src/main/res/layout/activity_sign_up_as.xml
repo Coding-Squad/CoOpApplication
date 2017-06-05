@@ -30,6 +30,7 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:onClick="goToUniversitySignUpPage"
         android:id="@+id/sign_up_as_university_button"
         android:text="@string/university"
         android:textSize="20sp"
