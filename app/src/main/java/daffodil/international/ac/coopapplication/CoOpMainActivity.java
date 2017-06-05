@@ -24,7 +24,6 @@ public class CoOpMainActivity extends AppCompatActivity {
                 Intent intent = new Intent(CoOpMainActivity.this,StudentSignUpActivity.class);
                 CoOpMainActivity.this.startActivity(intent);
 
-
             }
         });
 
