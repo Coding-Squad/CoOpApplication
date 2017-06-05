@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="top|center"
+    android:background="#5EAC32"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="daffodil.international.ac.coopapplication.SignUpAsActivity">
+
+    <TextView
+        android:id="@+id/sign_up_as_textview"
+        android:text="@string/sign_up_as"
+        android:textSize="30sp"
+        android:layout_marginTop="170sp"
+        android:textColor="#ffffff"
+        android:background="#5EAC32"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/sign_up_as_employer_button"
+        android:text="@string/employer"
+        android:textSize="20sp"
+        android:textColor="#ffff"
+        android:textAlignment="center"
+        android:background="#09776E"
+        android:layout_marginTop="25sp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/sign_up_as_university_button"
+        android:text="@string/university"
+        android:textSize="20sp"
+        android:textColor="#ffff"
+        android:textAlignment="center"
+        android:background="#09776E"
+        android:layout_marginTop="10sp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:onClick="goToStudentSignUpPage"
+        android:id="@+id/sign_up_as_student_button"
+        android:text="@string/student"
+        android:textSize="20sp"
+        android:textColor="#ffff"
+        android:textAlignment="center"
+        android:background="#09776E"
+        android:layout_width="300dp"
+        android:layout_marginTop="10sp"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

@@ -19,16 +19,18 @@
 
     <Button
         android:id="@+id/signUpButton"
+        android:layout_marginTop="190sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="20sp"
-        android:text="@string/sign_up"
+        android:text="@string/sign_in"
         android:textAlignment="center"/>
 
     <Button
+        android:onClick="goToSignUpAsPage"
         android:id="@+id/student_signup_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/student_sign_up"/>
+        android:text="@string/sign_up"/>
 
 </LinearLayout>
