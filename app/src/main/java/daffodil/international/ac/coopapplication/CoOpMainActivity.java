@@ -19,4 +19,10 @@ public class CoOpMainActivity extends SimpleActivity {
                 (this, SignUpAsActivity.class);
         startActivity(signUpPageIntent);
     }
+
+    public void goToSignInPage(View view) {
+        Intent signInPageIntent = new Intent(this, SignInActivity.class);
+        startActivity(signInPageIntent);
+
+    }
 }

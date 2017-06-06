@@ -18,7 +18,8 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
-        android:id="@+id/signUpButton"
+        android:onClick="goToSignInPage"
+        android:id="@+id/signInButton"
         android:layout_marginTop="190sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

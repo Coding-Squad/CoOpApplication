@@ -1,3 +1,5 @@
+CREATE schema co_op;
+
 CREATE TABLE users (
 	userId LONG PRIMARY KEY NOT NULL DEFAULT "0",
     password VARCHAR(32),
@@ -16,7 +18,7 @@ CREATE TABLE userType (
 
 INSERT INTO userType VALUES();
 
-CREATE TABLE studentInformation (    
+CREATE TABLE studentInformation (
     studentInformationId LONG PRIMARY KEY NOT NULL DEFAULT "0",
     userId LONG,
     firstName VARCHAR(35),
