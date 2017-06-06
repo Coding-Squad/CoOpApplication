@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-public class SignUpAsActivity extends AppCompatActivity {
+import stanford.androidlib.SimpleActivity;
+
+public class SignUpAsActivity extends SimpleActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +22,17 @@ public class SignUpAsActivity extends AppCompatActivity {
 
     }
 
+
+    // Button actionlistener to go to university signup page.
+
     public void goToUniversitySignUpPage(View view) {
         Intent universitySignUpIntent = new Intent(this, UniversitySignUpActivity.class);
         startActivity(universitySignUpIntent);
 
     }
+
+
+    // Button actionlistener to go to student signup page.
 
     public void goToStudentSignUpPage(View view) {
         Intent studentSignUpIntent = new Intent(this, StudentSignUpActivity.class);

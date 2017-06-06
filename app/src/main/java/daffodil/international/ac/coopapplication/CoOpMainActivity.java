@@ -7,30 +7,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-public class CoOpMainActivity extends AppCompatActivity {
+import stanford.androidlib.SimpleActivity;
+
+public class CoOpMainActivity extends SimpleActivity {
     private static final String TAG = "CoOpMainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_co_op_main);
-
-       /* final Button button =(Button) findViewById(R.id.student_signup_button);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                Log.d(TAG, "onClick: starts");
-         //       Toast.makeText(CoOpMainActivity.this, "Sign up clicked ", Toast.LENGTH_SHORT).show();
-
-              *//*  Intent intent = new Intent(CoOpMainActivity.this,StudentSignUpActivity.class);
-                CoOpMainActivity.this.startActivity(intent);*//*
-
-            }
-        });
-
-
-*/
     }
 
+    // Button actionlistener to go to signup as page.
     public void goToSignUpAsPage(View view) {
         Intent signUpPageIntent = new Intent
                 (this, SignUpAsActivity.class);

@@ -3,7 +3,9 @@ package daffodil.international.ac.coopapplication;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class UniversitySignUpActivity extends AppCompatActivity {
+import stanford.androidlib.SimpleActivity;
+
+public class UniversitySignUpActivity extends SimpleActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
