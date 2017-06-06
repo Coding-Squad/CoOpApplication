@@ -1,11 +1,14 @@
 package daffodil.international.ac.coopapplication;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class SignUpAsActivity extends AppCompatActivity {
+import stanford.androidlib.SimpleActivity;
+
+public class SignUpAsActivity extends SimpleActivity {
+    private static final String TAG = "SignUpAsActivity";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,5 +26,10 @@ public class SignUpAsActivity extends AppCompatActivity {
         Intent studentSignUpIntent = new Intent(this, StudentSignUpActivity.class);
         startActivity(studentSignUpIntent);
 
+    }
+
+    public void goToCompanySignUpPage(View view) {
+        Intent companySignUpIntent = new Intent(this, EmployerSignUpActivity.class);
+        startActivity(companySignUpIntent);
     }
 }

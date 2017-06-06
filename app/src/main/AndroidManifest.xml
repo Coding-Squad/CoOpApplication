@@ -23,6 +23,8 @@
         </activity>
         <activity android:name=".EmployerSignUpActivity">
         </activity>
+        <activity android:name=".SignUpFeedback">
+        </activity>
     </application>
 
 </manifest>

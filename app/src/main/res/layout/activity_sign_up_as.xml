@@ -19,6 +19,7 @@
         android:layout_height="wrap_content" />
 
     <Button
+        android:onClick="goToCompanySignUpPage"
         android:id="@+id/sign_up_as_employer_button"
         android:text="@string/employer"
         android:textSize="20sp"
