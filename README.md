@@ -1,2 +1,2 @@
 # CoOpApplication
-A Coperative Application for educational purpose. 
+A Cooperative Application for educational purpose.
