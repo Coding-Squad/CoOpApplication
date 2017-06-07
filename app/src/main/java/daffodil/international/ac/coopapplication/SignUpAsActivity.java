@@ -32,4 +32,5 @@ public class SignUpAsActivity extends SimpleActivity {
         Intent companySignUpIntent = new Intent(this, EmployerSignUpActivity.class);
         startActivity(companySignUpIntent);
     }
+
 }

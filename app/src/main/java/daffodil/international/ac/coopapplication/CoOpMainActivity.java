@@ -23,6 +23,12 @@ public class CoOpMainActivity extends SimpleActivity {
         startActivity(signUpPageIntent);
     }
 
+    public void goToSignInPage(View view) {
+        Intent signInPageIntent = new Intent(this, SignInActivity.class);
+        startActivity(signInPageIntent);
+
+    }
+
     private void doQuery(){
         SQLiteDatabase co_op_sqLiteDatabase = SQLiteDatabase.openDatabase("coop_database", null, MODE_PRIVATE);
         co_op_sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS users" +

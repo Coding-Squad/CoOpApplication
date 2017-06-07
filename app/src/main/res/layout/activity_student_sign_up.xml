@@ -94,11 +94,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:orientation="horizontal"
+            android:weightSum="1"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toRightOf="@+id/stu_gender_text"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stu_address"
-            android:weightSum="1">
+            app:layout_constraintTop_toBottomOf="@+id/stu_address">
 
             <RadioButton
                 android:id="@+id/stu_male"
@@ -117,11 +117,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_weight="0.51"
                 android:text="@string/female"
                 app:layout_constraintBaseline_toBaselineOf="@+id/stu_male"
                 app:layout_constraintLeft_toRightOf="@+id/stu_male"
-                tools:text="Female"
-                android:layout_weight="0.51"/>
+                tools:text="Female"/>
 
         </RadioGroup>
 
@@ -187,19 +187,19 @@
             app:layout_constraintTop_toBottomOf="@+id/stu_university_student_id"/>
 
         <Button
-            android:onClick="goToSignUpFeedback"
             android:id="@+id/stu_sign_up_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="48dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="48dp"
+            android:onClick="goToSignUpFeedback"
             android:text="@string/submit_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stu_about_me"
             app:layout_constraintVertical_bias="1.0"
-           />
+            />
 
 
     </android.support.constraint.ConstraintLayout>
