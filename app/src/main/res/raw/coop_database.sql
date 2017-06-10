@@ -30,9 +30,7 @@ CREATE TABLE studentInformation (
     dateOfBirth DATE,
     universityName VARCHAR(35);
     studentId LONG,
-    jobCategoryListId LONG,
-    jobStatusId LONG,
-    priorWishlistId	LONG
+
 );
 
 INSERT INTO studentInformation VALUES();

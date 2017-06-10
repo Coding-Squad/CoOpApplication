@@ -61,6 +61,8 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
             + ContactInformation.Columns.CONTACT_PERSON_PHONE + " INTEGER);";
 
 
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "onCreate: starts");
