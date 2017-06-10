@@ -15,6 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".CoOpMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -22,18 +23,65 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".StudentSignUpActivity"/>
-        <activity android:name=".SignUpAsActivity"/>
-        <activity android:name=".UniversitySignUpActivity">
+
+        <provider
+            android:name=".AppProvider"
+            android:authorities="daffodil.international.ac.coopapplication.provider"
+            android:exported="false"/>
+
+        <activity
+            android:name=".SignUpAsActivity"
+            android:parentActivityName=".CoOpMainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="daffodil.international.ac.coopapplication.CoOpMainActivity"/>
+
         </activity>
-        <activity android:name=".EmployerSignUpActivity">
+
+        <activity
+            android:name=".StudentSignUpActivity"
+            android:parentActivityName=".SignUpAsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="daffodil.international.ac.coopapplication.SignUpAsActivity"/>
+
         </activity>
-        <activity android:name=".SignUpFeedback">
+
+        <activity
+            android:name=".UniversitySignUpActivity"
+            android:parentActivityName=".SignUpAsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="daffodil.international.ac.coopapplication.SignUpAsActivity"/>
         </activity>
+
+        <activity
+            android:name=".EmployerSignUpActivity"
+            android:parentActivityName=".SignUpAsActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="daffodil.international.ac.coopapplication.SignUpAsActivity"/>
+        </activity>
+
+        <activity
+            android:name=".SignUpFeedback"
+            android:parentActivityName=".CoOpMainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="daffodil.international.ac.coopapplication.CoOpMainActivity"/>
+        </activity>
+
         <activity
             android:name=".SignInActivity"
-            android:label="@string/title_activity_sign_in">
+            android:label="@string/title_activity_sign_in"
+            android:parentActivityName=".CoOpMainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="daffodil.international.ac.coopapplication.CoOpMainActivity"/>
+
         </activity>
+
     </application>
 
 </manifest>

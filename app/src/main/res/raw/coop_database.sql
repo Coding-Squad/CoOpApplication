@@ -51,10 +51,11 @@ INSERT INTO  companyInformation VALUES();
 
 CREATE TABLE contactInformation (    
     contactId LONG PRIMARY KEY NOT NULL DEFAULT "0",
-    userId LONG,
-    phone VARCHAR(15),
+ //   userId LONG,
+    personName   VARCHAR(50),
     email VARCHAR(25),
-    personName   VARCHAR(50)
+    phone VARCHAR(15)
+
 );
 
 INSERT INTO  contactInformation VALUES();
