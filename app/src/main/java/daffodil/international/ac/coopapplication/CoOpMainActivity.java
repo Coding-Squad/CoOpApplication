@@ -7,8 +7,6 @@ import android.view.View;
 
 import stanford.androidlib.SimpleActivity;
 
-import static java.sql.Types.INTEGER;
-
 public class CoOpMainActivity extends SimpleActivity {
     private static final String TAG = "CoOpMainActivity";
     @Override
