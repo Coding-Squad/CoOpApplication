@@ -10,7 +10,10 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import static daffodil.international.ac.coopapplication.UniversityInformation.getUniversityInformationId;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
+
+import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation.getUniversityInformationId;
 
 /**
  * Created by Pranto on 08-Jun-17.
@@ -24,7 +27,7 @@ public class AppProvider extends ContentProvider {
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
-    static final String CONTENT_AUTHORITY = "daffodil.international.ac.coopapplication.provider";
+    public static final String CONTENT_AUTHORITY = "daffodil.international.ac.coopapplication.provider";
     public static final Uri CONTENT_AUTHORITY_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     private static final int UNIVERSITY_INFORMATION = 100;

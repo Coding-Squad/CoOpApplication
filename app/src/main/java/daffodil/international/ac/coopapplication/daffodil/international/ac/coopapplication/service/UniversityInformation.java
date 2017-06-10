@@ -1,4 +1,4 @@
-package daffodil.international.ac.coopapplication;
+package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service;
 
 import android.content.ContentUris;
 import android.net.Uri;
@@ -13,7 +13,7 @@ import static daffodil.international.ac.coopapplication.AppProvider.CONTENT_AUTH
 
 public class UniversityInformation {
 
-    static final String TABLE_NAME = "UniversityInformation";
+    public static final String TABLE_NAME = "UniversityInformation";
 
 
     // University Information fields
@@ -35,17 +35,17 @@ public class UniversityInformation {
      */
     public static final Uri CONTENT_URI = Uri.withAppendedPath(CONTENT_AUTHORITY_URI, TABLE_NAME);
 
-    static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd." + CONTENT_AUTHORITY + "." + TABLE_NAME;
-    static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd." + CONTENT_AUTHORITY + "." + TABLE_NAME;
+    public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd." + CONTENT_AUTHORITY + "." + TABLE_NAME;
+    public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd." + CONTENT_AUTHORITY + "." + TABLE_NAME;
 
 
     //For Query Method
-    static Uri buildUniversityInformationUri(long universityInformationId) {
+    public static Uri buildUniversityInformationUri(long universityInformationId) {
         return ContentUris.withAppendedId(CONTENT_URI, universityInformationId);
     }
 
     //For Query Method
-    static long getUniversityInformationId(Uri uri) {
+    public static long getUniversityInformationId(Uri uri) {
         return ContentUris.parseId(uri);
     }
 

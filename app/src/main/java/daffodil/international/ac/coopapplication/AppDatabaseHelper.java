@@ -5,6 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
+
 /**
  * Created by Pranto on 08-Jun-17.
  * <p>
@@ -53,9 +56,9 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
     //ContractInformation Table
     public static final String CREATE_CONTRACT_INFORMATION_TABLE = "CREATE TABLE " + ContactInformation.TABLE_NAME + " ("
             + ContactInformation.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
-            + ContactInformation.Columns.CONTRACT_PERSON_NAME + " TEXT NOT NULL, "
-            + ContactInformation.Columns.CONTRACT_PERSON_EMAIL + " TEXT, "
-            + ContactInformation.Columns.CONTRACT_PERSON_PHONE + " INTEGER);";
+            + ContactInformation.Columns.CONTACT_PERSON_NAME + " TEXT NOT NULL, "
+            + ContactInformation.Columns.CONTACT_PERSON_EMAIL + " TEXT, "
+            + ContactInformation.Columns.CONTACT_PERSON_PHONE + " INTEGER);";
 
 
     @Override

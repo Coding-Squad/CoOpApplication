@@ -9,6 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UniversityInfoDto;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 import stanford.androidlib.SimpleActivity;
 
 public class UniversitySignUpActivity extends SimpleActivity {
@@ -70,11 +73,12 @@ public class UniversitySignUpActivity extends SimpleActivity {
             uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_NAME, mUniversityNameTextView.getText().toString());
             uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_ADDRESS, mUniversityAddressTextView.getText().toString());
             uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_URL, mUniversityWebLinkTextView.getText().toString());
+            uniInfoValues.put(UniversityInformation.Columns.CONTRACTS_ID, mUniversityWebLinkTextView.getText().toString());
 
             if (mContractPersonNameTextView.length() > 1) {
-                contractInfoValues.put(ContactInformation.Columns.CONTRACT_PERSON_NAME, mContractPersonNameTextView.getText().toString());
-                contractInfoValues.put(ContactInformation.Columns.CONTRACT_PERSON_NAME, mContractPersonEmailTextView.getText().toString());
-                contractInfoValues.put(ContactInformation.Columns.CONTRACT_PERSON_NAME, mContractPersonPhoneTextView.getText().toString());
+                contractInfoValues.put(ContactInformation.Columns.CONTACT_PERSON_NAME, mContractPersonNameTextView.getText().toString());
+                contractInfoValues.put(ContactInformation.Columns.CONTACT_PERSON_EMAIL, mContractPersonEmailTextView.getText().toString());
+                contractInfoValues.put(ContactInformation.Columns.CONTACT_PERSON_PHONE, mContractPersonPhoneTextView.getText().toString());
                 contentResolver.insert(ContactInformation.CONTENT_URI_CONTRACTS, contractInfoValues);
             } else {
                 return;

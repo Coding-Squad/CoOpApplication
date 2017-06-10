@@ -1,4 +1,4 @@
-package daffodil.international.ac.coopapplication;
+package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto;
 
 import java.io.Serializable;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Created by Pranto on 08-Jun-17.
  */
 
-class UniversityInfoDto implements Serializable {
+public class UniversityInfoDto implements Serializable {
     public static final long serialVersionUID = 20170608L;
 
     private long m_Id;
