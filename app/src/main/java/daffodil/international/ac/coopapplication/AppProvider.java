@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation.getUniversityInformationId;
@@ -37,6 +38,10 @@ public class AppProvider extends ContentProvider {
     private static final int CONTRACT_INFORMATION_ID = 201;
 
 
+    private static final int STUDENT_INFORMATION = 300;
+    private static final int STUDENT_INFORMATION_ID = 301;
+
+
     private static UriMatcher buildUriMatcher() {
 
         Log.d(TAG, "buildUriMatcher: starts");
@@ -51,6 +56,11 @@ public class AppProvider extends ContentProvider {
         matcher.addURI(CONTENT_AUTHORITY, ContactInformation.TABLE_NAME, CONTRACT_INFORMATION);
         // e.g. content://daffodil.international.ac.coopapplication.provider/ContactInformation/8
         matcher.addURI(CONTENT_AUTHORITY, ContactInformation.TABLE_NAME + "/#", CONTRACT_INFORMATION_ID);
+
+        //  eg. content://daffodil.international.ac.coopapplication.provider/Student Information
+        matcher.addURI(CONTENT_AUTHORITY, StudentInformation.TABLE_NAME, STUDENT_INFORMATION);
+        // e.g. content://daffodil.international.ac.coopapplication.provider/Student Information/8
+        matcher.addURI(CONTENT_AUTHORITY, StudentInformation.TABLE_NAME + "/#", STUDENT_INFORMATION_ID);
 
         return matcher;
     }
@@ -92,6 +102,16 @@ public class AppProvider extends ContentProvider {
                 queryBuilder.appendWhere(ContactInformation.Columns._ID + " = " + contractInformationId);
                 break;
 
+            case STUDENT_INFORMATION:
+                queryBuilder.setTables(StudentInformation.TABLE_NAME);
+                break;
+
+            case STUDENT_INFORMATION_ID:
+                queryBuilder.setTables(StudentInformation.TABLE_NAME);
+                long studentInformationId = StudentInformation.getStudentInformationId(uri);
+                queryBuilder.appendWhere(StudentInformation.Columns._ID + " = " + studentInformationId);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
 
@@ -118,6 +138,13 @@ public class AppProvider extends ContentProvider {
 
             case CONTRACT_INFORMATION_ID:
                 return ContactInformation.CONTENT_ITEM_TYPE;
+
+            case STUDENT_INFORMATION:
+                return StudentInformation.CONTENT_TYPE;
+
+            case STUDENT_INFORMATION_ID:
+                return StudentInformation.CONTENT_ITEM_TYPE;
+
 
             default:
                 throw new IllegalArgumentException("unknown Uri: " + uri);
@@ -155,6 +182,19 @@ public class AppProvider extends ContentProvider {
                 recordId = db.insert(ContactInformation.TABLE_NAME, null, values);
                 if (recordId >= 0) {
                     returnUri = ContactInformation.buildContactInformationUri(recordId);
+
+                } else {
+                    throw new android.database.SQLException("Failed to insert into " + uri.toString());
+                }
+                break;
+
+            case STUDENT_INFORMATION:
+                Log.d(TAG, "Entering insert, called with uri:" + uri);
+
+                db = mOpenHelper.getWritableDatabase();
+                recordId = db.insert(StudentInformation.TABLE_NAME, null, values);
+                if (recordId >= 0) {
+                    returnUri = StudentInformation.buildStudentInformationUri(recordId);
 
                 } else {
                     throw new android.database.SQLException("Failed to insert into " + uri.toString());

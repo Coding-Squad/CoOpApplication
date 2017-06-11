@@ -8,16 +8,16 @@ import java.util.Date;
 
 public class StudentInformationDto {
     private long        m_id;
-    private long        m_userId;
     private String      m_firstName;
     private String      m_lastName;
     private String      m_mobile_number;
     private String      m_address;
-    private int         m_gendar;
+    private int         m_gender;
     private int         m_bloodGroup;
     private Date        m_date_of_Birth;
     private String      m_universityName;
     private long        m_studentId;
+    private long        m_userId;
     private String      m_description;
 
     public StudentInformationDto() {
@@ -31,7 +31,7 @@ public class StudentInformationDto {
         this.m_id = id;
         this.m_userId = userId;
         this.m_mobile_number = mobile_number;
-        this.m_gendar = gendar;
+        this.m_gender = gendar;
         this.m_bloodGroup = bloodGroup;
         this.m_universityName = universityName;
     }
@@ -85,11 +85,11 @@ public class StudentInformationDto {
     }
 
     public int getM_gendar() {
-        return m_gendar;
+        return m_gender;
     }
 
     public void setM_gendar(int m_gendar) {
-        this.m_gendar = m_gendar;
+        this.m_gender = m_gendar;
     }
 
     public int getM_bloodGroup() {
@@ -141,7 +141,7 @@ public class StudentInformationDto {
                 ", m_lastName='" + m_lastName + '\'' +
                 ", m_mobile_number='" + m_mobile_number + '\'' +
                 ", m_address='" + m_address + '\'' +
-                ", m_gendar=" + m_gendar +
+                ", m_gendar=" + m_gender +
                 ", m_bloodGroup=" + m_bloodGroup +
                 ", m_date_of_Birth=" + m_date_of_Birth +
                 ", m_universityName='" + m_universityName + '\'' +

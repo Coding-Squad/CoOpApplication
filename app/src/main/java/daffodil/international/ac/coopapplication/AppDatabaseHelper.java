@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 
 /**
@@ -26,7 +27,7 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
     private static AppDatabaseHelper instance = null;
 
 
-    private AppDatabaseHelper(Context context) {
+    public AppDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         Log.d(TAG, "AppDatabase: constructor called");
     }
@@ -60,6 +61,21 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
             + ContactInformation.Columns.CONTACT_PERSON_EMAIL + " TEXT, "
             + ContactInformation.Columns.CONTACT_PERSON_PHONE + " INTEGER);";
 
+    //StudentInformation Table
+    public static final String CREATE_STUDENT_INFORMATION_TABLE = "CREATE TABLE " + StudentInformation.TABLE_NAME + " ("
+            + StudentInformation.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
+            + StudentInformation.Columns.FIRST_NAME + " TEXT NOT NULL, "
+            + StudentInformation.Columns.LAST_NAME + " TEXT, "
+            + StudentInformation.Columns.MOBILE_NUMBER + " TEXT, "
+            + StudentInformation.Columns.ADDRESS + " TEXT, "
+            + StudentInformation.Columns.BLOOD_GROUP + " INTEGER, "
+            + StudentInformation.Columns.DATE_OF_BIRTH + " DATE, "
+            + StudentInformation.Columns.DESCRIPTION + " TEXT, "
+            + StudentInformation.Columns.GENDER + " INTEGER, "
+            + StudentInformation.Columns.STUDENT_ID + " LONG, "
+            + StudentInformation.Columns.USER_ID + " LONG, "
+            + StudentInformation.Columns.UNIVERSITY_NAME + " TEXT);";
+
 
 
 
@@ -72,6 +88,10 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
 
         Log.d(TAG, " 2 : " + CREATE_CONTRACT_INFORMATION_TABLE);
         db.execSQL(CREATE_CONTRACT_INFORMATION_TABLE);
+
+
+        Log.d(TAG, " 3 : " + CREATE_STUDENT_INFORMATION_TABLE);
+        db.execSQL(CREATE_STUDENT_INFORMATION_TABLE);
 
         Log.d(TAG, "onCreate: ends");
 
