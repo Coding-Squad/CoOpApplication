@@ -69,6 +69,7 @@ public class UniversitySignUpActivity extends SimpleActivity {
         }
 
         ContentResolver contentResolver = this.getContentResolver();
+
         ContentValues userInfoValues = new ContentValues();
         ContentValues uniInfoValues = new ContentValues();
         ContentValues contractInfoValues = new ContentValues();
@@ -82,6 +83,7 @@ public class UniversitySignUpActivity extends SimpleActivity {
             userInfoValues.put(UserInformation.Columns.USER_PASSWORD, mUserPasswordTextView.getText().toString());
             userInfoValues.put(UserInformation.Columns.USER_ACOUNT_STATUS, 1);
             userInfoValues.put(UserInformation.Columns.USER_ROLE_ID, 1);
+
             contentResolver.insert(UserInformation.CONTENT_URI, userInfoValues);
         } else {
             return;

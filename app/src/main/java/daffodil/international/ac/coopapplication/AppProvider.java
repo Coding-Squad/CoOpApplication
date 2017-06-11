@@ -177,11 +177,11 @@ public class AppProvider extends ContentProvider {
                 Log.d(TAG, "Entering insert, called with uri:" + uri);
                 db = mOpenHelper.getWritableDatabase();
                 userInfoId = db.insert(UserInformation.TABLE_NAME, null, values);
-                if (contactInfoId >= 0) {
+                if (userInfoId >= 0) {
                     returnUri = ContactInformation.buildContactInformationUri(userInfoId);
 
                 } else {
-                    throw new android.database.SQLException("Failed to insert into " + uri.toString());
+                    throw new android.database.SQLException("Failed to insert into :" + uri.toString());
                 }
                 break;
 

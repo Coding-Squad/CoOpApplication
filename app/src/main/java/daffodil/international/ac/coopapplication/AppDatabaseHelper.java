@@ -71,10 +71,6 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
             + UserInformation.Columns.USER_SECRET_QUESTION + " TEXT, "
             + UserInformation.Columns.USER_ROLE_ID + " INTEGER);";
 
-
-
-
-
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "onCreate: starts");
@@ -85,6 +81,7 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, " 2 : " + CREATE_CONTRACT_INFORMATION_TABLE);
         db.execSQL(CREATE_CONTRACT_INFORMATION_TABLE);
 
+        db.execSQL(CREATE_USER_INFORMATION_TABLE);
 
         Log.d(TAG, "onCreate: ends");
 
