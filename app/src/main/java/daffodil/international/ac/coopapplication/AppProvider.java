@@ -12,8 +12,10 @@ import android.util.Log;
 
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
 
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation.getUniversityInformationId;
+import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation.getUserInformationId;
 
 /**
  * Created by Pranto on 08-Jun-17.
@@ -30,6 +32,9 @@ public class AppProvider extends ContentProvider {
     public static final String CONTENT_AUTHORITY = "daffodil.international.ac.coopapplication.provider";
     public static final Uri CONTENT_AUTHORITY_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
+    private static final int USER_INFORMATION = 1000;
+    private static final int USER_INFORMATION_ID = 1001;
+
     private static final int UNIVERSITY_INFORMATION = 100;
     private static final int UNIVERSITY_INFORMATION_ID = 101;
 
@@ -37,10 +42,19 @@ public class AppProvider extends ContentProvider {
     private static final int CONTRACT_INFORMATION_ID = 201;
 
 
+    long userInfoId;
+    long universityInfoId;
+    long contactInfoId;
+
+
     private static UriMatcher buildUriMatcher() {
 
         Log.d(TAG, "buildUriMatcher: starts");
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
+
+        //User Info
+        matcher.addURI(CONTENT_AUTHORITY, UserInformation.TABLE_NAME, USER_INFORMATION);
+        matcher.addURI(CONTENT_AUTHORITY, UserInformation.TABLE_NAME + "/#", USER_INFORMATION_ID);
 
         //  eg. content://daffodil.international.ac.coopapplication.provider/UniversityInformation
         matcher.addURI(CONTENT_AUTHORITY, UniversityInformation.TABLE_NAME, UNIVERSITY_INFORMATION);
@@ -72,6 +86,16 @@ public class AppProvider extends ContentProvider {
         SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
 
         switch (match) {
+            case USER_INFORMATION:
+                queryBuilder.setTables(UserInformation.TABLE_NAME);
+                break;
+
+            case USER_INFORMATION_ID:
+                queryBuilder.setTables(UserInformation.TABLE_NAME);
+                long userInformationId = getUserInformationId(uri);
+                queryBuilder.appendWhere(UserInformation.Columns._ID + " = " + userInformationId);
+                break;
+
             case UNIVERSITY_INFORMATION:
                 queryBuilder.setTables(UniversityInformation.TABLE_NAME);
                 break;
@@ -107,6 +131,13 @@ public class AppProvider extends ContentProvider {
         Log.d(TAG, "getType: Starts");
         final int match = sUriMatcher.match(uri);
         switch (match) {
+
+            case USER_INFORMATION:
+                return UserInformation.CONTENT_TYPE;
+
+            case USER_INFORMATION_ID:
+                return UserInformation.CONTENT_ITEM_TYPE;
+
             case UNIVERSITY_INFORMATION:
                 return UniversityInformation.CONTENT_TYPE;
 
@@ -134,37 +165,57 @@ public class AppProvider extends ContentProvider {
         final SQLiteDatabase db;
 
         Uri returnUri;
-        long recordId;
+
+        /*
+        Primary key field value declared globally
+        long = universityInfoId ;
+        long = contactInfoId ;*/
 
         switch (match) {
+
+            case USER_INFORMATION:
+                Log.d(TAG, "Entering insert, called with uri:" + uri);
+                db = mOpenHelper.getWritableDatabase();
+                userInfoId = db.insert(UserInformation.TABLE_NAME, null, values);
+                if (contactInfoId >= 0) {
+                    returnUri = ContactInformation.buildContactInformationUri(userInfoId);
+
+                } else {
+                    throw new android.database.SQLException("Failed to insert into " + uri.toString());
+                }
+                break;
+
+            case CONTRACT_INFORMATION:
+                Log.d(TAG, "Entering insert, called with uri:" + uri);
+                db = mOpenHelper.getWritableDatabase();
+                contactInfoId = db.insert(ContactInformation.TABLE_NAME, null, values);
+                if (contactInfoId >= 0) {
+                    returnUri = ContactInformation.buildContactInformationUri(contactInfoId);
+
+                } else {
+                    throw new android.database.SQLException("Failed to insert into " + uri.toString());
+                }
+                break;
+
             case UNIVERSITY_INFORMATION:
                 Log.d(TAG, "Entering insert, called with uri:" + uri);
 
                 db = mOpenHelper.getWritableDatabase();
-                recordId = db.insert(UniversityInformation.TABLE_NAME, null, values);
-                if (recordId >= 0) {
-                    returnUri = UniversityInformation.buildUniversityInformationUri(recordId);
+                values.put(UniversityInformation.Columns.CONTRACTS_ID, contactInfoId);
+                values.put(UniversityInformation.Columns.USER_ID, userInfoId);
+                universityInfoId = db.insert(UniversityInformation.TABLE_NAME, null, values);
+                if (universityInfoId >= 0) {
+                    returnUri = UniversityInformation.buildUniversityInformationUri(universityInfoId);
 
                 } else {
                     throw new android.database.SQLException("Failed to insert into " + uri.toString());
                 }
                 break;
-            case CONTRACT_INFORMATION:
-                Log.d(TAG, "Entering insert, called with uri:" + uri);
-                db = mOpenHelper.getWritableDatabase();
-                recordId = db.insert(ContactInformation.TABLE_NAME, null, values);
-                if (recordId >= 0) {
-                    returnUri = ContactInformation.buildContactInformationUri(recordId);
-
-                } else {
-                    throw new android.database.SQLException("Failed to insert into " + uri.toString());
-                }
-                break;
-
 
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
+        Log.d(TAG, "insert: universityInfoId : " + universityInfoId + ", contactInfoId : " + contactInfoId);
         Log.d(TAG, "Exiting insert, returning " + returnUri);
         return returnUri;
     }
