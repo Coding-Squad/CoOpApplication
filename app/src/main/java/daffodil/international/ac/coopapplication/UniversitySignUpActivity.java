@@ -6,16 +6,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UniversityInfoDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
 import stanford.androidlib.SimpleActivity;
 
 public class UniversitySignUpActivity extends SimpleActivity {
     private static final String TAG = "UniversitySignUpActivit";
+
+    private EditText mUserEmailTextView;
+    private EditText mUserPasswordTextView;
 
     private EditText mUniversityNameTextView;
     private EditText mUniversityAddressTextView;
@@ -24,8 +26,6 @@ public class UniversitySignUpActivity extends SimpleActivity {
     private EditText mContractPersonNameTextView;
     private EditText mContractPersonEmailTextView;
     private EditText mContractPersonPhoneTextView;
-
-    private Button mSaveButton;
 
 
     public UniversitySignUpActivity() {
@@ -44,6 +44,9 @@ public class UniversitySignUpActivity extends SimpleActivity {
     public void goToSignUpFeedback(View view) {
         Log.d(TAG, "goToSignUpFeedback: Starts");
 
+        mUserEmailTextView = (EditText) findViewById(R.id.university_email_txt);
+        mUserPasswordTextView = (EditText) findViewById(R.id.university_password);
+
         mUniversityNameTextView = (EditText) findViewById(R.id.university_name_txt);
         mUniversityAddressTextView = (EditText) findViewById(R.id.university_address);
         mUniversityWebLinkTextView = (EditText) findViewById(R.id.university_website_link);
@@ -54,20 +57,34 @@ public class UniversitySignUpActivity extends SimpleActivity {
 
         Bundle arguments = getIntent().getExtras();
 
-        final UniversityInfoDto infoDto;
+        //    final UniversityInfoDto infoDto;
         if (arguments != null) {
             Log.d(TAG, "goToSignUpFeedback: arguments is not null");
         } else {
             Log.d(TAG, "goToSignUpFeedback: No arguments, adding new record");
-            infoDto = null;
+            //    infoDto = null;
         }
 
         ContentResolver contentResolver = this.getContentResolver();
+
+        ContentValues userInfoValues = new ContentValues();
         ContentValues uniInfoValues = new ContentValues();
         ContentValues contractInfoValues = new ContentValues();
 
         Log.d(TAG, "goToSignUpFeedback: Ends" + mUniversityNameTextView.length());
         //  Toast.makeText(UniversitySignUpActivity.this, "Button Clicked :"+mUniversityNameTextView.length(), Toast.LENGTH_SHORT).show();
+
+        if (mUserEmailTextView.length() > 1) {
+            Log.d(TAG, "onClick: adding new task");
+            userInfoValues.put(UserInformation.Columns.USER_EMAIL, mUserEmailTextView.getText().toString());
+            userInfoValues.put(UserInformation.Columns.USER_PASSWORD, mUserPasswordTextView.getText().toString());
+            userInfoValues.put(UserInformation.Columns.USER_ACOUNT_STATUS, 1);
+            userInfoValues.put(UserInformation.Columns.USER_ROLE_ID, 1);
+
+            contentResolver.insert(UserInformation.CONTENT_URI, userInfoValues);
+        } else {
+            return;
+        }
 
         if (mUniversityNameTextView.length() > 1) {
             Log.d(TAG, "onClick: adding new task");
@@ -75,6 +92,10 @@ public class UniversitySignUpActivity extends SimpleActivity {
             uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_ADDRESS, mUniversityAddressTextView.getText().toString());
             uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_URL, mUniversityWebLinkTextView.getText().toString());
             uniInfoValues.put(UniversityInformation.Columns.CONTRACTS_ID, mUniversityWebLinkTextView.getText().toString());
+            contentResolver.insert(UniversityInformation.CONTENT_URI, uniInfoValues);
+        } else {
+            return;
+        }
             contentResolver.insert(UniversityInformation.CONTENT_URI, uniInfoValues);
         } else {
             return;

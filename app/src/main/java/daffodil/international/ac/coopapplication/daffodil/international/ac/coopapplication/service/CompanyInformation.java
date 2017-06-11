@@ -8,31 +8,33 @@ import static daffodil.international.ac.coopapplication.AppProvider.CONTENT_AUTH
 import static daffodil.international.ac.coopapplication.AppProvider.CONTENT_AUTHORITY_URI;
 
 /**
- * Created by Pranto on 08-Jun-17.
+ * Created by Pranto on 11-Jun-17.
  */
 
-public class UniversityInformation {
+public class CompanyInformation {
 
-    public static final String TABLE_NAME = "UniversityInformation";
+    public static final String TABLE_NAME = "CompanyInformation";
 
 
-    // University Information fields
+    // Company Information fields
     public static class Columns {
         public static final String _ID = BaseColumns._ID;
-        public static final String UNIVERSITY_NAME = "UniversityName";
-        public static final String UNIVERSITY_ADDRESS = "UniversityAddress";
-        public static final String UNIVERSITY_URL = "UniversityWebURL";
-        public static final String CONTRACTS_ID = "ContactId";
+        public static final String COMPANY_NAME = "CompanyName";
+        public static final String COMPANY_WEB_URL = "CompanyWebsiteUrl";
+        public static final String COMPANY_ADDRESS = "CompanyAddress";
+        public static final String COMPANY_BUSI_TYPE_ID = "CompanyBusinessTypeID";
+
         public static final String USER_ID = "UserId";
+        public static final String CONTRACTS_ID = "ContactId";
+
 
         private Columns() {
             // private constructor to prevent instantiation
         }
     }
 
-
     /**
-     * The URI to access the UniversityInformation table
+     * The URI to access the CompanyInformation table
      */
     public static final Uri CONTENT_URI = Uri.withAppendedPath(CONTENT_AUTHORITY_URI, TABLE_NAME);
 
@@ -41,14 +43,13 @@ public class UniversityInformation {
 
 
     //For Query Method
-    public static Uri buildUniversityInformationUri(long universityInformationId) {
-        return ContentUris.withAppendedId(CONTENT_URI, universityInformationId);
+    public static Uri buildCompanyInformationUri(long companyInformationId) {
+        return ContentUris.withAppendedId(CONTENT_URI, companyInformationId);
     }
 
     //For Query Method
-    public static long getUniversityInformationId(Uri uri) {
+    public static long getCompanyInformationId(Uri uri) {
         return ContentUris.parseId(uri);
     }
-
 
 }

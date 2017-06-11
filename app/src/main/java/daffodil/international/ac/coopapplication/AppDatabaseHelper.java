@@ -5,9 +5,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
 
 /**
  * Created by Pranto on 08-Jun-17.
@@ -52,7 +54,8 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
             + UniversityInformation.Columns.UNIVERSITY_NAME + " TEXT NOT NULL, "
             + UniversityInformation.Columns.UNIVERSITY_ADDRESS + " TEXT, "
             + UniversityInformation.Columns.UNIVERSITY_URL + " TEXT, "
-            + UniversityInformation.Columns.CONTRACTS_ID + " INTEGER);";
+            + UniversityInformation.Columns.CONTRACTS_ID + " INTEGER, "
+            + UniversityInformation.Columns.USER_ID + " INTEGER);";
 
     //ContractInformation Table
     public static final String CREATE_CONTRACT_INFORMATION_TABLE = "CREATE TABLE " + ContactInformation.TABLE_NAME + " ("
@@ -76,8 +79,24 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
             + StudentInformation.Columns.USER_ID + " LONG, "
             + StudentInformation.Columns.UNIVERSITY_NAME + " TEXT);";
 
+    //ContractInformation Table
+    public static final String CREATE_USER_INFORMATION_TABLE = "CREATE TABLE " + UserInformation.TABLE_NAME + " ("
+            + UserInformation.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
+            + UserInformation.Columns.USER_EMAIL + " TEXT NOT NULL, "
+            + UserInformation.Columns.USER_PASSWORD + " TEXT, "
+            + UserInformation.Columns.USER_ACOUNT_STATUS + " INTEGER, "
+            + UserInformation.Columns.USER_SECRET_QUESTION + " TEXT, "
+            + UserInformation.Columns.USER_ROLE_ID + " INTEGER);";
 
-
+    //ContractInformation Table
+    public static final String CREATE_COMPANY_INFORMATION_TABLE = "CREATE TABLE " + CompanyInformation.TABLE_NAME + " ("
+            + CompanyInformation.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
+            + CompanyInformation.Columns.COMPANY_NAME + " TEXT NOT NULL, "
+            + CompanyInformation.Columns.COMPANY_WEB_URL + " TEXT, "
+            + CompanyInformation.Columns.COMPANY_ADDRESS + " TEXT, "
+            + CompanyInformation.Columns.COMPANY_BUSI_TYPE_ID + " INTEGER, "
+            + CompanyInformation.Columns.USER_ID + " INTEGER, "
+            + CompanyInformation.Columns.CONTRACTS_ID + " INTEGER);";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -92,6 +111,9 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
 
         Log.d(TAG, " 3 : " + CREATE_STUDENT_INFORMATION_TABLE);
         db.execSQL(CREATE_STUDENT_INFORMATION_TABLE);
+
+        db.execSQL(CREATE_USER_INFORMATION_TABLE);
+        db.execSQL(CREATE_COMPANY_INFORMATION_TABLE);
 
         Log.d(TAG, "onCreate: ends");
 
