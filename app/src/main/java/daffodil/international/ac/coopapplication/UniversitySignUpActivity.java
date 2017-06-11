@@ -6,10 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UniversityInfoDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
@@ -28,8 +26,6 @@ public class UniversitySignUpActivity extends SimpleActivity {
     private EditText mContractPersonNameTextView;
     private EditText mContractPersonEmailTextView;
     private EditText mContractPersonPhoneTextView;
-
-    private Button mSaveButton;
 
 
     public UniversitySignUpActivity() {
@@ -60,12 +56,12 @@ public class UniversitySignUpActivity extends SimpleActivity {
 
         Bundle arguments = getIntent().getExtras();
 
-        final UniversityInfoDto infoDto;
+        //    final UniversityInfoDto infoDto;
         if (arguments != null) {
             Log.d(TAG, "goToSignUpFeedback: arguments is not null");
         } else {
             Log.d(TAG, "goToSignUpFeedback: No arguments, adding new record");
-            infoDto = null;
+            //    infoDto = null;
         }
 
         ContentResolver contentResolver = this.getContentResolver();
