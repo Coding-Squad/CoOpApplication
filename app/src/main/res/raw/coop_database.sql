@@ -44,6 +44,7 @@ CREATE TABLE companyInformation (
     companyAddress VARCHAR(75),
     companyBusinessTypeID LONG,
     contactId    LONG,
+    userId LONG
 }
 
 INSERT INTO  companyInformation VALUES();
@@ -66,7 +67,8 @@ CREATE TABLE universityInformation (
     universityName VARCHAR(35),
     universityAddress VARCHAR(35),
     universityWebURL VARCHAR(35),
-    contactId    LONG
+    contactId    LONG,
+    userId LONG
 );
 
 INSERT INTO universityInformation VALUES();
