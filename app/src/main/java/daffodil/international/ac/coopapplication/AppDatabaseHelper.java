@@ -6,7 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
 
 /**
  * Created by Pranto on 08-Jun-17.
@@ -51,7 +53,8 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
             + UniversityInformation.Columns.UNIVERSITY_NAME + " TEXT NOT NULL, "
             + UniversityInformation.Columns.UNIVERSITY_ADDRESS + " TEXT, "
             + UniversityInformation.Columns.UNIVERSITY_URL + " TEXT, "
-            + UniversityInformation.Columns.CONTRACTS_ID + " INTEGER);";
+            + UniversityInformation.Columns.CONTRACTS_ID + " INTEGER, "
+            + UniversityInformation.Columns.USER_ID + " INTEGER);";
 
     //ContractInformation Table
     public static final String CREATE_CONTRACT_INFORMATION_TABLE = "CREATE TABLE " + ContactInformation.TABLE_NAME + " ("
@@ -60,7 +63,28 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
             + ContactInformation.Columns.CONTACT_PERSON_EMAIL + " TEXT, "
             + ContactInformation.Columns.CONTACT_PERSON_PHONE + " INTEGER);";
 
+    //User Information Table
+    public static final String CREATE_USER_INFORMATION_TABLE = "CREATE TABLE " + UserInformation.TABLE_NAME + " ("
+            + UserInformation.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
+            + UserInformation.Columns.USER_EMAIL + " TEXT NOT NULL, "
+            + UserInformation.Columns.USER_PASSWORD + " TEXT, "
+            + UserInformation.Columns.USER_ACOUNT_STATUS + " INTEGER, "
+            + UserInformation.Columns.USER_SECRET_QUESTION + " TEXT, "
+            + UserInformation.Columns.USER_ROLE_ID + " INTEGER);";
 
+    //Students Information Table;
+
+    public static final String CREATE_STUDENT_INFORMATION_TABLE = "CREATE TABLE" + StudentInformation.TABLE_NAME + "("
+            + StudentInformation.Columns._ID + "INTEGER PRIMARY KEY NOT NULL,"
+            + StudentInformation.Columns.FIRST_NAME+ "TEXT NOT NULL"
+            + StudentInformation.Columns.LAST_NAME+ "TEXT NOT NULL"
+            + StudentInformation.Columns.DATE_OF_BIRTH+ "DATE NOT NULL"
+            + StudentInformation.Columns.ADDRESS+ "TEXT NOT NULL"
+            + StudentInformation.Columns.GENDER+ "INTEGER "
+            + StudentInformation.Columns.STUDENT_UNIVERSITY_NAME+ "TEXT "
+            + StudentInformation.Columns.STUDENT_ID+ "INTEGER NOT NULL"
+            + StudentInformation.Columns.STUDENT_PHONE_NUMBER+ "TEXT"
+            + StudentInformation.Columns.DESCRIPTION+ "TEXT );";
 
 
     @Override
@@ -72,6 +96,10 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
 
         Log.d(TAG, " 2 : " + CREATE_CONTRACT_INFORMATION_TABLE);
         db.execSQL(CREATE_CONTRACT_INFORMATION_TABLE);
+
+        db.execSQL(CREATE_USER_INFORMATION_TABLE);
+
+        db.execSQL(CREATE_STUDENT_INFORMATION_TABLE);
 
         Log.d(TAG, "onCreate: ends");
 
