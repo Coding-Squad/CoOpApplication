@@ -55,6 +55,7 @@
     <string name="new_password">Enter New password</string>
     <string name="confarm_password">Re-Enter Password</string>
     <string name="phone_no">Phone No</string>
+    <string name="date_of_birth">Date Of Birth</string>
 
 
 </resources>
