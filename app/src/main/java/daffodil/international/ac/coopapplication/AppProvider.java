@@ -47,6 +47,8 @@ public class AppProvider extends ContentProvider {
     private static final int STUDENT_INFORMATION = 300;
     private static final int STUDENT_INFORMATION_ID = 301;
 
+    private static final int COMPANY_INFORMATION = 400;
+    private static final int COMPANY_INFORMATION_ID = 401;
 
 
 
@@ -54,10 +56,7 @@ public class AppProvider extends ContentProvider {
     long universityInfoId;
     long contactInfoId;
     long studentInformtaionId;
-
-
-    private static final int STUDENT_INFORMATION = 300;
-    private static final int STUDENT_INFORMATION_ID = 301;
+    long companyInfoId;
 
 
     private static UriMatcher buildUriMatcher() {
@@ -312,7 +311,6 @@ public class AppProvider extends ContentProvider {
         }
         Log.d(TAG, "insert: universityInfoId : " + universityInfoId + ", contactInfoId : " + contactInfoId);
         Log.d(TAG, "Exiting insert, returning " + returnUri);
-
         return returnUri;
     }
 
