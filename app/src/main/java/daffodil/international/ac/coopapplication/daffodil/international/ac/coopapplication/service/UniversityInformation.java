@@ -24,7 +24,7 @@ public class UniversityInformation {
         public static final String UNIVERSITY_URL = "UniversityWebURL";
         public static final String UNIVERSITY_IS_APPROVED = "UniversityApprovedId";
         public static final String CONTRACTS_ID = "ContactId";
-        public static final String USER_ID = "UserId";
+        public static final String USER_ID = "UserID";
 
         private Columns() {
             // private constructor to prevent instantiation

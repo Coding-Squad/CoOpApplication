@@ -17,13 +17,19 @@ public class StudentInformation {
     public static final String TABLE_NAME = "StudentInformation";
 
 
-    // University Information fields
+    // Student Information fields
     public static class Columns {
         public static final String _ID = BaseColumns._ID;
-        public static final String _NAME = "UniversityName";
-        public static final String UNIVERSITY_ADDRESS = "UniversityAddress";
-        public static final String UNIVERSITY_URL = "UniversityWebURL";
-        public static final String CONTRACTS_ID = "ContactId";
+        public static final String FIRST_NAME = "FirstName";
+        public static final String LAST_NAME = "LastName";
+        public static final String DATE_OF_BIRTH = "DateofBirth";
+        public static final String ADDRESS = "address";
+        public static final String GENDER = "gender";
+        public static final String STUDENT_UNIVERSITY_NAME = "UniversityName";
+        public static final String STUDENT_ID = "StudentId";
+        public static final String STUDENT_PHONE_NUMBER = "Phone_Number";
+        public static final String DESCRIPTION = "Description";
+        public static final String USER_ID = "UserID";
 
         private Columns() {
             // private constructor to prevent instantiation
@@ -41,12 +47,12 @@ public class StudentInformation {
 
 
     //For Query Method
-    public static Uri buildUniversityInformationUri(long universityInformationId) {
-        return ContentUris.withAppendedId(CONTENT_URI, universityInformationId);
+    public static Uri buildStudentInformationUri(long studentInformationId) {
+        return ContentUris.withAppendedId(CONTENT_URI, studentInformationId);
     }
 
     //For Query Method
-    public static long getUniversityInformationId(Uri uri) {
+    public static long getStudentInformationId(Uri uri) {
         return ContentUris.parseId(uri);
     }
 
