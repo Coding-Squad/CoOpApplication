@@ -33,7 +33,7 @@ public class StudentSignUpActivity extends SimpleActivity {
     private RadioButton     mStudentGenderRadioButton;
 
     private Button mSaveButton;
-    
+
     public StudentSignUpActivity(){
         Log.d(TAG, "StudentSignUpActivity: constructor called");
     }

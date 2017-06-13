@@ -15,7 +15,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".CoOpMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -35,18 +34,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="daffodil.international.ac.coopapplication.CoOpMainActivity"/>
-
         </activity>
-
         <activity
             android:name=".StudentSignUpActivity"
             android:parentActivityName=".SignUpAsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="daffodil.international.ac.coopapplication.SignUpAsActivity"/>
-
         </activity>
-
         <activity
             android:name=".UniversitySignUpActivity"
             android:parentActivityName=".SignUpAsActivity">
@@ -54,16 +49,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="daffodil.international.ac.coopapplication.SignUpAsActivity"/>
         </activity>
-
         <activity
             android:name=".EmployerSignUpActivity"
             android:parentActivityName=".SignUpAsActivity">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="daffodil.international.ac.coopapplication.SignUpAsActivity"/>
         </activity>
-
         <activity
             android:name=".SignUpFeedback"
             android:parentActivityName=".CoOpMainActivity">
@@ -71,7 +63,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="daffodil.international.ac.coopapplication.CoOpMainActivity"/>
         </activity>
-
         <activity
             android:name=".SignInActivity"
             android:label="@string/title_activity_sign_in"
@@ -79,9 +70,12 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="daffodil.international.ac.coopapplication.CoOpMainActivity"/>
-
         </activity>
-
+        <activity
+            android:name=".AdminHomeActivity"
+            android:label="@string/title_activity_admin_home"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

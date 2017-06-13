@@ -15,6 +15,7 @@ public class UniversityInfoDto implements Serializable {
     private final String mUniversityWebURL;
     private final int mContactId;
 
+
     public UniversityInfoDto(long id, String universityName, String universityAddress,
                              String universityWebURL, int contactId) {
         this.m_Id = id;
@@ -23,6 +24,7 @@ public class UniversityInfoDto implements Serializable {
         mUniversityWebURL = universityWebURL;
         mContactId = contactId;
     }
+
 
     public long getid() {
         return m_Id;
@@ -50,12 +52,6 @@ public class UniversityInfoDto implements Serializable {
 
     @Override
     public String toString() {
-        return "UniversityInfoDto{" +
-                "m_Id=" + m_Id +
-                ", mUniversityName='" + mUniversityName + '\'' +
-                ", mUniversityAddress='" + mUniversityAddress + '\'' +
-                ", mUniversityWebURL='" + mUniversityWebURL + '\'' +
-                ", mContactId=" + mContactId +
-                '}';
+        return getUniversityName();
     }
 }

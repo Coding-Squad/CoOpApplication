@@ -17,7 +17,7 @@ public class StudentInformation {
     public static final String TABLE_NAME = "StudentInformation";
 
 
-    // University Information fields
+    // Student Information fields
     public static class Columns {
         public static final String _ID = BaseColumns._ID;
         public static final String FIRST_NAME = "FirstName";

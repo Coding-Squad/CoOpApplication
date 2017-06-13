@@ -44,14 +44,16 @@ public class AppProvider extends ContentProvider {
     private static final int CONTRACT_INFORMATION = 200;
     private static final int CONTRACT_INFORMATION_ID = 201;
 
-    private static final int COMPANY_INFORMATION = 400;
-    private static final int COMPANY_INFORMATION_ID = 401;
+    private static final int STUDENT_INFORMATION = 300;
+    private static final int STUDENT_INFORMATION_ID = 301;
+
+
 
 
     long userInfoId;
     long universityInfoId;
     long contactInfoId;
-    long companyInfoId;
+    long studentInformtaionId;
 
 
     private static final int STUDENT_INFORMATION = 300;
@@ -75,15 +77,15 @@ public class AppProvider extends ContentProvider {
         // e.g. content://daffodil.international.ac.coopapplication.provider/UniversityInformation/8
         matcher.addURI(CONTENT_AUTHORITY, UniversityInformation.TABLE_NAME + "/#", UNIVERSITY_INFORMATION_ID);
 
+        //  eg. content://daffodil.international.ac.coopapplication.provider/StudentInformation
+        matcher.addURI(CONTENT_AUTHORITY, StudentInformation.TABLE_NAME, STUDENT_INFORMATION);
+        // e.g. content://daffodil.international.ac.coopapplication.provider/StudentInformation/8
+        matcher.addURI(CONTENT_AUTHORITY, StudentInformation.TABLE_NAME + "/#", STUDENT_INFORMATION_ID);
+
         //  eg. content://daffodil.international.ac.coopapplication.provider/ContactInformation
         matcher.addURI(CONTENT_AUTHORITY, ContactInformation.TABLE_NAME, CONTRACT_INFORMATION);
         // e.g. content://daffodil.international.ac.coopapplication.provider/ContactInformation/8
         matcher.addURI(CONTENT_AUTHORITY, ContactInformation.TABLE_NAME + "/#", CONTRACT_INFORMATION_ID);
-
-        //  eg. content://daffodil.international.ac.coopapplication.provider/Student Information
-        matcher.addURI(CONTENT_AUTHORITY, StudentInformation.TABLE_NAME, STUDENT_INFORMATION);
-        // e.g. content://daffodil.international.ac.coopapplication.provider/Student Information/8
-        matcher.addURI(CONTENT_AUTHORITY, StudentInformation.TABLE_NAME + "/#", STUDENT_INFORMATION_ID);
 
         return matcher;
     }
@@ -173,11 +175,13 @@ public class AppProvider extends ContentProvider {
 
             case USER_INFORMATION:
                 return UserInformation.CONTENT_TYPE;
+
             case USER_INFORMATION_ID:
                 return UserInformation.CONTENT_ITEM_TYPE;
 
             case UNIVERSITY_INFORMATION:
                 return UniversityInformation.CONTENT_TYPE;
+
             case UNIVERSITY_INFORMATION_ID:
                 return UniversityInformation.CONTENT_ITEM_TYPE;
 
@@ -188,6 +192,7 @@ public class AppProvider extends ContentProvider {
 
             case CONTRACT_INFORMATION:
                 return ContactInformation.CONTENT_TYPE;
+
             case CONTRACT_INFORMATION_ID:
                 return ContactInformation.CONTENT_ITEM_TYPE;
 
@@ -196,7 +201,6 @@ public class AppProvider extends ContentProvider {
 
             case STUDENT_INFORMATION_ID:
                 return StudentInformation.CONTENT_ITEM_TYPE;
-
 
             default:
                 throw new IllegalArgumentException("unknown Uri: " + uri);
@@ -232,6 +236,19 @@ public class AppProvider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert into :" + uri.toString());
                 }
                 break;
+
+            case STUDENT_INFORMATION:
+                Log.d(TAG, "Entering insert, called with uri:" + uri);
+
+                db = mOpenHelper.getWritableDatabase();
+                values.put(StudentInformation.Columns.USER_ID, userInfoId);
+                studentInformtaionId = db.insert(StudentInformation.TABLE_NAME, null, values);
+                if(studentInformtaionId>=0) {
+                    returnUri = StudentInformation.buildStudentInformationUri(studentInformtaionId);
+                }else {
+                    throw new android.database.SQLException("Failed to insert into " + uri.toString());
+                }
+                    break;
 
             case CONTRACT_INFORMATION:
                 Log.d(TAG, "Entering insert, called with uri:" + uri);
