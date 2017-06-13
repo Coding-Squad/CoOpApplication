@@ -1,18 +1,12 @@
 package daffodil.international.ac.coopapplication;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
 
@@ -21,10 +15,10 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
  * <p>
  * Basic database class for the application.
  * <p>
- * The only class that should use For crud.
+ * The only class that should use this is
  */
 
-public class AppDatabaseHelper extends SQLiteOpenHelper {
+class AppDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "AppDatabaseHelper";
 
     public static final String DATABASE_NAME = "co_op.db";
@@ -34,7 +28,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     private static AppDatabaseHelper instance = null;
 
 
-    AppDatabaseHelper(Context context) {
+    private AppDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         Log.d(TAG, "AppDatabase: constructor called");
     }
@@ -69,7 +63,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + ContactInformation.Columns.CONTACT_PERSON_EMAIL + " TEXT, "
             + ContactInformation.Columns.CONTACT_PERSON_PHONE + " INTEGER);";
 
-    //ContractInformation Table
+    //User Information Table
     public static final String CREATE_USER_INFORMATION_TABLE = "CREATE TABLE " + UserInformation.TABLE_NAME + " ("
             + UserInformation.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
             + UserInformation.Columns.USER_EMAIL + " TEXT NOT NULL, "
@@ -78,20 +72,20 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + UserInformation.Columns.USER_SECRET_QUESTION + " TEXT, "
             + UserInformation.Columns.USER_ROLE_ID + " INTEGER);";
 
-    //ContractInformation Table
-    public static final String CREATE_COMPANY_INFORMATION_TABLE = "CREATE TABLE " + CompanyInformation.TABLE_NAME + " ("
-            + CompanyInformation.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
-            + CompanyInformation.Columns.COMPANY_NAME + " TEXT NOT NULL, "
-            + CompanyInformation.Columns.COMPANY_WEB_URL + " TEXT, "
-            + CompanyInformation.Columns.COMPANY_ADDRESS + " TEXT, "
-            + CompanyInformation.Columns.COMPANY_BUSI_TYPE_ID + " INTEGER, "
-            + CompanyInformation.Columns.USER_ID + " INTEGER, "
-            + CompanyInformation.Columns.CONTRACTS_ID + " INTEGER);";
+    //Students Information Table;
 
-    //Business Type Table
-    public static final String CREATE_BUSINESS_TYPE_TABLE = "CREATE TABLE " + BusinessType.TABLE_NAME + " ("
-            + BusinessType.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
-            + BusinessType.Columns.BUSINESS_TYPE_NAME + " INTEGER);";
+    public static final String CREATE_STUDENT_INFORMATION_TABLE = "CREATE TABLE" + StudentInformation.TABLE_NAME + "("
+            + StudentInformation.Columns._ID + "INTEGER PRIMARY KEY NOT NULL,"
+            + StudentInformation.Columns.FIRST_NAME+ "TEXT NOT NULL"
+            + StudentInformation.Columns.LAST_NAME+ "TEXT NOT NULL"
+            + StudentInformation.Columns.DATE_OF_BIRTH+ "DATE NOT NULL"
+            + StudentInformation.Columns.ADDRESS+ "TEXT NOT NULL"
+            + StudentInformation.Columns.GENDER+ "INTEGER "
+            + StudentInformation.Columns.STUDENT_UNIVERSITY_NAME+ "TEXT "
+            + StudentInformation.Columns.STUDENT_ID+ "INTEGER NOT NULL"
+            + StudentInformation.Columns.STUDENT_PHONE_NUMBER+ "TEXT"
+            + StudentInformation.Columns.DESCRIPTION+ "TEXT );";
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -104,8 +98,8 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_CONTRACT_INFORMATION_TABLE);
 
         db.execSQL(CREATE_USER_INFORMATION_TABLE);
-        db.execSQL(CREATE_COMPANY_INFORMATION_TABLE);
-        db.execSQL(CREATE_BUSINESS_TYPE_TABLE);
+
+        db.execSQL(CREATE_STUDENT_INFORMATION_TABLE);
 
         Log.d(TAG, "onCreate: ends");
 
@@ -125,37 +119,4 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "onUpgrade: ends");
 
     }
-
-    /**
-     * Getting all labels
-     * returns list of labels
-     */
-    public List<BusinessTypeDto> getAllLabels() {
-
-        List<BusinessTypeDto> businessTypeDtos = new ArrayList<BusinessTypeDto>();
-
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + BusinessType.TABLE_NAME;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
-            do {
-                Log.d(TAG, "getAllLabels: ");
-                BusinessTypeDto dto = new BusinessTypeDto(cursor.getLong(0), cursor.getString(1));
-                businessTypeDtos.add(dto);
-            } while (cursor.moveToNext());
-        }
-
-        // closing connection
-        cursor.close();
-        db.close();
-
-        // returning lables
-        return businessTypeDtos;
-    }
-
-
 }
