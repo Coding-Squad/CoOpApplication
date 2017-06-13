@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -36,6 +35,9 @@ public class EmployerSignUpActivity extends SimpleActivity implements AdapterVie
     private EditText mContractPersonEmailTextView;
     private EditText mContractPersonPhoneTextView;
 
+    List<BusinessTypeDto> businessTypeDtos = null;
+
+    long businessTypeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +114,7 @@ public class EmployerSignUpActivity extends SimpleActivity implements AdapterVie
             companyInfoValues.put(CompanyInformation.Columns.COMPANY_NAME, mCompanyNameTextView.getText().toString());
             companyInfoValues.put(CompanyInformation.Columns.COMPANY_WEB_URL, mCompanyWebLinkTextView.getText().toString());
             companyInfoValues.put(CompanyInformation.Columns.COMPANY_ADDRESS, mCompanyAddressTextView.getText().toString());
-            //     companyInfoValues.put(CompanyInformation.Columns.COMPANY_BUSI_TYPE_ID, mCompanyBusinessTypeTextView.getText().toString());
+            companyInfoValues.put(CompanyInformation.Columns.COMPANY_BUSI_TYPE_ID, businessTypeId);
             contentResolver.insert(CompanyInformation.CONTENT_URI, companyInfoValues);
         } else {
             return;
@@ -126,17 +128,15 @@ public class EmployerSignUpActivity extends SimpleActivity implements AdapterVie
     private void loadSpinnerData() {
         // database handler
         AppDatabaseHelper db = new AppDatabaseHelper(getApplicationContext());
-
         // Spinner Drop down elements
         //  List<String> lables = db.getAllLabels();
-        List<BusinessTypeDto> lables = db.getAllLabels();
+        businessTypeDtos = db.getAllBusinesstype();
 
         // Creating adapter for spinner
-        ArrayAdapter<BusinessTypeDto> dataAdapter = new ArrayAdapter<BusinessTypeDto>(this, android.R.layout.simple_spinner_item, lables);
+        ArrayAdapter<BusinessTypeDto> dataAdapter = new ArrayAdapter<BusinessTypeDto>(this, android.R.layout.simple_spinner_item, businessTypeDtos);
 
         // Drop down layout style - list view with radio button
-        dataAdapter
-                .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
@@ -148,11 +148,14 @@ public class EmployerSignUpActivity extends SimpleActivity implements AdapterVie
         super.onItemSelected(parent, view, position, id);
 
         String label = parent.getItemAtPosition(position).toString();
-
-        // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "You selected: " + label,
-                Toast.LENGTH_LONG).show();
-
+        if (businessTypeDtos.size() > 0 && businessTypeDtos != null) {
+            for (BusinessTypeDto dto : businessTypeDtos) {
+                if (label.equalsIgnoreCase(dto.getBusinessTypeName())) {
+                    Log.d(TAG, "onItemSelected: Id : " + dto.getId() + " , Name : " + dto.getBusinessTypeName());
+                    businessTypeId = dto.getId();
+                }
+            }
+        }
     }
 
     @Override
