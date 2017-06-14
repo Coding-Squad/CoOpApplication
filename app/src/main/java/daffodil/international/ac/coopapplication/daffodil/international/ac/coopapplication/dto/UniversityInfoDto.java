@@ -60,8 +60,5 @@ public class UniversityInfoDto implements Serializable {
         this.m_Id = id;
     }
 
-    @Override
-    public String toString() {
-        return getUniversityName();
-    }
+    
 }
