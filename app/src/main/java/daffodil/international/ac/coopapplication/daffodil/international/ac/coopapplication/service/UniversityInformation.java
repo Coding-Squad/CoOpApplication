@@ -23,6 +23,7 @@ public class UniversityInformation {
         public static final String UNIVERSITY_ADDRESS = "UniversityAddress";
         public static final String UNIVERSITY_IS_APPROVED = "UniversityIsApproved";
         public static final String UNIVERSITY_URL = "UniversityWebURL";
+        public static final String UNIVERSITY_IS_APPROVED = "UniversityApprovedId";
         public static final String CONTRACTS_ID = "ContactId";
         public static final String USER_ID = "UserID";
 

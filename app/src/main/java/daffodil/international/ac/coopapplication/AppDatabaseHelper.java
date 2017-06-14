@@ -14,7 +14,6 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
 
@@ -72,20 +71,6 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + ContactInformation.Columns.CONTACT_PERSON_EMAIL + " TEXT, "
             + ContactInformation.Columns.CONTACT_PERSON_PHONE + " INTEGER);";
 
-    //StudentInformation Table
-    public static final String CREATE_STUDENT_INFORMATION_TABLE = "CREATE TABLE " + StudentInformation.TABLE_NAME + " ("
-            + StudentInformation.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
-            + StudentInformation.Columns.FIRST_NAME + " TEXT NOT NULL, "
-            + StudentInformation.Columns.LAST_NAME + " TEXT, "
-            + StudentInformation.Columns.MOBILE_NUMBER + " TEXT, "
-            + StudentInformation.Columns.ADDRESS + " TEXT, "
-            + StudentInformation.Columns.BLOOD_GROUP + " INTEGER, "
-            + StudentInformation.Columns.DATE_OF_BIRTH + " DATE, "
-            + StudentInformation.Columns.DESCRIPTION + " TEXT, "
-            + StudentInformation.Columns.GENDER + " INTEGER, "
-            + StudentInformation.Columns.STUDENT_ID + " LONG, "
-            + StudentInformation.Columns.USER_ID + " LONG, "
-            + StudentInformation.Columns.UNIVERSITY_ID + " LONG);";
 
     //ContractInformation Table
     public static final String CREATE_USER_INFORMATION_TABLE = "CREATE TABLE " + UserInformation.TABLE_NAME + " ("
@@ -122,8 +107,13 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_CONTRACT_INFORMATION_TABLE);
 
 
-        Log.d(TAG, " 3 : " + CREATE_STUDENT_INFORMATION_TABLE);
-        db.execSQL(CREATE_STUDENT_INFORMATION_TABLE);
+
+        
+
+        db.execSQL(CREATE_USER_INFORMATION_TABLE);
+        db.execSQL(CREATE_COMPANY_INFORMATION_TABLE);
+        db.execSQL(CREATE_BUSINESS_TYPE_TABLE);
+
 
         db.execSQL(CREATE_USER_INFORMATION_TABLE);
         db.execSQL(CREATE_COMPANY_INFORMATION_TABLE);
@@ -192,7 +182,11 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         // Select All Query
         // UniversityApprovedId = 0 (Not Approved), UniversityApprovedId = 1 (Approved).
 
-        String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME;
+
+        
+
+
+        String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME + "Where UniversityApprovedId = 0";
 
 
         SQLiteDatabase db = this.getReadableDatabase();

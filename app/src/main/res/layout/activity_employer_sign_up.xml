@@ -108,6 +108,7 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/business_type"
+            android:enabled="false"
             android:inputType="textPersonName"
             app:layout_constraintHorizontal_bias="0.503"
             app:layout_constraintLeft_toLeftOf="parent"

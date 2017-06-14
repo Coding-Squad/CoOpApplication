@@ -56,6 +56,9 @@
     <string name="confarm_password">Re-Enter Password</string>
     <string name="phone_no">Phone No</string>
     <string name="date_of_birth">Date Of Birth</string>
+    <string name="title_activity_admin_home">AdminHomeActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="company">Company</string>
 
 
 </resources>
