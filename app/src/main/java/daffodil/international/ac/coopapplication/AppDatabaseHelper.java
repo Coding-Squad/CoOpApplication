@@ -71,6 +71,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + ContactInformation.Columns.CONTACT_PERSON_EMAIL + " TEXT, "
             + ContactInformation.Columns.CONTACT_PERSON_PHONE + " INTEGER);";
 
+
     //ContractInformation Table
     public static final String CREATE_USER_INFORMATION_TABLE = "CREATE TABLE " + UserInformation.TABLE_NAME + " ("
             + UserInformation.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
@@ -104,6 +105,15 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
 
         Log.d(TAG, " 2 : " + CREATE_CONTRACT_INFORMATION_TABLE);
         db.execSQL(CREATE_CONTRACT_INFORMATION_TABLE);
+
+
+
+        
+
+        db.execSQL(CREATE_USER_INFORMATION_TABLE);
+        db.execSQL(CREATE_COMPANY_INFORMATION_TABLE);
+        db.execSQL(CREATE_BUSINESS_TYPE_TABLE);
+
 
         db.execSQL(CREATE_USER_INFORMATION_TABLE);
         db.execSQL(CREATE_COMPANY_INFORMATION_TABLE);
@@ -172,7 +182,12 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         // Select All Query
         // UniversityApprovedId = 0 (Not Approved), UniversityApprovedId = 1 (Approved).
 
+
+        
+
+
         String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME + "Where UniversityApprovedId = 0";
+
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

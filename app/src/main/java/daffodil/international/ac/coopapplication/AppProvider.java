@@ -43,13 +43,17 @@ public class AppProvider extends ContentProvider {
     private static final int CONTRACT_INFORMATION = 200;
     private static final int CONTRACT_INFORMATION_ID = 201;
 
+
     private static final int COMPANY_INFORMATION = 400;
     private static final int COMPANY_INFORMATION_ID = 401;
+
 
 
     long userInfoId;
     long universityInfoId;
     long contactInfoId;
+
+
     long companyInfoId;
 
 
@@ -205,6 +209,7 @@ public class AppProvider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert into :" + uri.toString());
                 }
                 break;
+
 
             case CONTRACT_INFORMATION:
                 Log.d(TAG, "Entering insert, called with uri:" + uri);

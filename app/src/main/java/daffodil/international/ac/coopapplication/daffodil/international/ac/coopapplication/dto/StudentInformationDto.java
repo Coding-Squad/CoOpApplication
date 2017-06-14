@@ -16,7 +16,7 @@ public class StudentInformationDto {
     private int         m_gendar;
     private int         m_bloodGroup;
     private Date        m_date_of_Birth;
-    private String      m_universityName;
+    private long        m_universityId;
     private long        m_studentId;
     private String      m_description;
 
@@ -27,13 +27,13 @@ public class StudentInformationDto {
     public StudentInformationDto(long id, long userId,
                                  String mobile_number,
                                  int gendar, int bloodGroup,
-                                 String universityName) {
+                                 long m_universityId) {
         this.m_id = id;
         this.m_userId = userId;
         this.m_mobile_number = mobile_number;
         this.m_gendar = gendar;
         this.m_bloodGroup = bloodGroup;
-        this.m_universityName = universityName;
+        this.m_universityId = m_universityId;
     }
 
     public long getM_id() {
@@ -108,12 +108,12 @@ public class StudentInformationDto {
         this.m_date_of_Birth = m_date_of_Birth;
     }
 
-    public String getM_universityName() {
-        return m_universityName;
+    public long getm_universityId() {
+        return m_universityId;
     }
 
-    public void setM_universityName(String m_universityName) {
-        this.m_universityName = m_universityName;
+    public void setm_universityId(long m_universityId) {
+        this.m_universityId = m_universityId;
     }
 
     public long getM_studentId() {
@@ -144,7 +144,7 @@ public class StudentInformationDto {
                 ", m_gendar=" + m_gendar +
                 ", m_bloodGroup=" + m_bloodGroup +
                 ", m_date_of_Birth=" + m_date_of_Birth +
-                ", m_universityName='" + m_universityName + '\'' +
+                ", m_universityId='" + m_universityId + '\'' +
                 ", m_studentId=" + m_studentId +
                 ", m_description='" + m_description + '\'' +
                 '}';
