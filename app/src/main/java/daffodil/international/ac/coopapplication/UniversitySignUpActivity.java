@@ -97,6 +97,7 @@ public class UniversitySignUpActivity extends SimpleActivity {
             uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_URL, mUniversityWebLinkTextView.getText().toString());
             uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_IS_APPROVED, 0);
             contentResolver.insert(UniversityInformation.CONTENT_URI, uniInfoValues);
+
         } else {
             return;
         }
