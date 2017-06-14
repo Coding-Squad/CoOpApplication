@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UniversityInfoDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
@@ -26,6 +28,8 @@ public class UniversitySignUpActivity extends SimpleActivity {
     private EditText mContractPersonNameTextView;
     private EditText mContractPersonEmailTextView;
     private EditText mContractPersonPhoneTextView;
+
+    private Button mSaveButton;
 
 
     public UniversitySignUpActivity() {
@@ -92,11 +96,6 @@ public class UniversitySignUpActivity extends SimpleActivity {
             uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_ADDRESS, mUniversityAddressTextView.getText().toString());
             uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_URL, mUniversityWebLinkTextView.getText().toString());
             uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_IS_APPROVED, 0);
-            //uniInfoValues.put(UniversityInformation.Columns.CONTRACTS_ID, mUniversityWebLinkTextView.getText().toString());
-            contentResolver.insert(UniversityInformation.CONTENT_URI, uniInfoValues);
-        } else {
-            return;
-        }
             contentResolver.insert(UniversityInformation.CONTENT_URI, uniInfoValues);
         } else {
             return;

@@ -27,7 +27,7 @@ public class StudentInformation {
         public static final String GENDER = "Gender";
         public static final String BLOOD_GROUP = "BloodGroup";
         public static final String DATE_OF_BIRTH = "DateofBirth";
-        public static final String UNIVERSITY_NAME = "UniversityName";
+        public static final String UNIVERSITY_ID = "ApprovedUniversityID";
         public static final String STUDENT_ID = "StudentID";
         public static final String USER_ID = "UserID";
         public static final String DESCRIPTION = "Description";

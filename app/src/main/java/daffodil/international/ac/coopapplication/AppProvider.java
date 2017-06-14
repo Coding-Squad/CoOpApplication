@@ -55,6 +55,8 @@ public class AppProvider extends ContentProvider {
     long userInfoId;
     long universityInfoId;
     long contactInfoId;
+
+
     long studentInformtaionId;
     long companyInfoId;
 
@@ -284,23 +286,6 @@ public class AppProvider extends ContentProvider {
                 companyInfoId = db.insert(CompanyInformation.TABLE_NAME, null, values);
                 if (companyInfoId >= 0) {
                     returnUri = CompanyInformation.buildCompanyInformationUri(companyInfoId);
-                recordId = db.insert(ContactInformation.TABLE_NAME, null, values);
-                if (recordId >= 0) {
-                    returnUri = ContactInformation.buildContactInformationUri(recordId);
-
-                } else {
-                    throw new android.database.SQLException("Failed to insert into " + uri.toString());
-                }
-                break;
-
-            case STUDENT_INFORMATION:
-                Log.d(TAG, "Entering insert, called with uri:" + uri);
-
-                db = mOpenHelper.getWritableDatabase();
-                recordId = db.insert(StudentInformation.TABLE_NAME, null, values);
-                if (recordId >= 0) {
-                    returnUri = StudentInformation.buildStudentInformationUri(recordId);
-
                 } else {
                     throw new android.database.SQLException("Failed to insert into " + uri.toString());
                 }
@@ -311,6 +296,7 @@ public class AppProvider extends ContentProvider {
         }
         Log.d(TAG, "insert: universityInfoId : " + universityInfoId + ", contactInfoId : " + contactInfoId);
         Log.d(TAG, "Exiting insert, returning " + returnUri);
+
         return returnUri;
     }
 

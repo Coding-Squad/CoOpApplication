@@ -23,10 +23,10 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
  * <p>
  * Basic database class for the application.
  * <p>
- * The only class that should use For crud.
+ * The only class that should use this is
  */
 
-public class AppDatabaseHelper extends SQLiteOpenHelper {
+class AppDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "AppDatabaseHelper";
 
     public static final String DATABASE_NAME = "co_op.db";
@@ -36,7 +36,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     private static AppDatabaseHelper instance = null;
 
 
-    AppDatabaseHelper(Context context) {
+    public AppDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         Log.d(TAG, "AppDatabase: constructor called");
     }
@@ -85,7 +85,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + StudentInformation.Columns.GENDER + " INTEGER, "
             + StudentInformation.Columns.STUDENT_ID + " LONG, "
             + StudentInformation.Columns.USER_ID + " LONG, "
-            + StudentInformation.Columns.UNIVERSITY_NAME + " TEXT);";
+            + StudentInformation.Columns.UNIVERSITY_ID + " INTEGER);";
 
     //ContractInformation Table
     public static final String CREATE_USER_INFORMATION_TABLE = "CREATE TABLE " + UserInformation.TABLE_NAME + " ("
@@ -192,7 +192,12 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         // Select All Query
         // UniversityApprovedId = 0 (Not Approved), UniversityApprovedId = 1 (Approved).
 
-        String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME + "Where UniversityApprovedId = 0";
+
+
+
+
+        String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME ;
+
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -201,7 +206,8 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Log.d(TAG, "get All Approved University : ");
-                UniversityInfoDto dto = new UniversityInfoDto(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4));
+                UniversityInfoDto dto = new UniversityInfoDto(cursor.getLong(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), cursor.getInt(4), cursor.getInt(5));
                 approvedUniversityDtos.add(dto);
             } while (cursor.moveToNext());
         }
