@@ -59,6 +59,14 @@
     <string name="title_activity_admin_home">AdminHomeActivity</string>
     <string name="action_settings">Settings</string>
     <string name="company">Company</string>
+    <string name="welcome_to_admin">Welcome To Admin Site</string>
+    <string name="approve_list_items">Approve list item</string>
+    <string name="ali_description">Description</string>
+    <string name="button_to_approve">Approve</string>
+    <string name="button_to_delete">Delete</string>
+    <string name="test_button">Test Admin Login</string>
+    <string name="title_activity_add_edit_university">AddEditUniversityActivity</string>
+    <string name="contract_person_id">Contract Id</string>
 
 
 </resources>

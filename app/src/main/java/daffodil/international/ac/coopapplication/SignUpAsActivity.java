@@ -33,4 +33,11 @@ public class SignUpAsActivity extends SimpleActivity {
         startActivity(companySignUpIntent);
     }
 
+    // TODO : Delete this Code later along with @{link goToAdminHomePage} and Button on signUpAs
+
+    public void goToAdminHomePage(View view) {
+        Intent adminHomeIntent = new Intent(this, AdminHomeActivity.class);
+        startActivity(adminHomeIntent);
+    }
+
 }

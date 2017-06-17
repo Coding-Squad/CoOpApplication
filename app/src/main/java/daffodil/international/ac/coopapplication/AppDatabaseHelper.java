@@ -93,7 +93,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     //Business Type Table
     public static final String CREATE_BUSINESS_TYPE_TABLE = "CREATE TABLE " + BusinessType.TABLE_NAME + " ("
             + BusinessType.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
-            + BusinessType.Columns.BUSINESS_TYPE_NAME + " INTEGER);";
+            + BusinessType.Columns.BUSINESS_TYPE_NAME + " TEXT);";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -139,10 +139,8 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + BusinessType.TABLE_NAME;
 
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
@@ -151,7 +149,6 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
                 businessTypeDtos.add(dto);
             } while (cursor.moveToNext());
         }
-
 
         // closing connection
         cursor.close();
@@ -185,7 +182,6 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
                 approvedUniversityDtos.add(dto);
             } while (cursor.moveToNext());
         }
-
         // closing connection
         cursor.close();
         db.close();

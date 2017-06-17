@@ -36,7 +36,6 @@ public class EmployerSignUpActivity extends SimpleActivity implements AdapterVie
     private EditText mContractPersonPhoneTextView;
 
     List<BusinessTypeDto> businessTypeDtos = null;
-
     long businessTypeId;
 
     @Override
@@ -126,18 +125,13 @@ public class EmployerSignUpActivity extends SimpleActivity implements AdapterVie
     }
 
     private void loadSpinnerData() {
-        // database handler
         AppDatabaseHelper db = new AppDatabaseHelper(getApplicationContext());
         // Spinner Drop down elements
-        //  List<String> lables = db.getAllLabels();
         businessTypeDtos = db.getAllBusinesstype();
-
         // Creating adapter for spinner
         ArrayAdapter<BusinessTypeDto> dataAdapter = new ArrayAdapter<BusinessTypeDto>(this, android.R.layout.simple_spinner_item, businessTypeDtos);
-
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
     }

@@ -41,7 +41,7 @@ public class UniversityInformation {
     public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd." + CONTENT_AUTHORITY + "." + TABLE_NAME;
 
 
-    //For Query Method
+    //For insert Query Method
     public static Uri buildUniversityInformationUri(long universityInformationId) {
         return ContentUris.withAppendedId(CONTENT_URI, universityInformationId);
     }
