@@ -72,18 +72,18 @@
                 android:value="daffodil.international.ac.coopapplication.CoOpMainActivity"/>
         </activity>
         <activity
-            android:name=".AdminHomeActivity"
+            android:name=".AdminHomeUniversityActivity"
             android:label="@string/title_activity_admin_home"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
             android:name=".AddEditUniversityActivity"
             android:label="@string/title_activity_add_edit_university"
-            android:parentActivityName=".AdminHomeActivity"
+            android:parentActivityName=".AdminHomeUniversityActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="daffodil.international.ac.coopapplication.AdminHomeActivity"/>
+                android:value="daffodil.international.ac.coopapplication.AdminHomeUniversityActivity"/>
         </activity>
     </application>
 

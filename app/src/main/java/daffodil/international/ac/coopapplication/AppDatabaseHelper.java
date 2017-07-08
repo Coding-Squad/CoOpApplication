@@ -61,6 +61,9 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + UniversityInformation.Columns.UNIVERSITY_ADDRESS + " TEXT, "
             + UniversityInformation.Columns.UNIVERSITY_URL + " TEXT, "
             + UniversityInformation.Columns.UNIVERSITY_IS_APPROVED + " INTEGER, "
+            + UniversityInformation.Columns.UNIVERSITY_IS_APPROVED_BY + " INTEGER, "
+            + UniversityInformation.Columns.CREATE_DATE + " DATE, "
+            + UniversityInformation.Columns.MODIFIED_DATE + " DATE, "
             + UniversityInformation.Columns.CONTRACTS_ID + " INTEGER, "
             + UniversityInformation.Columns.USER_ID + " INTEGER);";
 
@@ -87,6 +90,10 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + CompanyInformation.Columns.COMPANY_WEB_URL + " TEXT, "
             + CompanyInformation.Columns.COMPANY_ADDRESS + " TEXT, "
             + CompanyInformation.Columns.COMPANY_BUSI_TYPE_ID + " INTEGER, "
+            + CompanyInformation.Columns.COMPANY_IS_APPROVED + " INTEGER, "
+            + CompanyInformation.Columns.COMPANY_IS_APPROVED_BY + " INTEGER, "
+            + CompanyInformation.Columns.CREATE_DATE + " DATE, "
+            + CompanyInformation.Columns.MODIFIED_DATE + " DATE, "
             + CompanyInformation.Columns.USER_ID + " INTEGER, "
             + CompanyInformation.Columns.CONTRACTS_ID + " INTEGER);";
 

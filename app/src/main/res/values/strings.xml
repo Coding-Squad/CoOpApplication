@@ -10,7 +10,7 @@
     <string name="gender">Gender</string>
     <string name="job_category">Job Category 1</string>
     <string name="student_id">Student Id</string>
-    <string name="university_name">University Name</string>
+    <string name="university_name"> Name</string>
     <string name="about_student">Sort Description about yourself </string>
     <string name="submit_btn">Submit</string>
     <string name="female">Female</string>
@@ -20,9 +20,9 @@
     <string name="employer">Employer</string>
     <string name="university">University</string>
     <string name="student">Student</string>
-    <string name="university_address">University Address</string>
+    <string name="university_address"> Address</string>
     <string name="university_email_address">University Email Address</string>
-    <string name="university_website_link">University Website link</string>
+    <string name="university_website_link"> Website link</string>
     <string name="contract_person_email">Contract person Email</string>
     <string name="contract_person_phone">Contract Person Phone</string>
     <string name="contract_person_name">Contract Person Name</string>
@@ -59,7 +59,8 @@
     <string name="title_activity_admin_home">AdminHomeActivity</string>
     <string name="action_settings">Settings</string>
     <string name="company">Company</string>
-    <string name="welcome_to_admin">Welcome To Admin Site</string>
+
+    <string name="welcome_to_admin_university">Approve List Item</string>
     <string name="approve_list_items">Approve list item</string>
     <string name="ali_description">Description</string>
     <string name="button_to_approve">Approve</string>

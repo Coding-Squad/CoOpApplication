@@ -105,6 +105,16 @@ public class AppProvider extends ContentProvider {
                 queryBuilder.appendWhere(UserInformation.Columns._ID + " = " + userInformationId);
                 break;
 
+            case CONTRACT_INFORMATION:
+                queryBuilder.setTables(ContactInformation.TABLE_NAME);
+                break;
+
+            case CONTRACT_INFORMATION_ID:
+                queryBuilder.setTables(ContactInformation.TABLE_NAME);
+                long contractInformationId = ContactInformation.getContactInformationId(uri);
+                queryBuilder.appendWhere(ContactInformation.Columns._ID + " = " + contractInformationId);
+                break;
+
             case UNIVERSITY_INFORMATION:
                 queryBuilder.setTables(UniversityInformation.TABLE_NAME);
                 break;
@@ -123,16 +133,6 @@ public class AppProvider extends ContentProvider {
                 queryBuilder.setTables(CompanyInformation.TABLE_NAME);
                 long companyInformationId = getCompanyInformationId(uri);
                 queryBuilder.appendWhere(CompanyInformation.Columns._ID + " = " + companyInformationId);
-                break;
-
-            case CONTRACT_INFORMATION:
-                queryBuilder.setTables(ContactInformation.TABLE_NAME);
-                break;
-
-            case CONTRACT_INFORMATION_ID:
-                queryBuilder.setTables(ContactInformation.TABLE_NAME);
-                long contractInformationId = ContactInformation.getContactInformationId(uri);
-                queryBuilder.appendWhere(ContactInformation.Columns._ID + " = " + contractInformationId);
                 break;
 
             default:
@@ -189,7 +189,6 @@ public class AppProvider extends ContentProvider {
         final SQLiteDatabase db;
 
         Uri returnUri;
-
         /*
         Primary key field value declared globally
         long = universityInfoId ;
@@ -225,8 +224,11 @@ public class AppProvider extends ContentProvider {
                 Log.d(TAG, "Entering insert, called with uri:" + uri);
 
                 db = mOpenHelper.getWritableDatabase();
+                Log.d(TAG, "insert: userInfoId : " + userInfoId + ", contactInfoId : " + contactInfoId);
+
                 values.put(UniversityInformation.Columns.CONTRACTS_ID, contactInfoId);
                 values.put(UniversityInformation.Columns.USER_ID, userInfoId);
+
                 universityInfoId = db.insert(UniversityInformation.TABLE_NAME, null, values);
                 if (universityInfoId >= 0) {
                     returnUri = UniversityInformation.buildUniversityInformationUri(universityInfoId);
@@ -253,13 +255,13 @@ public class AppProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
 
-        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0) {
+        if (userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || universityInfoId >= 0) {
             Log.d(TAG, "insert: Setting Notify With Uri _ " + uri);
             getContext().getContentResolver().notifyChange(uri, null);
         } else {
             Log.d(TAG, "insert: Nothing Inserted");
         }
-        Log.d(TAG, "insert: universityInfoId : " + universityInfoId + ", contactInfoId : " + contactInfoId);
+        //  Log.d(TAG, "insert: universityInfoId : " + universityInfoId + ", contactInfoId : " + contactInfoId);
         Log.d(TAG, "Exiting insert, returning " + returnUri);
 
         return returnUri;
@@ -291,6 +293,22 @@ public class AppProvider extends ContentProvider {
                     selectionCriteria += " AND (" + selection + ")";
                 }
                 count = db.delete(UniversityInformation.TABLE_NAME, selectionCriteria, selectionArgs);
+                break;
+
+            case COMPANY_INFORMATION:
+                db = mOpenHelper.getWritableDatabase();
+                count = db.delete(CompanyInformation.TABLE_NAME, selection, selectionArgs);
+                break;
+
+            case COMPANY_INFORMATION_ID:
+                db = mOpenHelper.getWritableDatabase();
+                long companyInformationId = getCompanyInformationId(uri);
+                selectionCriteria = CompanyInformation.Columns._ID + " = " + companyInformationId;
+
+                if ((selection != null) && (selection.length() > 0)) {
+                    selectionCriteria += " AND (" + selection + ")";
+                }
+                count = db.delete(CompanyInformation.TABLE_NAME, selectionCriteria, selectionArgs);
                 break;
 
             case CONTRACT_INFORMATION:
@@ -350,6 +368,21 @@ public class AppProvider extends ContentProvider {
                     selectionCriteria += " AND (" + selection + ")";
                 }
                 count = db.update(UniversityInformation.TABLE_NAME, values, selectionCriteria, selectionArgs);
+                break;
+            case COMPANY_INFORMATION:
+                db = mOpenHelper.getWritableDatabase();
+                count = db.update(CompanyInformation.TABLE_NAME, values, selection, selectionArgs);
+                break;
+
+            case COMPANY_INFORMATION_ID:
+                db = mOpenHelper.getWritableDatabase();
+                long companyInformationId = CompanyInformation.getCompanyInformationId(uri);
+                selectionCriteria = CompanyInformation.Columns._ID + " = " + companyInformationId;
+
+                if ((selection != null) && (selection.length() > 0)) {
+                    selectionCriteria += " AND (" + selection + ")";
+                }
+                count = db.update(CompanyInformation.TABLE_NAME, values, selectionCriteria, selectionArgs);
                 break;
 
             case CONTRACT_INFORMATION:

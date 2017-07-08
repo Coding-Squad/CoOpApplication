@@ -3,10 +3,13 @@ package daffodil.international.ac.coopapplication;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+
+import java.util.Date;
 
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
@@ -27,6 +30,7 @@ public class UniversitySignUpActivity extends SimpleActivity {
     private EditText mContractPersonEmailTextView;
     private EditText mContractPersonPhoneTextView;
 
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     public UniversitySignUpActivity() {
         Log.d(TAG, "UniversitySignUpActivity: constructor called");
@@ -74,7 +78,7 @@ public class UniversitySignUpActivity extends SimpleActivity {
         //  Toast.makeText(UniversitySignUpActivity.this, "Button Clicked :"+mUniversityNameTextView.length(), Toast.LENGTH_SHORT).show();
 
         if (mUserEmailTextView.length() > 1) {
-            Log.d(TAG, "onClick: adding new task");
+            Log.d(TAG, "onClick: adding new User Info");
             userInfoValues.put(UserInformation.Columns.USER_EMAIL, mUserEmailTextView.getText().toString());
             userInfoValues.put(UserInformation.Columns.USER_PASSWORD, mUserPasswordTextView.getText().toString());
             userInfoValues.put(UserInformation.Columns.USER_ACOUNT_STATUS, 1);
@@ -85,18 +89,8 @@ public class UniversitySignUpActivity extends SimpleActivity {
             return;
         }
 
-        if (mUniversityNameTextView.length() > 1) {
-            Log.d(TAG, "onClick: adding new task");
-            uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_NAME, mUniversityNameTextView.getText().toString());
-            uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_ADDRESS, mUniversityAddressTextView.getText().toString());
-            uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_URL, mUniversityWebLinkTextView.getText().toString());
-            uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_IS_APPROVED, 0);
-            contentResolver.insert(UniversityInformation.CONTENT_URI, uniInfoValues);
-        } else {
-            return;
-        }
-
         if (mContractPersonNameTextView.length() > 1) {
+            Log.d(TAG, "onClick: adding new Contact Information");
             contractInfoValues.put(ContactInformation.Columns.CONTACT_PERSON_NAME, mContractPersonNameTextView.getText().toString());
             contractInfoValues.put(ContactInformation.Columns.CONTACT_PERSON_EMAIL, mContractPersonEmailTextView.getText().toString());
             contractInfoValues.put(ContactInformation.Columns.CONTACT_PERSON_PHONE, mContractPersonPhoneTextView.getText().toString());
@@ -104,6 +98,21 @@ public class UniversitySignUpActivity extends SimpleActivity {
         } else {
             return;
         }
+
+        if (mUniversityNameTextView.length() > 1) {
+            Log.d(TAG, "onClick: adding new University Information");
+            uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_NAME, mUniversityNameTextView.getText().toString());
+            uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_ADDRESS, mUniversityAddressTextView.getText().toString());
+            uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_URL, mUniversityWebLinkTextView.getText().toString());
+            uniInfoValues.put(UniversityInformation.Columns.UNIVERSITY_IS_APPROVED, 0);
+            uniInfoValues.put(UniversityInformation.Columns.CREATE_DATE, sdf.format(new Date()));
+            uniInfoValues.put(UniversityInformation.Columns.MODIFIED_DATE, sdf.format(new Date()));
+
+            contentResolver.insert(UniversityInformation.CONTENT_URI, uniInfoValues);
+        } else {
+            return;
+        }
+
 
         //open new Activity
         Intent signUpFeedbackIntent = new Intent(this, SignUpFeedback.class);

@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/admin_home_fragment"
-    android:name="daffodil.international.ac.coopapplication.AdminHomeFragment"
+    android:name="daffodil.international.ac.coopapplication.AdminHomeUnivesityFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:layout="@layout/fragment_admin_home"
+    tools:layout="@layout/fragment_admin_home_university"
     >
 
 </fragment>
