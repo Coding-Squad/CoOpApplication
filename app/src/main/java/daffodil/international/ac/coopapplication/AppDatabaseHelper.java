@@ -193,10 +193,7 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
         // UniversityApprovedId = 0 (Not Approved), UniversityApprovedId = 1 (Approved).
 
 
-
-
-
-        String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME ;
+        String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME;
 
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -221,7 +218,7 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean checkUser (String email){
+    public boolean checkUser(String email) {
         // array of columns to fetch
         String[] columns = {
                 UserInformation.Columns._ID
@@ -298,6 +295,39 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
 
         cursor.close();
         db.close();
+        if (cursorCount > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean checkUserRole(String userRole){
+        // array of columns to fetch
+        String[] columns = {
+                UserInformation.Columns._ID
+        };
+
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+
+        // Selection criteria
+         String selection = UserInformation.Columns.USER_ROLE_ID + " ? ";
+        // Selection arges.
+
+        String[] selectionArges = {userRole};
+
+        Cursor cursor = sqLiteDatabase.query(UserInformation.TABLE_NAME,
+                columns,
+                selection,
+                selectionArges,
+                null,
+                null,
+                null);
+
+        int cursorCount = cursor.getCount();
+
+        cursor.close();
+        sqLiteDatabase.close();
         if (cursorCount > 0) {
             return true;
         }
