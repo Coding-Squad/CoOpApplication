@@ -17,13 +17,20 @@ public class StudentInformation {
     public static final String TABLE_NAME = "StudentInformation";
 
 
-    // University Information fields
+    // Student Information fields
     public static class Columns {
         public static final String _ID = BaseColumns._ID;
-        public static final String _NAME = "UniversityName";
-        public static final String UNIVERSITY_ADDRESS = "UniversityAddress";
-        public static final String UNIVERSITY_URL = "UniversityWebURL";
-        public static final String CONTRACTS_ID = "ContactId";
+        public static final String FIRST_NAME = "FirstName";
+        public static final String LAST_NAME = "LastName";
+        public static final String MOBILE_NUMBER = "MobileNumber";
+        public static final String ADDRESS = "Address";
+        public static final String GENDER = "Gender";
+        public static final String BLOOD_GROUP = "BloodGroup";
+        public static final String DATE_OF_BIRTH = "DateofBirth";
+        public static final String UNIVERSITY_ID = "ApprovedUniversityID";
+        public static final String STUDENT_ID = "StudentID";
+        public static final String USER_ID = "UserID";
+        public static final String DESCRIPTION = "Description";
 
         private Columns() {
             // private constructor to prevent instantiation
@@ -32,7 +39,7 @@ public class StudentInformation {
 
 
     /**
-     * The URI to access the UniversityInformation table
+     * The URI to access the Student Information table
      */
     public static final Uri CONTENT_URI = Uri.withAppendedPath(CONTENT_AUTHORITY_URI, TABLE_NAME);
 
@@ -41,13 +48,14 @@ public class StudentInformation {
 
 
     //For Query Method
-    public static Uri buildUniversityInformationUri(long universityInformationId) {
-        return ContentUris.withAppendedId(CONTENT_URI, universityInformationId);
+    public static Uri buildStudentInformationUri(long studentInformationId) {
+        return ContentUris.withAppendedId(CONTENT_URI, studentInformationId);
     }
 
     //For Query Method
-    public static long getUniversityInformationId(Uri uri) {
+    public static long getStudentInformationId(Uri uri) {
         return ContentUris.parseId(uri);
+
     }
 
 

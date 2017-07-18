@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-
 import stanford.androidlib.SimpleActivity;
 
 public class CoOpMainActivity extends SimpleActivity {
@@ -22,7 +21,8 @@ public class CoOpMainActivity extends SimpleActivity {
     }
 
     public void goToSignInPage(View view) {
-        Intent signInPageIntent = new Intent(this, SignInActivity.class);
+        Intent signInPageIntent = new Intent
+                (this, SignInActivity.class);
         startActivity(signInPageIntent);
 
     }

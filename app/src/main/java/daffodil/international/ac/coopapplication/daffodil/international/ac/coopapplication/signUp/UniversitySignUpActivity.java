@@ -7,10 +7,12 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.Date;
 
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UniversityInfoDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
@@ -32,8 +34,11 @@ public class UniversitySignUpActivity extends SimpleActivity {
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
+    private Button mSaveButton;
+
     public UniversitySignUpActivity() {
         Log.d(TAG, "UniversitySignUpActivity: constructor called");
+
     }
 
 
@@ -109,10 +114,19 @@ public class UniversitySignUpActivity extends SimpleActivity {
             uniInfoValues.put(UniversityInformation.Columns.MODIFIED_DATE, sdf.format(new Date()));
 
             contentResolver.insert(UniversityInformation.CONTENT_URI, uniInfoValues);
+
         } else {
             return;
         }
 
+        if (mContractPersonNameTextView.length() > 1) {
+            contractInfoValues.put(ContactInformation.Columns.CONTACT_PERSON_NAME, mContractPersonNameTextView.getText().toString());
+            contractInfoValues.put(ContactInformation.Columns.CONTACT_PERSON_EMAIL, mContractPersonEmailTextView.getText().toString());
+            contractInfoValues.put(ContactInformation.Columns.CONTACT_PERSON_PHONE, mContractPersonPhoneTextView.getText().toString());
+            contentResolver.insert(ContactInformation.CONTENT_URI_CONTRACTS, contractInfoValues);
+        } else {
+            return;
+        }
 
         //open new Activity
         Intent signUpFeedbackIntent = new Intent(this, SignUpFeedback.class);

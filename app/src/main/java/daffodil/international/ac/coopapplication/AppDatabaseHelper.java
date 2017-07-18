@@ -14,6 +14,7 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
 
@@ -22,10 +23,10 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
  * <p>
  * Basic database class for the application.
  * <p>
- * The only class that should use For crud.
+ * The only class that should use this is
  */
 
-public class AppDatabaseHelper extends SQLiteOpenHelper {
+class AppDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "AppDatabaseHelper";
 
     public static final String DATABASE_NAME = "co_op.db";
@@ -35,7 +36,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
     private static AppDatabaseHelper instance = null;
 
 
-    AppDatabaseHelper(Context context) {
+    public AppDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         Log.d(TAG, "AppDatabase: constructor called");
     }
@@ -74,6 +75,21 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + ContactInformation.Columns.CONTACT_PERSON_EMAIL + " TEXT, "
             + ContactInformation.Columns.CONTACT_PERSON_PHONE + " INTEGER);";
 
+    //StudentInformation Table
+    public static final String CREATE_STUDENT_INFORMATION_TABLE = "CREATE TABLE " + StudentInformation.TABLE_NAME + " ("
+            + StudentInformation.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
+            + StudentInformation.Columns.FIRST_NAME + " TEXT NOT NULL, "
+            + StudentInformation.Columns.LAST_NAME + " TEXT, "
+            + StudentInformation.Columns.MOBILE_NUMBER + " TEXT, "
+            + StudentInformation.Columns.ADDRESS + " TEXT, "
+            + StudentInformation.Columns.BLOOD_GROUP + " INTEGER, "
+            + StudentInformation.Columns.DATE_OF_BIRTH + " DATE, "
+            + StudentInformation.Columns.DESCRIPTION + " TEXT, "
+            + StudentInformation.Columns.GENDER + " INTEGER, "
+            + StudentInformation.Columns.STUDENT_ID + " LONG, "
+            + StudentInformation.Columns.USER_ID + " LONG, "
+            + StudentInformation.Columns.UNIVERSITY_ID + " INTEGER);";
+
     //ContractInformation Table
     public static final String CREATE_USER_INFORMATION_TABLE = "CREATE TABLE " + UserInformation.TABLE_NAME + " ("
             + UserInformation.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
@@ -111,6 +127,10 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
 
         Log.d(TAG, " 2 : " + CREATE_CONTRACT_INFORMATION_TABLE);
         db.execSQL(CREATE_CONTRACT_INFORMATION_TABLE);
+
+
+        Log.d(TAG, " 3 : " + CREATE_STUDENT_INFORMATION_TABLE);
+        db.execSQL(CREATE_STUDENT_INFORMATION_TABLE);
 
         db.execSQL(CREATE_USER_INFORMATION_TABLE);
         db.execSQL(CREATE_COMPANY_INFORMATION_TABLE);
@@ -176,7 +196,12 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         // Select All Query
         // UniversityApprovedId = 0 (Not Approved), UniversityApprovedId = 1 (Approved).
 
-        String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME + "Where UniversityApprovedId = 0";
+
+
+
+
+        String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME ;
+
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -185,7 +210,8 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Log.d(TAG, "get All Approved University : ");
-                UniversityInfoDto dto = new UniversityInfoDto(cursor.getLong(0), cursor.getString(1), cursor.getString(2), cursor.getString(3), cursor.getInt(4));
+                UniversityInfoDto dto = new UniversityInfoDto(cursor.getLong(0), cursor.getString(1),
+                        cursor.getString(2), cursor.getString(3), cursor.getInt(4), cursor.getInt(5));
                 approvedUniversityDtos.add(dto);
             } while (cursor.moveToNext());
         }
@@ -195,6 +221,91 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
 
         // returning lables
         return approvedUniversityDtos;
+    }
+
+
+    public boolean checkUser (String email){
+        // array of columns to fetch
+        String[] columns = {
+                UserInformation.Columns._ID
+        };
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // selection criteria
+        String selection = UserInformation.Columns.USER_EMAIL + " = ?";
+        // selection argument
+        String[] selectionArgs = {email};
+
+        // query user table with condition
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com';
+         */
+        Cursor cursor = db.query(UserInformation.TABLE_NAME, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                      //filter by row groups
+                null);                      //The sort order
+        int cursorCount = cursor.getCount();
+        cursor.close();
+        db.close();
+
+        if (cursorCount > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+
+    /*
+     This method to check user exist or not
+
+     @param email
+     @param password
+     @return true/false
+     */
+
+    public boolean checkUser(String email, String password) {
+
+        // array of columns to fetch
+        String[] columns = {
+                UserInformation.Columns._ID
+        };
+        SQLiteDatabase db = this.getReadableDatabase();
+        // selection criteria
+        String selection = UserInformation.Columns.USER_EMAIL + " = ?" + " AND " + UserInformation.Columns.USER_PASSWORD + " = ?";
+
+        // selection arguments
+        String[] selectionArgs = {email, password};
+
+        // query user table with conditions
+        /**
+         * Here query function is used to fetch records from user table this function works like we use sql query.
+         * SQL query equivalent to this query function is
+         * SELECT user_id FROM user WHERE user_email = 'jack@androidtutorialshub.com' AND user_password = 'qwerty';
+         */
+        Cursor cursor = db.query(UserInformation.TABLE_NAME, //Table to query
+                columns,                    //columns to return
+                selection,                  //columns for the WHERE clause
+                selectionArgs,              //The values for the WHERE clause
+                null,                       //group the rows
+                null,                       //filter by row groups
+                null);                      //The sort order
+
+        int cursorCount = cursor.getCount();
+
+        cursor.close();
+        db.close();
+        if (cursorCount > 0) {
+            return true;
+        }
+
+        return false;
     }
 
 
