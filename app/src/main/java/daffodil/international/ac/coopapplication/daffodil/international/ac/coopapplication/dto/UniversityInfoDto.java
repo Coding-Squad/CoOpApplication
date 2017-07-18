@@ -13,16 +13,18 @@ public class UniversityInfoDto implements Serializable {
     private final String mUniversityName;
     private final String mUniversityAddress;
     private final String mUniversityWebURL;
+    private int          muniversityIsApproved;
     private final int mContactId;
 
 
     public UniversityInfoDto(long id, String universityName, String universityAddress,
-                             String universityWebURL, int contactId) {
+                             String universityWebURL, int contactId, int universityIsApproved) {
         this.m_Id = id;
         mUniversityName = universityName;
         mUniversityAddress = universityAddress;
         mUniversityWebURL = universityWebURL;
         mContactId = contactId;
+        muniversityIsApproved = universityIsApproved;
     }
 
 
@@ -42,6 +44,14 @@ public class UniversityInfoDto implements Serializable {
         return mUniversityWebURL;
     }
 
+    public int getMuniversityIsApproved() {
+        return muniversityIsApproved;
+    }
+
+    public void setMuniversityIsApproved(int muniversityIsApproved) {
+        this.muniversityIsApproved = muniversityIsApproved;
+    }
+
     public int getContactId() {
         return mContactId;
     }
@@ -50,8 +60,5 @@ public class UniversityInfoDto implements Serializable {
         this.m_Id = id;
     }
 
-    @Override
-    public String toString() {
-        return getUniversityName();
-    }
+    
 }

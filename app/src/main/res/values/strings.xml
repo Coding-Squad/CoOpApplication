@@ -61,4 +61,19 @@
     <string name="company">Company</string>
 
 
+    <!-- log in instructions and warnings -->
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="text_login">Login</string>
+    <string name="text_not_member">No account yet? Create one</string>
+    <string name="text_already_member">Already a member? Login</string>
+    <string name="error_email_exists">Email Already Exists</string>
+    <string name="error_password_match">Password Does Not Matches</string>
+    <string name="error_valid_email_password">Wrong Email or Password</string>
+    <string name="text_hello">Hello,</string>
+    <string name="error_message_email">Enter Valid Email</string>
+    <string name="title_activity_dash_board">DashBoardActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+
 </resources>
