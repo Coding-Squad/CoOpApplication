@@ -1,4 +1,4 @@
-package daffodil.international.ac.coopapplication;
+package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin;
 
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import daffodil.international.ac.coopapplication.R;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 
@@ -16,13 +17,13 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
  * Created by Pranto on 14-Jun-17.
  */
 
-public class CursorRecyclerCompanyTypeInfoViewAdapter extends RecyclerView.Adapter<CursorRecyclerCompanyTypeInfoViewAdapter.CursorRecyclerCompanyTypeHolder> {
+class CursorRecyclerCompanyTypeInfoViewAdapter extends RecyclerView.Adapter<CursorRecyclerCompanyTypeInfoViewAdapter.CursorRecyclerCompanyTypeHolder> {
     private static final String TAG = "CurRecyCompanyTypeInfo";
 
     private Cursor mCursor;
     private OnCompanyTypeClickListner mListner;
 
-    public interface OnCompanyTypeClickListner {
+    interface OnCompanyTypeClickListner {
         void oncComTypeApplyClicked(BusinessTypeDto businessTypeDto);
 
         void onCompTypeDeleteClicked(BusinessTypeDto businessTypeDto);
@@ -115,7 +116,7 @@ public class CursorRecyclerCompanyTypeInfoViewAdapter extends RecyclerView.Adapt
      * @param newCursor The new cursor to be used
      * @return Returns the previously set Cursor, or null if there wasn't one.
      * If the given new Cursor is the same instance as the previously set
-     * Cursor, null is also returned. 
+     * Cursor, null is also returned.
      */
 
     Cursor swapCursor(Cursor newCursor) {

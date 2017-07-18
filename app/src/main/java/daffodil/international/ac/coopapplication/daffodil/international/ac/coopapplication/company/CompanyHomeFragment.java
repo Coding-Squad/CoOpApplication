@@ -12,14 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-public class Company_Home_Fragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class CompanyHomeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    private static final String TAG = "Company_Home_Fragment";
+    private static final String TAG = "CompanyHomeFragment";
 
-    public static final int LOADER_ID_COMPANY_BUSINESS_TYPE= 10;
+    public static final int LOADER_ID_COMPANY_BUSINESS_TYPE = 10;
 
-    public Company_Home_Fragment() {
-        Log.d(TAG, "Company_Home_Fragment: Starts");
+    public CompanyHomeFragment() {
+        Log.d(TAG, "CompanyHomeFragment: Constructor called");
     }
 
     @Override

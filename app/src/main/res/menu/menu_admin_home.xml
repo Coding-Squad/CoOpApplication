@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="daffodil.international.ac.coopapplication.AdminHomeUniversityActivity">
+      tools:context="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin.AdminHomeUniversityActivity">
     <item
         android:id="@+id/university_permi"
         android:icon="@android:drawable/ic_menu_manage"
@@ -15,14 +15,20 @@
         android:title="@string/company"
         app:showAsAction="never"/>
     <item
+        android:id="@+id/business_type"
+        android:icon="@android:drawable/ic_menu_add"
+        android:orderInCategory="102"
+        android:title="@string/add_business_type"
+        app:showAsAction="ifRoom"/>
+    <item
         android:id="@+id/student_permi"
         android:icon="@android:drawable/ic_menu_manage"
-        android:orderInCategory="102"
+        android:orderInCategory="103"
         android:title="@string/student"
         app:showAsAction="never"/>
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="103"
+        android:orderInCategory="104"
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 </menu>

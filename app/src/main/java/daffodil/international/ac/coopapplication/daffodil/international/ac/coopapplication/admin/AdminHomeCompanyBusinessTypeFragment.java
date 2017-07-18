@@ -1,4 +1,4 @@
-package daffodil.international.ac.coopapplication;
+package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin;
 
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 
 import java.security.InvalidParameterException;
 
+import daffodil.international.ac.coopapplication.R;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
@@ -50,11 +51,11 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.d(TAG, "onCreateView: Starts");
-        View view =inflater.inflate(R.layout.fragment_admin_home_university, container, false);
+        View view = inflater.inflate(R.layout.fragment_admin_home_university, container, false);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.university_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mCursorCompanyBusiTypeAdapter = new CursorRecyclerCompanyTypeInfoViewAdapter(null ,
+        mCursorCompanyBusiTypeAdapter = new CursorRecyclerCompanyTypeInfoViewAdapter(null,
                 (CursorRecyclerCompanyTypeInfoViewAdapter.OnCompanyTypeClickListner) getActivity());
         recyclerView.setAdapter(mCursorCompanyBusiTypeAdapter);
 
@@ -72,9 +73,8 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
                 UniversityInformation.Columns.UNIVERSITY_URL,
                 UniversityInformation.Columns.CONTRACTS_ID
         };
-
         String sortOrder_university = UniversityInformation.Columns.UNIVERSITY_IS_APPROVED +
-                "," + UniversityInformation.Columns.UNIVERSITY_NAME +" COLLATE NOCASE ";
+                "," + UniversityInformation.Columns.UNIVERSITY_NAME + " COLLATE NOCASE ";
 
         String[] projection_company = {CompanyInformation.Columns._ID,
                 CompanyInformation.Columns.COMPANY_NAME,
@@ -82,16 +82,14 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
                 CompanyInformation.Columns.COMPANY_WEB_URL,
                 CompanyInformation.Columns.CONTRACTS_ID
         };
-
         String sortOrder_company = CompanyInformation.Columns.COMPANY_IS_APPROVED +
-                "," + CompanyInformation.Columns.COMPANY_NAME +" COLLATE NOCASE ";
+                "," + CompanyInformation.Columns.COMPANY_NAME + " COLLATE NOCASE ";
 
         String[] projection_Type = {BusinessType.Columns._ID,
-                BusinessType.Columns.BUSINESS_TYPE_NAME
+                BusinessType.Columns.BUSINESS_TYPE_NAME,
+                BusinessType.Columns.BUSINESS_TYPE_IMAGE
         };
-
-        String sortOrder_type = BusinessType.Columns.BUSINESS_TYPE_NAME +" COLLATE NOCASE ";
-
+        String sortOrder_type = BusinessType.Columns.BUSINESS_TYPE_NAME + " COLLATE NOCASE ";
 
 
         switch (id) {
@@ -134,7 +132,7 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
         mCursorCompanyBusiTypeAdapter.swapCursor(data);
         int countCompanyAdapter = mCursorCompanyBusiTypeAdapter.getItemCount();
 
-       Log.d(TAG, "onLoadFinished: countCompanyAdapter    is :++++++++++++++++++++ " + countCompanyAdapter);
+        Log.d(TAG, "onLoadFinished: countCompanyAdapter    is :++++++++++++++++++++ " + countCompanyAdapter);
     }
 
     @Override

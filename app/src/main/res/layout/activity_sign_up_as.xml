@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:gravity="top|center"
-    android:background="#5EAC32"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="daffodil.international.ac.coopapplication.SignUpAsActivity">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:gravity="top|center"
+              android:background="#5EAC32"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              tools:context="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.signUp.SignUpAsActivity">
 
     <TextView
         android:id="@+id/sign_up_as_textview"
@@ -55,7 +55,7 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:onClick="goToAdminHomePage"
+        android:onClick="goToCompanyHomePage"
         android:id="@+id/test_admin_login_btn"
         android:text="@string/test_button"
         android:textSize="20sp"

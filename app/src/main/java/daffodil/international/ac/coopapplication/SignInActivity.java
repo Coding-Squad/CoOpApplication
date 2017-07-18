@@ -1,15 +1,18 @@
 package daffodil.international.ac.coopapplication;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
+
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin.AdminHomeUniversityActivity;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.signUp.SignUpAsActivity;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
     private final AppCompatActivity activity = SignInActivity.this;
@@ -37,7 +40,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
 
             getSupportActionBar().hide();
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
 
             System.out.println("Null pointer exception!");
         }
@@ -112,13 +115,42 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         if (databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
-                , textInputEditTextPassword.getText().toString().trim())) {
-
+                , textInputEditTextPassword.getText().toString().trim()
+                , "1")) {
 
             Intent accountsIntent = new Intent(activity, DashBoardActivity.class);
             accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
             emptyInputEditText();
             startActivity(accountsIntent);
+
+        } else if (databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
+                , textInputEditTextPassword.getText().toString().trim()
+                , "2")) {
+//Company Login Part
+            Intent accountsIntent = new Intent(activity, DashBoardActivity.class);
+            accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+            emptyInputEditText();
+            startActivity(accountsIntent);
+
+
+        } else if (databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
+                , textInputEditTextPassword.getText().toString().trim()
+                , "3")) {
+
+            Intent accountsIntent = new Intent(activity, DashBoardActivity.class);
+            accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+            emptyInputEditText();
+            startActivity(accountsIntent);
+
+
+        } else if (databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
+                , textInputEditTextPassword.getText().toString().trim()
+                , "4")) {
+//Admin Login Part
+            Intent adminHomeIntent = new Intent(this, AdminHomeUniversityActivity.class);
+            adminHomeIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+            emptyInputEditText();
+            startActivity(adminHomeIntent);
 
 
         } else {

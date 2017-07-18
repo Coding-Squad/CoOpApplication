@@ -12,12 +12,12 @@ public class StudentInformationDto {
     private String      m_lastName;
     private String      m_mobile_number;
     private String      m_address;
-    private int         m_gender;
+    private int m_gender;
     private int         m_bloodGroup;
     private Date        m_date_of_Birth;
-    private long        m_universityId;
+    private long m_universityId;
     private long        m_studentId;
-    private long        m_userId;
+    private long m_userId;
     private String      m_description;
 
     public StudentInformationDto() {
@@ -149,4 +149,5 @@ public class StudentInformationDto {
                 ", m_description='" + m_description + '\'' +
                 '}';
     }
+
 }

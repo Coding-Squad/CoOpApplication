@@ -26,7 +26,7 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
  * The only class that should use this is
  */
 
-class AppDatabaseHelper extends SQLiteOpenHelper {
+public class AppDatabaseHelper extends SQLiteOpenHelper {
     private static final String TAG = "AppDatabaseHelper";
 
     public static final String DATABASE_NAME = "co_op.db";
@@ -116,6 +116,10 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
     //Business Type Table
     public static final String CREATE_BUSINESS_TYPE_TABLE = "CREATE TABLE " + BusinessType.TABLE_NAME + " ("
             + BusinessType.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
+            + BusinessType.Columns.CREATE_DATE + " DATE, "
+            + BusinessType.Columns.MODIFIED_DATE + " DATE, "
+            + BusinessType.Columns.USER_ID + " INTEGER, "
+            + BusinessType.Columns.BUSINESS_TYPE_IMAGE + " BLOB, "
             + BusinessType.Columns.BUSINESS_TYPE_NAME + " TEXT);";
 
     @Override
@@ -157,7 +161,7 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Getting all Business Type
-     * returns list of Business Type
+     * returns list of Business Type for Spenner
      */
     public List<BusinessTypeDto> getAllBusinesstype() {
 
@@ -171,7 +175,7 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                BusinessTypeDto dto = new BusinessTypeDto(cursor.getLong(0), cursor.getString(1));
+                BusinessTypeDto dto = new BusinessTypeDto(cursor.getLong(0), cursor.getString(4));
                 //   Log.d(TAG, "getAllLabels: "+cursor.getLong(0)+" , "+cursor.getString(1));
                 businessTypeDtos.add(dto);
             } while (cursor.moveToNext());
@@ -186,8 +190,8 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Getting all Business Type
-     * returns list of Business Type
+     * Getting all UniversityInfo Type
+     * returns list of UniversityInfo Type for Spenner
      */
     public List<UniversityInfoDto> getAllApprovedUniversity() {
 
@@ -195,13 +199,7 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
 
         // Select All Query
         // UniversityApprovedId = 0 (Not Approved), UniversityApprovedId = 1 (Approved).
-
-
-
-
-
-        String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME ;
-
+        String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME;
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -211,7 +209,7 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
             do {
                 Log.d(TAG, "get All Approved University : ");
                 UniversityInfoDto dto = new UniversityInfoDto(cursor.getLong(0), cursor.getString(1),
-                        cursor.getString(2), cursor.getString(3), cursor.getInt(4), cursor.getInt(5));
+                        cursor.getString(2), cursor.getString(3), cursor.getInt(4));
                 approvedUniversityDtos.add(dto);
             } while (cursor.moveToNext());
         }
@@ -224,7 +222,7 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean checkUser (String email){
+    public boolean checkUser(String email) {
         // array of columns to fetch
         String[] columns = {
                 UserInformation.Columns._ID
@@ -270,18 +268,20 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
      @return true/false
      */
 
-    public boolean checkUser(String email, String password) {
+    public boolean checkUser(String email, String password, String role) {
 
         // array of columns to fetch
         String[] columns = {
                 UserInformation.Columns._ID
         };
         SQLiteDatabase db = this.getReadableDatabase();
-        // selection criteria
-        String selection = UserInformation.Columns.USER_EMAIL + " = ?" + " AND " + UserInformation.Columns.USER_PASSWORD + " = ?";
+        // selection criteria BusinessType.Columns.BUSINESS_TYPE_NAME + " COLLATE NOCASE "
+        String selection = UserInformation.Columns.USER_EMAIL + " COLLATE NOCASE " + " = ?"
+                + " AND " + UserInformation.Columns.USER_PASSWORD + " = ?"
+                + " AND " + UserInformation.Columns.USER_ROLE_ID + " = ?";
 
         // selection arguments
-        String[] selectionArgs = {email, password};
+        String[] selectionArgs = {email, password, role};
 
         // query user table with conditions
         /**

@@ -22,6 +22,11 @@ public class BusinessType {
     public static class Columns {
         public static final String _ID = BaseColumns._ID;
         public static final String BUSINESS_TYPE_NAME = "BusinessTypeName";
+        public static final String BUSINESS_TYPE_IMAGE = "BusinessTypeImage";
+
+        public static final String USER_ID = "UserId";
+        public static final String CREATE_DATE = "CreateDate";
+        public static final String MODIFIED_DATE = "ModifiedDate";
 
 
         private Columns() {
