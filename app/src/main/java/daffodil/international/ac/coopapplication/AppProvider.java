@@ -118,6 +118,16 @@ public class AppProvider extends ContentProvider {
                 queryBuilder.appendWhere(UserInformation.Columns._ID + " = " + userInformationId);
                 break;
 
+            case CONTRACT_INFORMATION:
+                queryBuilder.setTables(ContactInformation.TABLE_NAME);
+                break;
+
+            case CONTRACT_INFORMATION_ID:
+                queryBuilder.setTables(ContactInformation.TABLE_NAME);
+                long contractInformationId = ContactInformation.getContactInformationId(uri);
+                queryBuilder.appendWhere(ContactInformation.Columns._ID + " = " + contractInformationId);
+                break;
+
             case UNIVERSITY_INFORMATION:
                 queryBuilder.setTables(UniversityInformation.TABLE_NAME);
                 break;
@@ -138,16 +148,6 @@ public class AppProvider extends ContentProvider {
                 queryBuilder.appendWhere(CompanyInformation.Columns._ID + " = " + companyInformationId);
                 break;
 
-            case CONTRACT_INFORMATION:
-                queryBuilder.setTables(ContactInformation.TABLE_NAME);
-                break;
-
-            case CONTRACT_INFORMATION_ID:
-                queryBuilder.setTables(ContactInformation.TABLE_NAME);
-                long contractInformationId = ContactInformation.getContactInformationId(uri);
-                queryBuilder.appendWhere(ContactInformation.Columns._ID + " = " + contractInformationId);
-                break;
-
             case STUDENT_INFORMATION:
                 queryBuilder.setTables(StudentInformation.TABLE_NAME);
                 break;
@@ -164,7 +164,10 @@ public class AppProvider extends ContentProvider {
         }
 
         SQLiteDatabase db = mOpenHelper.getReadableDatabase();
-        return queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        //    return queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        Cursor cursor = queryBuilder.query(db, projection, selection, selectionArgs, null, null, sortOrder);
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        return cursor;
     }
 
     @Nullable
@@ -294,7 +297,14 @@ public class AppProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
-        Log.d(TAG, "insert: universityInfoId : " + universityInfoId + ", contactInfoId : " + contactInfoId);
+
+        if (userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || universityInfoId >= 0) {
+            Log.d(TAG, "insert: Setting Notify With Uri _ " + uri);
+            getContext().getContentResolver().notifyChange(uri, null);
+        } else {
+            Log.d(TAG, "insert: Nothing Inserted");
+        }
+        //  Log.d(TAG, "insert: universityInfoId : " + universityInfoId + ", contactInfoId : " + contactInfoId);
         Log.d(TAG, "Exiting insert, returning " + returnUri);
 
         return returnUri;
@@ -328,6 +338,22 @@ public class AppProvider extends ContentProvider {
                 count = db.delete(UniversityInformation.TABLE_NAME, selectionCriteria, selectionArgs);
                 break;
 
+            case COMPANY_INFORMATION:
+                db = mOpenHelper.getWritableDatabase();
+                count = db.delete(CompanyInformation.TABLE_NAME, selection, selectionArgs);
+                break;
+
+            case COMPANY_INFORMATION_ID:
+                db = mOpenHelper.getWritableDatabase();
+                long companyInformationId = getCompanyInformationId(uri);
+                selectionCriteria = CompanyInformation.Columns._ID + " = " + companyInformationId;
+
+                if ((selection != null) && (selection.length() > 0)) {
+                    selectionCriteria += " AND (" + selection + ")";
+                }
+                count = db.delete(CompanyInformation.TABLE_NAME, selectionCriteria, selectionArgs);
+                break;
+
             case CONTRACT_INFORMATION:
                 db = mOpenHelper.getWritableDatabase();
                 count = db.delete(ContactInformation.TABLE_NAME, selection, selectionArgs);
@@ -348,6 +374,13 @@ public class AppProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
+        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0) {
+            Log.d(TAG, "Delete: Setting Notify With Uri _ " + uri);
+            getContext().getContentResolver().notifyChange(uri, null);
+        } else {
+            Log.d(TAG, "Delete: Nothing Deleted");
+        }
+
         Log.d(TAG, "Exiting update, returning " + count);
         return count;
     }
@@ -379,6 +412,21 @@ public class AppProvider extends ContentProvider {
                 }
                 count = db.update(UniversityInformation.TABLE_NAME, values, selectionCriteria, selectionArgs);
                 break;
+            case COMPANY_INFORMATION:
+                db = mOpenHelper.getWritableDatabase();
+                count = db.update(CompanyInformation.TABLE_NAME, values, selection, selectionArgs);
+                break;
+
+            case COMPANY_INFORMATION_ID:
+                db = mOpenHelper.getWritableDatabase();
+                long companyInformationId = CompanyInformation.getCompanyInformationId(uri);
+                selectionCriteria = CompanyInformation.Columns._ID + " = " + companyInformationId;
+
+                if ((selection != null) && (selection.length() > 0)) {
+                    selectionCriteria += " AND (" + selection + ")";
+                }
+                count = db.update(CompanyInformation.TABLE_NAME, values, selectionCriteria, selectionArgs);
+                break;
 
             case CONTRACT_INFORMATION:
                 db = mOpenHelper.getWritableDatabase();
@@ -399,6 +447,13 @@ public class AppProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
+        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0) {
+            Log.d(TAG, "Update: Setting Notify With Uri _ " + uri);
+            getContext().getContentResolver().notifyChange(uri, null);
+        } else {
+            Log.d(TAG, "Update: Nothing Updated");
+        }
+
         Log.d(TAG, "Exiting update, returning " + count);
         return count;
     }

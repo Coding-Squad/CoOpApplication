@@ -27,6 +27,11 @@ public class CompanyInformation {
         public static final String USER_ID = "UserId";
         public static final String CONTRACTS_ID = "ContactId";
 
+        public static final String COMPANY_IS_APPROVED = "IsCompanyApprovedId";
+        public static final String COMPANY_IS_APPROVED_BY = "CompanyApprovedByUserId";
+        public static final String CREATE_DATE = "CreateDate";
+        public static final String MODIFIED_DATE = "ModifiedDate";
+
 
         private Columns() {
             // private constructor to prevent instantiation

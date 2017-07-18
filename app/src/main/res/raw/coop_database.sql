@@ -66,7 +66,11 @@ CREATE TABLE universityInformation (
     universityAddress VARCHAR(35),
     universityWebURL VARCHAR(35),
     contactId    LONG,
-    userId LONG
+    userId LONG,
+    approvedByUserId Long,
+    createDate DATE,
+    modifiedDate DATE
+
 );
 
 INSERT INTO universityInformation VALUES();

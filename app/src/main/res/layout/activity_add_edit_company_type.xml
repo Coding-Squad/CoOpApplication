@@ -5,8 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="daffodil.international.ac.coopapplication.AdminHomeActivityFragment"
-    tools:showIn="@layout/activity_admin_home">
-
+    tools:context="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.AddEditCompanyTypeActivity">
 
 </android.support.constraint.ConstraintLayout>

@@ -62,6 +62,9 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
             + UniversityInformation.Columns.UNIVERSITY_ADDRESS + " TEXT, "
             + UniversityInformation.Columns.UNIVERSITY_URL + " TEXT, "
             + UniversityInformation.Columns.UNIVERSITY_IS_APPROVED + " INTEGER, "
+            + UniversityInformation.Columns.UNIVERSITY_IS_APPROVED_BY + " INTEGER, "
+            + UniversityInformation.Columns.CREATE_DATE + " DATE, "
+            + UniversityInformation.Columns.MODIFIED_DATE + " DATE, "
             + UniversityInformation.Columns.CONTRACTS_ID + " INTEGER, "
             + UniversityInformation.Columns.USER_ID + " INTEGER);";
 
@@ -103,13 +106,17 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
             + CompanyInformation.Columns.COMPANY_WEB_URL + " TEXT, "
             + CompanyInformation.Columns.COMPANY_ADDRESS + " TEXT, "
             + CompanyInformation.Columns.COMPANY_BUSI_TYPE_ID + " INTEGER, "
+            + CompanyInformation.Columns.COMPANY_IS_APPROVED + " INTEGER, "
+            + CompanyInformation.Columns.COMPANY_IS_APPROVED_BY + " INTEGER, "
+            + CompanyInformation.Columns.CREATE_DATE + " DATE, "
+            + CompanyInformation.Columns.MODIFIED_DATE + " DATE, "
             + CompanyInformation.Columns.USER_ID + " INTEGER, "
             + CompanyInformation.Columns.CONTRACTS_ID + " INTEGER);";
 
     //Business Type Table
     public static final String CREATE_BUSINESS_TYPE_TABLE = "CREATE TABLE " + BusinessType.TABLE_NAME + " ("
             + BusinessType.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
-            + BusinessType.Columns.BUSINESS_TYPE_NAME + " INTEGER);";
+            + BusinessType.Columns.BUSINESS_TYPE_NAME + " TEXT);";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -159,10 +166,8 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + BusinessType.TABLE_NAME;
 
-
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
@@ -171,7 +176,6 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
                 businessTypeDtos.add(dto);
             } while (cursor.moveToNext());
         }
-
 
         // closing connection
         cursor.close();
@@ -208,7 +212,6 @@ class AppDatabaseHelper extends SQLiteOpenHelper {
                 approvedUniversityDtos.add(dto);
             } while (cursor.moveToNext());
         }
-
         // closing connection
         cursor.close();
         db.close();

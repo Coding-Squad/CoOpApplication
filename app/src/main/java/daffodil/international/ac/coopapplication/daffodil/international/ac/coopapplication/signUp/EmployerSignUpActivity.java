@@ -3,6 +3,7 @@ package daffodil.international.ac.coopapplication;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import java.util.Date;
 import java.util.List;
 
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
@@ -18,6 +20,7 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
 import stanford.androidlib.SimpleActivity;
+
 
 public class EmployerSignUpActivity extends SimpleActivity implements AdapterView.OnItemClickListener {
     private static final String TAG = "EmployerSignUpActivity";
@@ -35,8 +38,9 @@ public class EmployerSignUpActivity extends SimpleActivity implements AdapterVie
     private EditText mContractPersonEmailTextView;
     private EditText mContractPersonPhoneTextView;
 
-    List<BusinessTypeDto> businessTypeDtos = null;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
+    List<BusinessTypeDto> businessTypeDtos = null;
     long businessTypeId;
 
     @Override
@@ -115,6 +119,9 @@ public class EmployerSignUpActivity extends SimpleActivity implements AdapterVie
             companyInfoValues.put(CompanyInformation.Columns.COMPANY_WEB_URL, mCompanyWebLinkTextView.getText().toString());
             companyInfoValues.put(CompanyInformation.Columns.COMPANY_ADDRESS, mCompanyAddressTextView.getText().toString());
             companyInfoValues.put(CompanyInformation.Columns.COMPANY_BUSI_TYPE_ID, businessTypeId);
+            companyInfoValues.put(CompanyInformation.Columns.COMPANY_IS_APPROVED, 0);
+            companyInfoValues.put(CompanyInformation.Columns.CREATE_DATE, sdf.format(new Date()));
+            companyInfoValues.put(CompanyInformation.Columns.MODIFIED_DATE, sdf.format(new Date()));
             contentResolver.insert(CompanyInformation.CONTENT_URI, companyInfoValues);
         } else {
             return;
@@ -126,18 +133,13 @@ public class EmployerSignUpActivity extends SimpleActivity implements AdapterVie
     }
 
     private void loadSpinnerData() {
-        // database handler
         AppDatabaseHelper db = new AppDatabaseHelper(getApplicationContext());
         // Spinner Drop down elements
-        //  List<String> lables = db.getAllLabels();
         businessTypeDtos = db.getAllBusinesstype();
-
         // Creating adapter for spinner
         ArrayAdapter<BusinessTypeDto> dataAdapter = new ArrayAdapter<BusinessTypeDto>(this, android.R.layout.simple_spinner_item, businessTypeDtos);
-
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         // attaching data adapter to spinner
         spinner.setAdapter(dataAdapter);
     }
@@ -160,7 +162,7 @@ public class EmployerSignUpActivity extends SimpleActivity implements AdapterVie
 
     @Override
     public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
+        //  Auto-generated method stub
 
     }
 

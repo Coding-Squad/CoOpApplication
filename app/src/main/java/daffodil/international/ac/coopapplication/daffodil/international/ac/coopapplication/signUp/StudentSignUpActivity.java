@@ -16,7 +16,6 @@ import android.widget.Spinner;
 
 import java.util.List;
 
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.StudentInformationDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UniversityInfoDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
@@ -181,8 +180,8 @@ public class StudentSignUpActivity extends SimpleActivity {
         if (approvedUniversityListDto.size() > 0 && approvedUniversityListDto != null) {
             for (UniversityInfoDto dto : approvedUniversityListDto) {
                 if (label.equalsIgnoreCase(dto.getUniversityName())) {
-                    Log.d(TAG, "onItemSelected: Id : " + dto.getid() + " , Name : " + dto.getUniversityName());
-                    approvedUniversityId = dto.getid();
+                    Log.d(TAG, "onItemSelected: Id : " + dto.getId() + " , Name : " + dto.getUniversityName());
+                    approvedUniversityId = dto.getId();
                 }
             }
         }
