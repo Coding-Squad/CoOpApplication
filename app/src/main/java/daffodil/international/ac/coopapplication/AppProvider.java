@@ -10,13 +10,16 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
 
+import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType.getBusinessTypeId;
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation.getCompanyInformationId;
+import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation.getContactInformationId;
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation.getUniversityInformationId;
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation.getUserInformationId;
 
@@ -50,6 +53,8 @@ public class AppProvider extends ContentProvider {
     private static final int COMPANY_INFORMATION = 400;
     private static final int COMPANY_INFORMATION_ID = 401;
 
+    private static final int BUSINESS_TYPE = 500;
+    private static final int BUSINESS_TYPE_ID = 501;
 
 
     long userInfoId;
@@ -59,6 +64,7 @@ public class AppProvider extends ContentProvider {
 
     long studentInformtaionId;
     long companyInfoId;
+    long businessTypeId;
 
 
     private static UriMatcher buildUriMatcher() {
@@ -87,6 +93,10 @@ public class AppProvider extends ContentProvider {
         matcher.addURI(CONTENT_AUTHORITY, ContactInformation.TABLE_NAME, CONTRACT_INFORMATION);
         // e.g. content://daffodil.international.ac.coopapplication.provider/ContactInformation/8
         matcher.addURI(CONTENT_AUTHORITY, ContactInformation.TABLE_NAME + "/#", CONTRACT_INFORMATION_ID);
+
+        //company info
+        matcher.addURI(CONTENT_AUTHORITY, BusinessType.TABLE_NAME, BUSINESS_TYPE);
+        matcher.addURI(CONTENT_AUTHORITY, BusinessType.TABLE_NAME + "/#", BUSINESS_TYPE_ID);
 
         return matcher;
     }
@@ -124,7 +134,7 @@ public class AppProvider extends ContentProvider {
 
             case CONTRACT_INFORMATION_ID:
                 queryBuilder.setTables(ContactInformation.TABLE_NAME);
-                long contractInformationId = ContactInformation.getContactInformationId(uri);
+                long contractInformationId = getContactInformationId(uri);
                 queryBuilder.appendWhere(ContactInformation.Columns._ID + " = " + contractInformationId);
                 break;
 
@@ -158,6 +168,16 @@ public class AppProvider extends ContentProvider {
                 queryBuilder.appendWhere(StudentInformation.Columns._ID + " = " + studentInformationId);
                 break;
 
+            case BUSINESS_TYPE:
+                queryBuilder.setTables(BusinessType.TABLE_NAME);
+                break;
+
+            case BUSINESS_TYPE_ID:
+                queryBuilder.setTables(BusinessType.TABLE_NAME);
+                long businessTypeId = getBusinessTypeId(uri);
+                queryBuilder.appendWhere(BusinessType.Columns._ID + " = " + businessTypeId);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
 
@@ -179,13 +199,11 @@ public class AppProvider extends ContentProvider {
 
             case USER_INFORMATION:
                 return UserInformation.CONTENT_TYPE;
-
             case USER_INFORMATION_ID:
                 return UserInformation.CONTENT_ITEM_TYPE;
 
             case UNIVERSITY_INFORMATION:
                 return UniversityInformation.CONTENT_TYPE;
-
             case UNIVERSITY_INFORMATION_ID:
                 return UniversityInformation.CONTENT_ITEM_TYPE;
 
@@ -196,15 +214,18 @@ public class AppProvider extends ContentProvider {
 
             case CONTRACT_INFORMATION:
                 return ContactInformation.CONTENT_TYPE;
-
             case CONTRACT_INFORMATION_ID:
                 return ContactInformation.CONTENT_ITEM_TYPE;
 
             case STUDENT_INFORMATION:
                 return StudentInformation.CONTENT_TYPE;
-
             case STUDENT_INFORMATION_ID:
                 return StudentInformation.CONTENT_ITEM_TYPE;
+
+            case BUSINESS_TYPE:
+                return BusinessType.CONTENT_TYPE;
+            case BUSINESS_TYPE_ID:
+                return BusinessType.CONTENT_ITEM_TYPE;
 
             default:
                 throw new IllegalArgumentException("unknown Uri: " + uri);
@@ -247,12 +268,12 @@ public class AppProvider extends ContentProvider {
                 db = mOpenHelper.getWritableDatabase();
                 values.put(StudentInformation.Columns.USER_ID, userInfoId);
                 studentInformtaionId = db.insert(StudentInformation.TABLE_NAME, null, values);
-                if(studentInformtaionId>=0) {
+                if (studentInformtaionId >= 0) {
                     returnUri = StudentInformation.buildStudentInformationUri(studentInformtaionId);
-                }else {
+                } else {
                     throw new android.database.SQLException("Failed to insert into " + uri.toString());
                 }
-                    break;
+                break;
 
             case CONTRACT_INFORMATION:
                 Log.d(TAG, "Entering insert, called with uri:" + uri);
@@ -293,12 +314,23 @@ public class AppProvider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert into " + uri.toString());
                 }
                 break;
+            case BUSINESS_TYPE:
+                Log.d(TAG, "Entering insert, called with uri:" + uri);
+                db = mOpenHelper.getWritableDatabase();
+                businessTypeId = db.insert(BusinessType.TABLE_NAME, null, values);
+                if (businessTypeId >= 0) {
+                    returnUri = BusinessType.buildBusinessTypeUri(businessTypeId);
+                } else {
+                    throw new android.database.SQLException("Failed to insert into " + uri.toString());
+                }
+                break;
+
 
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
 
-        if (userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || universityInfoId >= 0) {
+        if (userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || universityInfoId >= 0 || businessTypeId >= 0) {
             Log.d(TAG, "insert: Setting Notify With Uri _ " + uri);
             getContext().getContentResolver().notifyChange(uri, null);
         } else {
@@ -361,7 +393,7 @@ public class AppProvider extends ContentProvider {
 
             case CONTRACT_INFORMATION_ID:
                 db = mOpenHelper.getWritableDatabase();
-                long contractInformationId = ContactInformation.getContactInformationId(uri);
+                long contractInformationId = getContactInformationId(uri);
                 selectionCriteria = ContactInformation.Columns._ID + " = " + contractInformationId;
 
                 if ((selection != null) && (selection.length() > 0)) {
@@ -369,12 +401,27 @@ public class AppProvider extends ContentProvider {
                 }
                 count = db.delete(ContactInformation.TABLE_NAME, selectionCriteria, selectionArgs);
                 break;
+            case BUSINESS_TYPE:
+                db = mOpenHelper.getWritableDatabase();
+                count = db.delete(BusinessType.TABLE_NAME, selection, selectionArgs);
+                break;
+
+            case BUSINESS_TYPE_ID:
+                db = mOpenHelper.getWritableDatabase();
+                long businessTypeInfoId = getBusinessTypeId(uri);
+                selectionCriteria = BusinessType.Columns._ID + " = " + businessTypeInfoId;
+
+                if ((selection != null) && (selection.length() > 0)) {
+                    selectionCriteria += " AND (" + selection + ")";
+                }
+                count = db.delete(BusinessType.TABLE_NAME, selectionCriteria, selectionArgs);
+                break;
 
 
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
-        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0) {
+        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || businessTypeId >= 0) {
             Log.d(TAG, "Delete: Setting Notify With Uri _ " + uri);
             getContext().getContentResolver().notifyChange(uri, null);
         } else {
@@ -435,7 +482,7 @@ public class AppProvider extends ContentProvider {
 
             case CONTRACT_INFORMATION_ID:
                 db = mOpenHelper.getWritableDatabase();
-                long contractInformationId = ContactInformation.getContactInformationId(uri);
+                long contractInformationId = getContactInformationId(uri);
                 selectionCriteria = ContactInformation.Columns._ID + " = " + contractInformationId;
 
                 if ((selection != null) && (selection.length() > 0)) {
@@ -444,10 +491,26 @@ public class AppProvider extends ContentProvider {
                 count = db.update(ContactInformation.TABLE_NAME, values, selectionCriteria, selectionArgs);
                 break;
 
+            case BUSINESS_TYPE:
+                db = mOpenHelper.getWritableDatabase();
+                count = db.update(BusinessType.TABLE_NAME, values, selection, selectionArgs);
+                break;
+
+            case BUSINESS_TYPE_ID:
+                db = mOpenHelper.getWritableDatabase();
+                long businessTypeInfoId = getBusinessTypeId(uri);
+                selectionCriteria = BusinessType.Columns._ID + " = " + businessTypeInfoId;
+
+                if ((selection != null) && (selection.length() > 0)) {
+                    selectionCriteria += " AND (" + selection + ")";
+                }
+                count = db.update(BusinessType.TABLE_NAME, values, selectionCriteria, selectionArgs);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
-        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0) {
+        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || businessTypeId >= 0) {
             Log.d(TAG, "Update: Setting Notify With Uri _ " + uri);
             getContext().getContentResolver().notifyChange(uri, null);
         } else {

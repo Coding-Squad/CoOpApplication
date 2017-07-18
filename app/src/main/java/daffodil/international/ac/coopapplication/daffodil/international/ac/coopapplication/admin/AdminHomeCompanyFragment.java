@@ -17,23 +17,21 @@ import android.view.ViewGroup;
 import java.security.InvalidParameterException;
 
 import daffodil.international.ac.coopapplication.R;
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 
 
-public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+public class AdminHomeCompanyFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "AdminHomeCompanyFragmen";
 
     public static final int LOADER_ID_UNIVERSITY = 1;
     public static final int LOADER_ID_COMPANY = 2;
     public static final int LOADER_ID_STUDENT = 3;
-    public static final int LOADER_ID_COMPANY_BUSI_TYPE = 4;
 
-    private CursorRecyclerCompanyTypeInfoViewAdapter mCursorCompanyBusiTypeAdapter;
+    private CursorRecyclerCompanyInfoViewAdapter mCompanyAdapter;
 
 
-    public AdminHomeCompanyBusinessTypeFragment() {
+    public AdminHomeCompanyFragment() {
         Log.d(TAG, "AdminHomeCompanyFragment: Constructor Called");
     }
 
@@ -41,7 +39,7 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onActivityCreated: Starts");
         super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(LOADER_ID_COMPANY_BUSI_TYPE, null, this);
+        getLoaderManager().initLoader(LOADER_ID_COMPANY, null, this);
 
     }
 
@@ -55,9 +53,8 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.university_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mCursorCompanyBusiTypeAdapter = new CursorRecyclerCompanyTypeInfoViewAdapter(null,
-                (CursorRecyclerCompanyTypeInfoViewAdapter.OnCompanyTypeClickListner) getActivity());
-        recyclerView.setAdapter(mCursorCompanyBusiTypeAdapter);
+        mCompanyAdapter = new CursorRecyclerCompanyInfoViewAdapter(null, (CursorRecyclerCompanyInfoViewAdapter.OnCompanyInfoClickListner) getActivity());
+        recyclerView.setAdapter(mCompanyAdapter);
 
         Log.d(TAG, "onCreateView: Rerunning");
         return view;
@@ -73,6 +70,7 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
                 UniversityInformation.Columns.UNIVERSITY_URL,
                 UniversityInformation.Columns.CONTRACTS_ID
         };
+
         String sortOrder_university = UniversityInformation.Columns.UNIVERSITY_IS_APPROVED +
                 "," + UniversityInformation.Columns.UNIVERSITY_NAME + " COLLATE NOCASE ";
 
@@ -82,15 +80,9 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
                 CompanyInformation.Columns.COMPANY_WEB_URL,
                 CompanyInformation.Columns.CONTRACTS_ID
         };
+
         String sortOrder_company = CompanyInformation.Columns.COMPANY_IS_APPROVED +
                 "," + CompanyInformation.Columns.COMPANY_NAME + " COLLATE NOCASE ";
-
-        String[] projection_Type = {BusinessType.Columns._ID,
-                BusinessType.Columns.BUSINESS_TYPE_NAME,
-                BusinessType.Columns.BUSINESS_TYPE_IMAGE
-        };
-        String sortOrder_type = BusinessType.Columns.BUSINESS_TYPE_NAME + " COLLATE NOCASE ";
-
 
         switch (id) {
             case LOADER_ID_UNIVERSITY:
@@ -112,14 +104,6 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
             case LOADER_ID_STUDENT:
                 return null;
 
-            case LOADER_ID_COMPANY_BUSI_TYPE:
-                return new CursorLoader(getActivity(),
-                        BusinessType.CONTENT_URI,
-                        projection_Type,
-                        null,
-                        null,
-                        sortOrder_type);
-
             default:
                 throw new InvalidParameterException(TAG + ".onCreateLoader called with invalid loader id - " + id);
         }
@@ -129,8 +113,8 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d(TAG, "onLoadFinished: Starts");
 
-        mCursorCompanyBusiTypeAdapter.swapCursor(data);
-        int countCompanyAdapter = mCursorCompanyBusiTypeAdapter.getItemCount();
+        mCompanyAdapter.swapCursor(data);
+        int countCompanyAdapter = mCompanyAdapter.getItemCount();
 
         Log.d(TAG, "onLoadFinished: countCompanyAdapter    is :++++++++++++++++++++ " + countCompanyAdapter);
     }
@@ -138,6 +122,6 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         Log.d(TAG, "onLoaderReset: Starts");
-        mCursorCompanyBusiTypeAdapter.swapCursor(null);
+        mCompanyAdapter.swapCursor(null);
     }
 }

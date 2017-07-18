@@ -18,7 +18,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
-            tools:context="daffodil.international.ac.coopapplication.StudentSignUpActivity">
+            tools:context="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.signUp.StudentSignUpActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -195,7 +195,7 @@
             android:layout_marginTop="8dp"
             android:ems="10"
             android:enabled="false"
-            android:hint="@string/university_name"
+            android:hint="@string/university_name_2"
             android:inputType="textPersonName"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"

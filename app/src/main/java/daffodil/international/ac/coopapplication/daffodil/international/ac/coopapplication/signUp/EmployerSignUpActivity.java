@@ -1,4 +1,4 @@
-package daffodil.international.ac.coopapplication;
+package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.signUp;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -15,6 +15,8 @@ import android.widget.Spinner;
 import java.util.Date;
 import java.util.List;
 
+import daffodil.international.ac.coopapplication.AppDatabaseHelper;
+import daffodil.international.ac.coopapplication.R;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;

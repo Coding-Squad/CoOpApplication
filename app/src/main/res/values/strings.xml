@@ -65,7 +65,7 @@
     <string name="ali_description">Description</string>
     <string name="button_to_approve">Approve</string>
     <string name="button_to_delete">Delete</string>
-    <string name="test_button">Test Admin Login</string>
+    <string name="test_button">Test Company Login</string>
     <string name="title_activity_add_edit_university">AddEditUniversityActivity</string>
     <string name="contract_person_id">Contract Id</string>
 
@@ -84,5 +84,17 @@
     <string name="error_message_email">Enter Valid Email</string>
     <string name="title_activity_dash_board">DashBoardActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="add_business_type">Add Business Type</string>
+    <string name="university_name_2">University Name</string>
+    <string name="company_cover_photo">Upload Cover Photo</string>
+    <string name="hired_employ">Employee Hired 150 Taka</string>
+    <string name="total_hour_service">Total 1 hour service</string>
+    <string name="icon_company_type">Company type icon</string>
+    <string name="ctypelist_item_name">Company Type Name</string>
+    <string name="available_emp">Available Empolyee Count</string>
+    <string name="use_camara">Take picture by camera</string>
+    <string name="use_galary">Select image from galery</string>
+    <string name="companyTypeHolderName">Company Type</string>
+    <string name="saveButton">Save</string>
 
 </resources>

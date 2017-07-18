@@ -10,47 +10,48 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import daffodil.international.ac.coopapplication.R;
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.CompanyInfoDto;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 
 /**
- * Created by Pranto on 14-Jun-17.
+ * Created by Pranto on 05-Jul-17.
  */
 
-class CursorRecyclerCompanyTypeInfoViewAdapter extends RecyclerView.Adapter<CursorRecyclerCompanyTypeInfoViewAdapter.CursorRecyclerCompanyTypeHolder> {
-    private static final String TAG = "CurRecyCompanyTypeInfo";
+class CursorRecyclerCompanyInfoViewAdapter extends RecyclerView.Adapter<CursorRecyclerCompanyInfoViewAdapter.CompanyInfoViewHolder> {
+    private static final String TAG = "CursorRecyclerCompanyIn";
 
     private Cursor mCursor;
-    private OnCompanyTypeClickListner mListner;
+    private OnCompanyInfoClickListner mListner;
 
-    interface OnCompanyTypeClickListner {
-        void oncComTypeApplyClicked(BusinessTypeDto businessTypeDto);
+    interface OnCompanyInfoClickListner {
+        void onCompApplyClicked(CompanyInfoDto companyInfoDto);
 
-        void onCompTypeDeleteClicked(BusinessTypeDto businessTypeDto);
+        void onCompDeleteClicked(CompanyInfoDto companyInfoDto);
     }
 
-    public CursorRecyclerCompanyTypeInfoViewAdapter(Cursor cursor, OnCompanyTypeClickListner listener) {
-        Log.d(TAG, "CursorRecyclerUniversityInfoViewAdapter: Constrictor called");
+    public CursorRecyclerCompanyInfoViewAdapter(Cursor cursor, OnCompanyInfoClickListner listener) {
+        Log.d(TAG, "CursorRecyclerCompanyInfoViewAdapter: Constrictor called");
         mCursor = cursor;
         mListner = listener;
     }
 
     @Override
-    public CursorRecyclerCompanyTypeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public CompanyInfoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d(TAG, "onCreateViewHolder: new view requested");
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.approve_items_list, parent, false);
-        return new CursorRecyclerCompanyTypeHolder(view);
+        return new CompanyInfoViewHolder(view);
 
     }
 
     @Override
-    public void onBindViewHolder(CursorRecyclerCompanyTypeHolder holder, int position) {
+    public void onBindViewHolder(CompanyInfoViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: Starts");
         if ((mCursor == null) || (mCursor.getCount() == 0)) {
             Log.d(TAG, "onBindViewHolder: Providing Instraction");
-            holder.mUniversityName.setText("No Business Type Registered !");
-            holder.mUniversityAddress.setVisibility(View.GONE);
-            holder.mUniversityWebUrl.setVisibility(View.GONE);
+            holder.mCompanyName.setText("No Company Registered !");
+            holder.mCompanyAddress.setVisibility(View.GONE);
+            holder.mCompanyWebUrl.setVisibility(View.GONE);
 
             holder.mApproveButton.setVisibility(View.GONE);
             holder.mDeleteButton.setVisibility(View.GONE);
@@ -59,14 +60,20 @@ class CursorRecyclerCompanyTypeInfoViewAdapter extends RecyclerView.Adapter<Curs
                 throw new IllegalStateException("Cant not Move Cursor To Position " + position);
             }
 
-            final BusinessTypeDto businessType = new BusinessTypeDto(mCursor.getLong(mCursor.getColumnIndex(BusinessType.Columns._ID))
-                    , mCursor.getString(mCursor.getColumnIndex(BusinessType.Columns.BUSINESS_TYPE_NAME)));
+            final CompanyInfoDto companyInfoDto = new CompanyInfoDto(mCursor.getLong(mCursor.getColumnIndex(CompanyInformation.Columns._ID))
+                    , mCursor.getString(mCursor.getColumnIndex(CompanyInformation.Columns.COMPANY_NAME))
+                    , mCursor.getString(mCursor.getColumnIndex(CompanyInformation.Columns.COMPANY_ADDRESS))
+                    , mCursor.getString(mCursor.getColumnIndex(CompanyInformation.Columns.COMPANY_WEB_URL))
+                    , mCursor.getInt(mCursor.getColumnIndex(CompanyInformation.Columns.CONTRACTS_ID)));
 
+            Log.d(TAG, "onBindViewHolder: " + companyInfoDto.getCompanyAddress() + " , " + companyInfoDto.getCompanyWebURL());
 
-            Log.d(TAG, "onBindViewHolder: " + businessType.getId() + " , " + businessType.getBusinessTypeName());
+            holder.mCompanyName.setText(companyInfoDto.getCompanyName());
+            holder.mCompanyAddress.setText(companyInfoDto.getCompanyAddress());
+            holder.mCompanyWebUrl.setText(companyInfoDto.getCompanyWebURL());
 
-            holder.mUniversityName.setText(businessType.getBusinessTypeName());
-
+            holder.mCompanyAddress.setVisibility(View.VISIBLE);
+            holder.mCompanyWebUrl.setVisibility(View.VISIBLE);
             holder.mApproveButton.setVisibility(View.VISIBLE);
             holder.mDeleteButton.setVisibility(View.VISIBLE);
 
@@ -78,18 +85,18 @@ class CursorRecyclerCompanyTypeInfoViewAdapter extends RecyclerView.Adapter<Curs
 
                         case R.id.ali_approved:
                             if (mListner != null) {
-                                mListner.oncComTypeApplyClicked(businessType);
+                                mListner.onCompApplyClicked(companyInfoDto);
                             }
                             break;
                         case R.id.ali_delete:
                             if (mListner != null) {
-                                mListner.onCompTypeDeleteClicked(businessType);
+                                mListner.onCompDeleteClicked(companyInfoDto);
                             }
                             break;
                         default:
                             Log.d(TAG, "onClick: Found Unexpected Button Id ");
                     }
-                    Log.d(TAG, "onClick: " + view.getId() + " , " + businessType.getBusinessTypeName() + " Clicked .");
+                    Log.d(TAG, "onClick: " + view.getId() + " , " + companyInfoDto.getCompanyName() + " Clicked .");
                 }
             };
 
@@ -134,23 +141,23 @@ class CursorRecyclerCompanyTypeInfoViewAdapter extends RecyclerView.Adapter<Curs
     }
 
 
-    static class CursorRecyclerCompanyTypeHolder extends RecyclerView.ViewHolder {
-        private static final String TAG = "CursorRecyclerCompanyTy";
+    static class CompanyInfoViewHolder extends RecyclerView.ViewHolder {
+        private static final String TAG = "CompanyInfoViewHolder";
 
-        TextView mUniversityName = null;
-        TextView mUniversityAddress = null;
-        TextView mUniversityWebUrl = null;
+        TextView mCompanyName = null;
+        TextView mCompanyAddress = null;
+        TextView mCompanyWebUrl = null;
 
         ImageButton mApproveButton = null;
         ImageButton mDeleteButton = null;
 
 
-        public CursorRecyclerCompanyTypeHolder(View itemView) {
+        public CompanyInfoViewHolder(View itemView) {
             super(itemView);
-            Log.d(TAG, "CursorRecyclerCompanyTypeHolder: Starts");
-            this.mUniversityName = (TextView) itemView.findViewById(R.id.ali_name);
-            this.mUniversityAddress = (TextView) itemView.findViewById(R.id.ali_address);
-            this.mUniversityWebUrl = (TextView) itemView.findViewById(R.id.ali_web_link);
+            Log.d(TAG, "CompanyInfoViewHolder: Starts");
+            this.mCompanyName = (TextView) itemView.findViewById(R.id.ali_name);
+            this.mCompanyAddress = (TextView) itemView.findViewById(R.id.ali_address);
+            this.mCompanyWebUrl = (TextView) itemView.findViewById(R.id.ali_web_link);
             //    this.mContractId = (TextView) itemView.findViewById(R.id.ali_contract_id);
 
             this.mApproveButton = (ImageButton) itemView.findViewById(R.id.ali_approved);

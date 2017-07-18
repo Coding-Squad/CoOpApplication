@@ -1,4 +1,4 @@
-package daffodil.international.ac.coopapplication;
+package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.signUp;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -16,6 +16,8 @@ import android.widget.Spinner;
 
 import java.util.List;
 
+import daffodil.international.ac.coopapplication.AppDatabaseHelper;
+import daffodil.international.ac.coopapplication.R;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.StudentInformationDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UniversityInfoDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
@@ -32,7 +34,7 @@ public class StudentSignUpActivity extends SimpleActivity {
     private EditText mLastNameTextView;
     private EditText mStudentAddressTextView;
     private EditText mStudentMobileTextView;
-    private Spinner  mStudentUniversityNameSpinner;
+    private Spinner mStudentUniversityNameSpinner;
     private EditText mStudentIDTextView;
     private EditText mStudentDescription;
     private EditText mStudentDateOfBirth;
@@ -49,7 +51,7 @@ public class StudentSignUpActivity extends SimpleActivity {
 
     private Button mSaveButton;
 
-    public StudentSignUpActivity(){
+    public StudentSignUpActivity() {
         Log.d(TAG, "StudentSignUpActivity: constructor called");
     }
 
@@ -97,7 +99,7 @@ public class StudentSignUpActivity extends SimpleActivity {
         }
 
         ContentResolver contentResolver = this.getContentResolver();
-        ContentValues   userInfoValues = new ContentValues();
+        ContentValues userInfoValues = new ContentValues();
         ContentValues studentInformationValues = new ContentValues();
         ContentValues contractInfoValues = new ContentValues();
 
@@ -144,10 +146,6 @@ public class StudentSignUpActivity extends SimpleActivity {
         contentResolver.insert(StudentInformation.CONTENT_URI, studentInformationValues);
 
 
-
-
-
-
         Intent signUpFeedbackIntent = new Intent(this, SignUpFeedback.class);
         startActivity(signUpFeedbackIntent);
     }
@@ -187,21 +185,21 @@ public class StudentSignUpActivity extends SimpleActivity {
         }
     }
 
-    public void onRadioButtonClicked(View view){
+    public void onRadioButtonClicked(View view) {
         //Is that button now checked?
         boolean checked = ((RadioButton) view).isChecked();
         // Check which radio button was clicked
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.stu_male:
                 if (checked)
-                    gender= 1;
-                    Log.d(TAG, "male checked : "+gender);
-                    break;
+                    gender = 1;
+                Log.d(TAG, "male checked : " + gender);
+                break;
             case R.id.stu_female:
                 if (checked)
-                    gender= 2;
-                    Log.d(TAG, "Female checked : "+gender);
-                    break;
+                    gender = 2;
+                Log.d(TAG, "Female checked : " + gender);
+                break;
         }
     }
 

@@ -1,9 +1,11 @@
-package daffodil.international.ac.coopapplication;
+package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.signUp;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import daffodil.international.ac.coopapplication.R;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.CompanyHomeActivity;
 import stanford.androidlib.SimpleActivity;
 
 public class SignUpAsActivity extends SimpleActivity {
@@ -35,9 +37,9 @@ public class SignUpAsActivity extends SimpleActivity {
 
     // TODO : Delete this Code later along with @{link goToAdminHomePage} and Button on signUpAs
 
-    public void goToAdminHomePage(View view) {
-        Intent adminHomeIntent = new Intent(this, AdminHomeUniversityActivity.class);
-        startActivity(adminHomeIntent);
+    public void goToCompanyHomePage(View view) {
+        Intent companyHomeIntent = new Intent(this, CompanyHomeActivity.class);
+        startActivity(companyHomeIntent);
     }
 
 }

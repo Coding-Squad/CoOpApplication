@@ -1,109 +1,117 @@
 package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company;
 
-import android.content.Context;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.icu.text.SimpleDateFormat;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.util.Date;
 
 import daffodil.international.ac.coopapplication.R;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AddEditCompanyBusinessTypeFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AddEditCompanyBusinessTypeFragment#newInstance} factory method to
- * create an instance of this fragment.
- *
- */
+
 public class AddEditCompanyBusinessTypeFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String TAG = "AddEditCompanyBusinessT";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    public enum FragmentEditMode {EDIT_TYPE, ADD_TYPE}
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddEditCompanyBusinessTypeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static AddEditCompanyBusinessTypeFragment newInstance(String param1, String param2) {
-        AddEditCompanyBusinessTypeFragment fragment = new AddEditCompanyBusinessTypeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private FragmentEditMode mMode;
+
+    private EditText mBusinessTypeName;
+
+    private Button mSaveButton;
+
+    BusinessTypeDto businessTypeDto;
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
     public AddEditCompanyBusinessTypeFragment() {
-        // Required empty public constructor
+        Log.d(TAG, " Test AddEditCompanyBusinessTypeFragment: Constrictor called");
     }
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: Starts");
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_edit_company_business_type, container, false);
-    }
+        View view = inflater.inflate(R.layout.fragment_add_edit_company_business_type, container, false);
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+        mBusinessTypeName = (EditText) view.findViewById(R.id.ctype_item_name);
+        mSaveButton = (Button) view.findViewById(R.id.companyTypeButton_save);
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        Bundle arguments = getActivity().getIntent().getExtras();
+
+        if (arguments != null) {
+            Log.d(TAG, "onCreateView: retrieving Business Type Info");
+            businessTypeDto = (BusinessTypeDto) arguments.getSerializable(BusinessTypeDto.class.getSimpleName());
+            if (businessTypeDto != null) {
+                Log.d(TAG, "onCreateView: Details found Editing ");
+                mBusinessTypeName.setText(businessTypeDto.getBusinessTypeName());
+
+                mMode = FragmentEditMode.EDIT_TYPE;
+            } else {
+                mMode = FragmentEditMode.ADD_TYPE;
+            }
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            businessTypeDto = null;
+            Log.d(TAG, "onCreateView : no BusinessType argument Found Adding new");
+            mMode = FragmentEditMode.ADD_TYPE;
         }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Update the database from here
+                ContentResolver contentResolver = getActivity().getContentResolver();
+                ContentValues values = new ContentValues();
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+                String businessTypeName = mBusinessTypeName.getText().toString();
+
+                switch (mMode) {
+                    case EDIT_TYPE:
+
+                        values.put(BusinessType.Columns.BUSINESS_TYPE_NAME, businessTypeName);
+                        values.put(BusinessType.Columns.MODIFIED_DATE, sdf.format(new Date()));
+
+                        if (values.size() != 0) {
+                            //TODO: Need to Add User Id of his Who is Approving this business Type  !!
+                            long id = businessTypeDto.getId();
+                            String where = BusinessType.Columns._ID + " = " + id;
+                            contentResolver.update(BusinessType.buildBusinessTypeUri(id), values, where, null);
+                        }
+                        Log.d(TAG, "onClick: Done Editing Company Type Information By Date" + sdf.format(new Date()));
+                        break;
+
+                    case ADD_TYPE:
+                        if (mBusinessTypeName.length() > 0) {
+                            Log.d(TAG, "onClick: Add new BUSINESS_TYPE info in table");
+                            values.put(BusinessType.Columns.BUSINESS_TYPE_NAME, businessTypeName);
+                            //TODO: Need to Add User Id of his Who is Creating this business Type !!
+                            values.put(BusinessType.Columns.CREATE_DATE, sdf.format(new Date()));
+                            values.put(BusinessType.Columns.MODIFIED_DATE, sdf.format(new Date()));
+
+                            contentResolver.insert(BusinessType.CONTENT_URI, values);
+                            Log.d(TAG, "onClick: Add  By Date" + sdf.format(new Date()));
+                        }
+                        break;
+                }
+                //get back on
+                getActivity().onBackPressed();
+            }
+        });
+
+        Log.d(TAG, "onCreateView: Exiting....");
+        return view;
     }
 }

@@ -22,26 +22,30 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 
 
-public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String TAG = "AdminHomeCompanyFragmen";
+public class AdminHomeUnivesityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String TAG = "AdminHomeUnivesityFragm";
 
     public static final int LOADER_ID_UNIVERSITY = 1;
     public static final int LOADER_ID_COMPANY = 2;
     public static final int LOADER_ID_STUDENT = 3;
     public static final int LOADER_ID_COMPANY_BUSI_TYPE = 4;
 
-    private CursorRecyclerCompanyTypeInfoViewAdapter mCursorCompanyBusiTypeAdapter;
+
+    private CursorRecyclerUniversityInfoViewAdapter mUniversityAdapter;
+//    private CursorRecyclerCompanyInfoViewAdapter mCompanyAdapter;
 
 
-    public AdminHomeCompanyBusinessTypeFragment() {
-        Log.d(TAG, "AdminHomeCompanyFragment: Constructor Called");
+    public AdminHomeUnivesityFragment() {
+        Log.d(TAG, "AdminHomeUnivesityFragment: Constructor Called");
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onActivityCreated: Starts");
         super.onActivityCreated(savedInstanceState);
-        getLoaderManager().initLoader(LOADER_ID_COMPANY_BUSI_TYPE, null, this);
+        getLoaderManager().initLoader(LOADER_ID_UNIVERSITY, null, this);
+        //    getLoaderManager().initLoader(LOADER_ID_COMPANY, null, this);
+        //   getLoaderManager().restartLoader(LOADER_ID_COMPANY, null, this);
 
     }
 
@@ -52,12 +56,15 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
         // Inflate the layout for this fragment
         Log.d(TAG, "onCreateView: Starts");
         View view = inflater.inflate(R.layout.fragment_admin_home_university, container, false);
+        // TODO: list view added
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.university_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mCursorCompanyBusiTypeAdapter = new CursorRecyclerCompanyTypeInfoViewAdapter(null,
-                (CursorRecyclerCompanyTypeInfoViewAdapter.OnCompanyTypeClickListner) getActivity());
-        recyclerView.setAdapter(mCursorCompanyBusiTypeAdapter);
+        mUniversityAdapter = new CursorRecyclerUniversityInfoViewAdapter(null, (CursorRecyclerUniversityInfoViewAdapter.OnUniversityInfoClickListner) getActivity());
+        recyclerView.setAdapter(mUniversityAdapter);
+
+        //     mCompanyAdapter = new CursorRecyclerCompanyInfoViewAdapter(null , (CursorRecyclerCompanyInfoViewAdapter.OnCompanyInfoClickListner) getActivity());
+        //    recyclerView.setAdapter(mCompanyAdapter);
 
         Log.d(TAG, "onCreateView: Rerunning");
         return view;
@@ -66,13 +73,13 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.d(TAG, "onCreateLoader: Starts with Id : ");
-
         String[] projection_university = {UniversityInformation.Columns._ID,
                 UniversityInformation.Columns.UNIVERSITY_NAME,
                 UniversityInformation.Columns.UNIVERSITY_ADDRESS,
                 UniversityInformation.Columns.UNIVERSITY_URL,
                 UniversityInformation.Columns.CONTRACTS_ID
         };
+
         String sortOrder_university = UniversityInformation.Columns.UNIVERSITY_IS_APPROVED +
                 "," + UniversityInformation.Columns.UNIVERSITY_NAME + " COLLATE NOCASE ";
 
@@ -82,6 +89,7 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
                 CompanyInformation.Columns.COMPANY_WEB_URL,
                 CompanyInformation.Columns.CONTRACTS_ID
         };
+
         String sortOrder_company = CompanyInformation.Columns.COMPANY_IS_APPROVED +
                 "," + CompanyInformation.Columns.COMPANY_NAME + " COLLATE NOCASE ";
 
@@ -89,8 +97,8 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
                 BusinessType.Columns.BUSINESS_TYPE_NAME,
                 BusinessType.Columns.BUSINESS_TYPE_IMAGE
         };
-        String sortOrder_type = BusinessType.Columns.BUSINESS_TYPE_NAME + " COLLATE NOCASE ";
 
+        String sortOrder_type = BusinessType.Columns.BUSINESS_TYPE_NAME + " COLLATE NOCASE ";
 
         switch (id) {
             case LOADER_ID_UNIVERSITY:
@@ -109,9 +117,6 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
                         null,
                         sortOrder_company);
 
-            case LOADER_ID_STUDENT:
-                return null;
-
             case LOADER_ID_COMPANY_BUSI_TYPE:
                 return new CursorLoader(getActivity(),
                         BusinessType.CONTENT_URI,
@@ -119,6 +124,9 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
                         null,
                         null,
                         sortOrder_type);
+
+            case LOADER_ID_STUDENT:
+                return null;
 
             default:
                 throw new InvalidParameterException(TAG + ".onCreateLoader called with invalid loader id - " + id);
@@ -128,16 +136,20 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d(TAG, "onLoadFinished: Starts");
+        mUniversityAdapter.swapCursor(data);
+        int countUniversityAdapter = mUniversityAdapter.getItemCount();
 
-        mCursorCompanyBusiTypeAdapter.swapCursor(data);
-        int countCompanyAdapter = mCursorCompanyBusiTypeAdapter.getItemCount();
+        //     mCompanyAdapter.swapCursor(data);
+        //     int countCompanyAdapter = mCompanyAdapter.getItemCount();
 
-        Log.d(TAG, "onLoadFinished: countCompanyAdapter    is :++++++++++++++++++++ " + countCompanyAdapter);
+        Log.d(TAG, "onLoadFinished: countUniversityAdapter is :++++++++++++++++++++ " + countUniversityAdapter);
+        //   Log.d(TAG, "onLoadFinished: countCompanyAdapter    is :++++++++++++++++++++ " + countCompanyAdapter);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         Log.d(TAG, "onLoaderReset: Starts");
-        mCursorCompanyBusiTypeAdapter.swapCursor(null);
+        //     mCompanyAdapter.swapCursor(null);
+        mUniversityAdapter.swapCursor(null);
     }
 }

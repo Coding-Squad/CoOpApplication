@@ -1,4 +1,4 @@
-package daffodil.international.ac.coopapplication;
+package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,6 +18,8 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import daffodil.international.ac.coopapplication.R;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.AddEditCompanyTypeActivity;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.CompanyInfoDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UniversityInfoDto;
@@ -27,9 +29,8 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
 
 public class AdminHomeUniversityActivity extends AppCompatActivity
         implements CursorRecyclerUniversityInfoViewAdapter.OnUniversityInfoClickListner,
-        CursorRecyclerCompanyInfoViewAdapter.OnCompanyInfoClickListner ,
-        CursorRecyclerCompanyTypeInfoViewAdapter.OnCompanyTypeClickListner
-{
+        CursorRecyclerCompanyInfoViewAdapter.OnCompanyInfoClickListner,
+        CursorRecyclerCompanyTypeInfoViewAdapter.OnCompanyTypeClickListner {
 
     private static final String TAG = "AdminHomeUniversityActi";
 
@@ -96,6 +97,7 @@ public class AdminHomeUniversityActivity extends AppCompatActivity
         }
     }
 
+    // Manu Item Option
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_admin_home, menu);
@@ -110,7 +112,7 @@ public class AdminHomeUniversityActivity extends AppCompatActivity
             case R.id.university_permi:
                 Log.d(TAG, "onOptionsItemSelected: University Clicked");
                 //     setContentView(R.layout.activity_admin_home_university);
-                universityInfoEditRequest(null);
+                //    universityInfoEditRequest(null);
                 break;
             case R.id.company_permi:
                 Log.d(TAG, "onOptionsItemSelected: Company Clicked");
@@ -174,7 +176,7 @@ public class AdminHomeUniversityActivity extends AppCompatActivity
     private void universityInfoEditRequest(UniversityInfoDto universityInfo) {
         Log.d(TAG, "universityInfoEditRequest: Starts");
 
-        Intent detailIntent = new Intent(this, AddEditUniversityActivity.class);
+        Intent detailIntent = new Intent(this, AddEditApprovedActivity.class);
         if (universityInfo != null) {
             detailIntent.putExtra(UniversityInfoDto.class.getSimpleName(), universityInfo);
             startActivity(detailIntent);
@@ -231,7 +233,7 @@ public class AdminHomeUniversityActivity extends AppCompatActivity
     private void companyInfoEditRequest(CompanyInfoDto companyInfoDto) {
         Log.d(TAG, "companyInfoEditRequest: Starts");
 
-        Intent detailIntent = new Intent(this, AddEditUniversityActivity.class);
+        Intent detailIntent = new Intent(this, AddEditApprovedActivity.class);
         if (companyInfoDto != null) {
             detailIntent.putExtra(CompanyInfoDto.class.getSimpleName(), companyInfoDto);
             startActivity(detailIntent);
@@ -244,6 +246,7 @@ public class AdminHomeUniversityActivity extends AppCompatActivity
     //Business Type Option starts
     @Override
     public void oncComTypeApplyClicked(BusinessTypeDto businessTypeDto) {
+
         businessTypeEditRequest(businessTypeDto);
     }
 
@@ -286,7 +289,7 @@ public class AdminHomeUniversityActivity extends AppCompatActivity
     private void businessTypeEditRequest(BusinessTypeDto businessTypeDto) {
         Log.d(TAG, "businessTypeEditRequest: starts");
 
-        Intent detailIntent = new Intent(this, AddEditUniversityActivity.class);
+        Intent detailIntent = new Intent(this, AddEditCompanyTypeActivity.class);
         if (businessTypeDto != null) {
             detailIntent.putExtra(BusinessTypeDto.class.getSimpleName(), businessTypeDto);
             startActivity(detailIntent);
@@ -295,9 +298,5 @@ public class AdminHomeUniversityActivity extends AppCompatActivity
         }
     }
     //Business Type Option end
-
-
-
-
 
 }

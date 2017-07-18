@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin.AdminHomeUniversityActivity">
+    tools:context="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin.AddEditApprovedActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -19,21 +19,8 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"/>
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabMode="fixed"
-            app:tabGravity="fill"/>
-
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-    <!--<include layout="@layout/content_admin_home"/>-->
+    <include layout="@layout/content_add_edit_university"/>
 
 </android.support.design.widget.CoordinatorLayout>

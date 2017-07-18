@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_add_edit_university"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin.AddEditApprovedActivityFragment"
+    tools:showIn="@layout/activity_add_edit_approved_item">
+
+    <EditText
+        android:id="@+id/approve_uni_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/university_name"
+        android:inputType="textPersonName"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/approve_uni_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/university_address"
+        android:inputType="textMultiLine"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/approve_uni_web_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:hint="@string/university_website_link"
+        android:inputType="textPersonName"
+        android:textSize="20sp"
+        app:layout_constraintHorizontal_bias="0.0"/>
+
+    <Button
+        android:id="@+id/approve_uni_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:elevation="0dp"
+        android:text="@string/button_to_approve"
+        android:textAlignment="viewStart"
+        app:layout_constraintTop_toBottomOf="@+id/approve_uni_web_link"/>
+
+</LinearLayout>

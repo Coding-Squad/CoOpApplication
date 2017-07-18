@@ -11,7 +11,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            tools:context="daffodil.international.ac.coopapplication.UniversitySignUpActivity">
+            tools:context="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.signUp.UniversitySignUpActivity">
 
     <android.support.constraint.ConstraintLayout
 
