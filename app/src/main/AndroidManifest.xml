@@ -89,10 +89,22 @@
             android:name=".DashBoardActivity"
             android:label="@string/title_activity_dash_board"
             android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity android:name=".daffodil.international.ac.coopapplication.company.CompanyHomeActivity">
         </activity>
-        <activity android:name=".daffodil.international.ac.coopapplication.company.AddEditCompanyTypeActivity">
+
+        <activity
+            android:name=".daffodil.international.ac.coopapplication.company.AddEditCompanyTypeActivity"
+            android:label="@string/title_activity_add_edit_company_type"
+            android:parentActivityName=".daffodil.international.ac.coopapplication.admin.AdminHomeUniversityActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin.AdminHomeUniversityActivity"/>
+
         </activity>
+
     </application>
 
 </manifest>

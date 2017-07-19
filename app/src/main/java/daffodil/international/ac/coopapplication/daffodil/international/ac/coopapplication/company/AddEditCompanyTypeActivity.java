@@ -14,5 +14,6 @@ public class AddEditCompanyTypeActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: Starts");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_company_type);
+
     }
 }
