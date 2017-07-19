@@ -63,7 +63,7 @@ class CursorRecyclerCompanyTypeInfoViewAdapter extends RecyclerView.Adapter<Curs
                     , mCursor.getString(mCursor.getColumnIndex(BusinessType.Columns.BUSINESS_TYPE_NAME)));
 
 
-            Log.d(TAG, "onBindViewHolder: " + businessType.getId() + " , " + businessType.getBusinessTypeName());
+            //   Log.d(TAG, "onBindViewHolder: " + businessType.getId() + " , " + businessType.getBusinessTypeName());
 
             holder.mUniversityName.setText(businessType.getBusinessTypeName());
 
@@ -151,7 +151,6 @@ class CursorRecyclerCompanyTypeInfoViewAdapter extends RecyclerView.Adapter<Curs
             this.mUniversityName = (TextView) itemView.findViewById(R.id.ali_name);
             this.mUniversityAddress = (TextView) itemView.findViewById(R.id.ali_address);
             this.mUniversityWebUrl = (TextView) itemView.findViewById(R.id.ali_web_link);
-            //    this.mContractId = (TextView) itemView.findViewById(R.id.ali_contract_id);
 
             this.mApproveButton = (ImageButton) itemView.findViewById(R.id.ali_approved);
             this.mDeleteButton = (ImageButton) itemView.findViewById(R.id.ali_delete);

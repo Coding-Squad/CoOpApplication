@@ -2,8 +2,11 @@ package daffodil.international.ac.coopapplication.daffodil.international.ac.coop
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -60,25 +63,186 @@ public class AddEditApprovedActivityFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: Starts");
 
-        View view = inflater.inflate(R.layout.fragment_add_edit_university, container, false);
+        Log.d(TAG, "onCreateView: Starts :" + getActivity());
 
-        mUniversityName = (EditText) view.findViewById(R.id.approve_uni_name);
-        mUniversityAddress = (EditText) view.findViewById(R.id.approve_uni_address);
-        mUniversityWebLink = (EditText) view.findViewById(R.id.approve_uni_web_link);
+        PackageManager packageManager = getActivity().getPackageManager();
 
-        mCompanyName = (EditText) view.findViewById(R.id.approve_uni_name);
-        mCompanyAddress = (EditText) view.findViewById(R.id.approve_uni_address);
-        mCompanyWebLink = (EditText) view.findViewById(R.id.approve_uni_web_link);
+        ActivityInfo info = null;
+        try {
+            info = packageManager.getActivityInfo(getActivity().getComponentName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        Log.e("app", "Activity name:" + info.name);
+//TODO Update: find a batter solution if possible
+        String approved = "daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin.AddEditApprovedActivity";
+        // String company ="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.AddEditCompanyTypeActivity";
 
-     /*   mBusinessTypeName  = (EditText) view.findViewById(R.id.ctype_item_name);*/
-        mBusinessTypeName = (EditText) view.findViewById(R.id.ctype_item_name);
+        View view;
 
-        mSaveButton = (Button) view.findViewById(R.id.approve_uni_button);
-        mSaveButton2 = (Button) view.findViewById(R.id.companyTypeButton_save);
+        if (info.name.equalsIgnoreCase(approved)) {
+            view = inflater.inflate(R.layout.fragment_add_edit_university, container, false);
+            mUniversityName = (EditText) view.findViewById(R.id.approve_uni_name);
+            mUniversityAddress = (EditText) view.findViewById(R.id.approve_uni_address);
+            mUniversityWebLink = (EditText) view.findViewById(R.id.approve_uni_web_link);
+
+            mCompanyName = (EditText) view.findViewById(R.id.approve_uni_name);
+            mCompanyAddress = (EditText) view.findViewById(R.id.approve_uni_address);
+            mCompanyWebLink = (EditText) view.findViewById(R.id.approve_uni_web_link);
+            mSaveButton = (Button) view.findViewById(R.id.approve_uni_button);
+
+            mSaveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Update the database from here
+                    ContentResolver contentResolver = getActivity().getContentResolver();
+                    ContentValues values = new ContentValues();
+
+                    String universityName = mUniversityName.getText().toString();
+                    String universityAddress = mUniversityAddress.getText().toString();
+                    String universityWebLink = mUniversityWebLink.getText().toString();
+
+                    String companyName = mCompanyName.getText().toString();
+                    String companyAddress = mCompanyAddress.getText().toString();
+                    String companyWebLink = mCompanyWebLink.getText().toString();
+
+                    //    String businessTypeName = mBusinessTypeName.getText().toString();
+
+                    switch (mMode) {
+
+                        case EDIT_UNI:
+                            if (universityName.equals(universityInfo.getUniversityName())) {
+                                values.put(UniversityInformation.Columns.UNIVERSITY_NAME, universityName);
+                            }
+                            if (universityAddress.equals(universityInfo.getUniversityAddress())) {
+                                values.put(UniversityInformation.Columns.UNIVERSITY_ADDRESS, universityAddress);
+                            }
+                            if (universityWebLink.equals(universityInfo.getUniversityWebURL())) {
+                                values.put(UniversityInformation.Columns.UNIVERSITY_URL, universityWebLink);
+                            }
+                            if (values.size() != 0 && universityName.equals(universityInfo.getUniversityName())) {
+                                Log.d(TAG, "onClick: Updating " + universityInfo.getUniversityName());
+                                values.put(UniversityInformation.Columns.UNIVERSITY_IS_APPROVED, 1);
+                                values.put(UniversityInformation.Columns.MODIFIED_DATE, sdf.format(new Date()));
+                                //TODO: Need to Add User Id of his Who is Approving this University !!
+                                contentResolver.update(UniversityInformation.buildUniversityInformationUri(universityInfo.getId()), values, null, null);
+                            }
+                            Log.d(TAG, "onClick: Done Editing UniversityInformation By Date" + sdf.format(new Date()));
+                            break;
+
+                        case ADD_UNI:
+                            //It not Used Here !!
+                            if (mUniversityName.length() > 0) {
+                                Log.d(TAG, "onClick: Add new University info in table");
+                                values.put(UniversityInformation.Columns.UNIVERSITY_NAME, universityName);
+                                values.put(UniversityInformation.Columns.UNIVERSITY_ADDRESS, universityAddress);
+                                values.put(UniversityInformation.Columns.UNIVERSITY_URL, universityWebLink);
+                                values.put(UniversityInformation.Columns.UNIVERSITY_IS_APPROVED, 0);
+                                values.put(UniversityInformation.Columns.CREATE_DATE, sdf.format(new Date()));
+                                values.put(UniversityInformation.Columns.MODIFIED_DATE, sdf.format(new Date()));
+                                contentResolver.insert(UniversityInformation.CONTENT_URI, values);
+                                Log.d(TAG, "onClick: Add  By Date" + sdf.format(new Date()));
+                            }
+                            break;
+
+                        case EDIT_COM:
+                            if (companyName.equals(companyInfo.getCompanyName())) {
+                                values.put(CompanyInformation.Columns.COMPANY_NAME, universityName);
+                            }
+                            if (companyAddress.equals(companyInfo.getCompanyAddress())) {
+                                values.put(CompanyInformation.Columns.COMPANY_ADDRESS, universityAddress);
+                            }
+                            if (companyWebLink.equals(companyInfo.getCompanyWebURL())) {
+                                values.put(CompanyInformation.Columns.COMPANY_WEB_URL, universityWebLink);
+                            }
+
+                            if (values.size() != 0) {
+                                Log.d(TAG, "onClick: Updating " + companyInfo.getCompanyName());
+                                values.put(CompanyInformation.Columns.COMPANY_IS_APPROVED, 1);
+                                values.put(CompanyInformation.Columns.MODIFIED_DATE, sdf.format(new Date()));
+                                //TODO: Need to Add User Id of his Who is Approving this Company !!
+                                contentResolver.update(CompanyInformation.buildCompanyInformationUri(companyInfo.getId()), values, null, null);
+                            }
+                            Log.d(TAG, "onClick: Done Editing CompanyInformation By Date" + sdf.format(new Date()));
+                            break;
+
+                        case ADD_COM:
+                            //It not Used Here !!
+                            if (mCompanyName.length() > 0) {
+                                Log.d(TAG, "onClick: Add new Company info in table");
+                                values.put(CompanyInformation.Columns.COMPANY_NAME, companyName);
+                                values.put(CompanyInformation.Columns.COMPANY_ADDRESS, companyAddress);
+                                values.put(CompanyInformation.Columns.COMPANY_WEB_URL, companyWebLink);
+                                values.put(CompanyInformation.Columns.COMPANY_IS_APPROVED, 0);
+                                values.put(CompanyInformation.Columns.CREATE_DATE, sdf.format(new Date()));
+                                values.put(CompanyInformation.Columns.MODIFIED_DATE, sdf.format(new Date()));
+                                contentResolver.insert(CompanyInformation.CONTENT_URI, values);
+                                Log.d(TAG, "onClick: Add  By Date" + sdf.format(new Date()));
+                            }
+                            break;
+                        default:
+                            Log.d(TAG, "onClick: Nothing To worry about");
+                            break;
+                    }
+
+                    getActivity().onBackPressed();
+                }
+            });
+
+        } else {
+            view = inflater.inflate(R.layout.fragment_add_edit_company_business_type, container, false);
+            mBusinessTypeName = (EditText) view.findViewById(R.id.ctype_item_name);
+            mSaveButton2 = (Button) view.findViewById(R.id.companyTypeButton_save);
+
+            mSaveButton2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //Update the database from here
+                    ContentResolver contentResolver = getActivity().getContentResolver();
+                    ContentValues values = new ContentValues();
+
+                    String businessTypeName = mBusinessTypeName.getText().toString();
+
+                    switch (mMode) {
+                        case EDIT_TYPE:
+
+                            values.put(BusinessType.Columns.BUSINESS_TYPE_NAME, businessTypeName);
+                            values.put(BusinessType.Columns.MODIFIED_DATE, sdf.format(new Date()));
+
+                            if (values.size() != 0) {
+                                //TODO: Need to Add User Id of his Who is Approving this business Type  !!
+                                long id = businessTypeDto.getId();
+                                String where = BusinessType.Columns._ID + " = " + id;
+                                contentResolver.update(BusinessType.buildBusinessTypeUri(id), values, where, null);
+                            }
+                            Log.d(TAG, "onClick 2 : Done Editing Company Type Information By Date" + sdf.format(new Date()));
+                            break;
+
+                        case ADD_TYPE:
+                            if (mBusinessTypeName.length() > 0) {
+                                Log.d(TAG, "onClick: Add new BUSINESS_TYPE info in table");
+                                values.put(BusinessType.Columns.BUSINESS_TYPE_NAME, businessTypeName);
+                                //TODO: Need to Add User Id of his Who is Creating this business Type !!
+                                values.put(BusinessType.Columns.CREATE_DATE, sdf.format(new Date()));
+                                values.put(BusinessType.Columns.MODIFIED_DATE, sdf.format(new Date()));
+
+                                contentResolver.insert(BusinessType.CONTENT_URI, values);
+                                Log.d(TAG, "onClick 2 : Add  By Date" + sdf.format(new Date()));
+                            }
+                            break;
+                    }
+                    getActivity().onBackPressed();
+                }
+            });
+        }
 
         Bundle arguments = getActivity().getIntent().getExtras();
 
@@ -124,7 +288,7 @@ public class AddEditApprovedActivityFragment extends Fragment {
             Log.d(TAG, "onCreateView: retrieving Business Type Info");
             businessTypeDto = (BusinessTypeDto) arguments.getSerializable(BusinessTypeDto.class.getSimpleName());
             if (businessTypeDto != null) {
-                Log.d(TAG, "onCreateView: Details found Editing ");
+                Log.d(TAG, "onCreateView: Details found Editing " + businessTypeDto);
                 mBusinessTypeName.setText(businessTypeDto.getBusinessTypeName());
 
                 mMode = FragmentEditMode.EDIT_TYPE;
@@ -136,171 +300,6 @@ public class AddEditApprovedActivityFragment extends Fragment {
             Log.d(TAG, "onCreateView : no BusinessType argument Found Adding new");
             mMode = FragmentEditMode.ADD_TYPE;
         }
-
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Update the database from here
-                ContentResolver contentResolver = getActivity().getContentResolver();
-                ContentValues values = new ContentValues();
-
-                String universityName = mUniversityName.getText().toString();
-                String universityAddress = mUniversityAddress.getText().toString();
-                String universityWebLink = mUniversityWebLink.getText().toString();
-
-                String companyName = mCompanyName.getText().toString();
-                String companyAddress = mCompanyAddress.getText().toString();
-                String companyWebLink = mCompanyWebLink.getText().toString();
-
-                /*String businessTypeName = mBusinessTypeName.getText().toString();*/
-
-                switch (mMode) {
-
-                    case EDIT_UNI:
-                        if (universityName.equals(universityInfo.getUniversityName())) {
-                            values.put(UniversityInformation.Columns.UNIVERSITY_NAME, universityName);
-                        }
-                        if (universityAddress.equals(universityInfo.getUniversityAddress())) {
-                            values.put(UniversityInformation.Columns.UNIVERSITY_ADDRESS, universityAddress);
-                        }
-                        if (universityWebLink.equals(universityInfo.getUniversityWebURL())) {
-                            values.put(UniversityInformation.Columns.UNIVERSITY_URL, universityWebLink);
-                        }
-                        if (values.size() != 0 && universityName.equals(universityInfo.getUniversityName())) {
-                            Log.d(TAG, "onClick: Updating " + universityInfo.getUniversityName());
-                            values.put(UniversityInformation.Columns.UNIVERSITY_IS_APPROVED, 1);
-                            values.put(UniversityInformation.Columns.MODIFIED_DATE, sdf.format(new Date()));
-                            //TODO: Need to Add User Id of his Who is Approving this University !!
-                            contentResolver.update(UniversityInformation.buildUniversityInformationUri(universityInfo.getId()), values, null, null);
-                        }
-                        Log.d(TAG, "onClick: Done Editing UniversityInformation By Date" + sdf.format(new Date()));
-                        break;
-
-                    case ADD_UNI:
-                        //It not Used Here !!
-                        if (mUniversityName.length() > 0) {
-                            Log.d(TAG, "onClick: Add new University info in table");
-                            values.put(UniversityInformation.Columns.UNIVERSITY_NAME, universityName);
-                            values.put(UniversityInformation.Columns.UNIVERSITY_ADDRESS, universityAddress);
-                            values.put(UniversityInformation.Columns.UNIVERSITY_URL, universityWebLink);
-                            values.put(UniversityInformation.Columns.UNIVERSITY_IS_APPROVED, 0);
-                            values.put(UniversityInformation.Columns.CREATE_DATE, sdf.format(new Date()));
-                            values.put(UniversityInformation.Columns.MODIFIED_DATE, sdf.format(new Date()));
-                            contentResolver.insert(UniversityInformation.CONTENT_URI, values);
-                            Log.d(TAG, "onClick: Add  By Date" + sdf.format(new Date()));
-                        }
-                        break;
-
-                    case EDIT_COM:
-                        if (companyName.equals(companyInfo.getCompanyName())) {
-                            values.put(CompanyInformation.Columns.COMPANY_NAME, universityName);
-                        }
-                        if (companyAddress.equals(companyInfo.getCompanyAddress())) {
-                            values.put(CompanyInformation.Columns.COMPANY_ADDRESS, universityAddress);
-                        }
-                        if (companyWebLink.equals(companyInfo.getCompanyWebURL())) {
-                            values.put(CompanyInformation.Columns.COMPANY_WEB_URL, universityWebLink);
-                        }
-
-                        if (values.size() != 0) {
-                            Log.d(TAG, "onClick: Updating " + companyInfo.getCompanyName());
-                            values.put(CompanyInformation.Columns.COMPANY_IS_APPROVED, 1);
-                            values.put(CompanyInformation.Columns.MODIFIED_DATE, sdf.format(new Date()));
-                            //TODO: Need to Add User Id of his Who is Approving this Company !!
-                            contentResolver.update(CompanyInformation.buildCompanyInformationUri(companyInfo.getId()), values, null, null);
-                        }
-                        Log.d(TAG, "onClick: Done Editing CompanyInformation By Date" + sdf.format(new Date()));
-                        break;
-
-                    case ADD_COM:
-                        //It not Used Here !!
-                        if (mCompanyName.length() > 0) {
-                            Log.d(TAG, "onClick: Add new Company info in table");
-                            values.put(CompanyInformation.Columns.COMPANY_NAME, companyName);
-                            values.put(CompanyInformation.Columns.COMPANY_ADDRESS, companyAddress);
-                            values.put(CompanyInformation.Columns.COMPANY_WEB_URL, companyWebLink);
-                            values.put(CompanyInformation.Columns.COMPANY_IS_APPROVED, 0);
-                            values.put(CompanyInformation.Columns.CREATE_DATE, sdf.format(new Date()));
-                            values.put(CompanyInformation.Columns.MODIFIED_DATE, sdf.format(new Date()));
-                            contentResolver.insert(CompanyInformation.CONTENT_URI, values);
-                            Log.d(TAG, "onClick: Add  By Date" + sdf.format(new Date()));
-                        }
-                        break;
-
-                   /* case EDIT_TYPE:
-
-                        values.put(BusinessType.Columns.BUSINESS_TYPE_NAME, businessTypeName);
-                        values.put(BusinessType.Columns.MODIFIED_DATE,sdf.format(new Date()));
-
-                        if(values.size() != 0 ){
-                            //TODO: Need to Add User Id of his Who is Approving this business Type  !!
-                            long id = businessTypeDto.getId();
-                            String where = BusinessType.Columns._ID+" = "+id;
-                            contentResolver.update(BusinessType.buildBusinessTypeUri(id),values,where,null);
-                        }
-                        Log.d(TAG, "onClick: Done Editing Company Type Information By Date"+sdf.format(new Date()));
-                        break;
-
-                    case ADD_TYPE:
-                        if (mBusinessTypeName.length() > 0){
-                            Log.d(TAG, "onClick: Add new BUSINESS_TYPE info in table");
-                            values.put(BusinessType.Columns.BUSINESS_TYPE_NAME, businessTypeName);
-                            //TODO: Need to Add User Id of his Who is Creating this business Type !!
-                            values.put(BusinessType.Columns.CREATE_DATE,sdf.format(new Date()));
-                            values.put(BusinessType.Columns.MODIFIED_DATE,sdf.format(new Date()));
-
-                            contentResolver.insert(BusinessType.CONTENT_URI ,values);
-                            Log.d(TAG, "onClick: Add  By Date"+sdf.format(new Date()));
-                        }
-                        break;*/
-                }
-
-                mSaveButton2.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //Update the database from here
-                        ContentResolver contentResolver = getActivity().getContentResolver();
-                        ContentValues values = new ContentValues();
-
-                        String businessTypeName = mBusinessTypeName.getText().toString();
-
-                        switch (mMode) {
-                            case EDIT_TYPE:
-
-                                values.put(BusinessType.Columns.BUSINESS_TYPE_NAME, businessTypeName);
-                                values.put(BusinessType.Columns.MODIFIED_DATE, sdf.format(new Date()));
-
-                                if (values.size() != 0) {
-                                    //TODO: Need to Add User Id of his Who is Approving this business Type  !!
-                                    long id = businessTypeDto.getId();
-                                    String where = BusinessType.Columns._ID + " = " + id;
-                                    contentResolver.update(BusinessType.buildBusinessTypeUri(id), values, where, null);
-                                }
-                                Log.d(TAG, "onClick 2 : Done Editing Company Type Information By Date" + sdf.format(new Date()));
-                                break;
-
-                            case ADD_TYPE:
-                                if (mBusinessTypeName.length() > 0) {
-                                    Log.d(TAG, "onClick: Add new BUSINESS_TYPE info in table");
-                                    values.put(BusinessType.Columns.BUSINESS_TYPE_NAME, businessTypeName);
-                                    //TODO: Need to Add User Id of his Who is Creating this business Type !!
-                                    values.put(BusinessType.Columns.CREATE_DATE, sdf.format(new Date()));
-                                    values.put(BusinessType.Columns.MODIFIED_DATE, sdf.format(new Date()));
-
-                                    contentResolver.insert(BusinessType.CONTENT_URI, values);
-                                    Log.d(TAG, "onClick 2 : Add  By Date" + sdf.format(new Date()));
-                                }
-                                break;
-                        }
-                        //get back on
-                        getActivity().onBackPressed();
-                    }
-                });
-                //get back on
-
-                getActivity().onBackPressed();
-            }
-        });
 
         Log.d(TAG, "onCreateView: Exiting....");
         return view;

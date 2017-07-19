@@ -55,8 +55,10 @@ public class AdminHomeCompanyBusinessTypeFragment extends Fragment implements Lo
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.university_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mCursorCompanyBusiTypeAdapter = new CursorRecyclerCompanyTypeInfoViewAdapter(null,
+        mCursorCompanyBusiTypeAdapter = new CursorRecyclerCompanyTypeInfoViewAdapter(
+                null,
                 (CursorRecyclerCompanyTypeInfoViewAdapter.OnCompanyTypeClickListner) getActivity());
+
         recyclerView.setAdapter(mCursorCompanyBusiTypeAdapter);
 
         Log.d(TAG, "onCreateView: Rerunning");

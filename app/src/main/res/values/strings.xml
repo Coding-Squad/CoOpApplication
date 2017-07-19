@@ -67,6 +67,7 @@
     <string name="button_to_delete">Delete</string>
     <string name="test_button">Test Company Login</string>
     <string name="title_activity_add_edit_university">AddEditUniversityActivity</string>
+    <string name="title_activity_add_edit_company_type">AddEditCompanyBusiTypeActivity</string>
     <string name="contract_person_id">Contract Id</string>
 
 

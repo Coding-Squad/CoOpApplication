@@ -24,9 +24,9 @@ public class AddEditCompanyBusinessTypeFragment extends Fragment {
     private static final String TAG = "AddEditCompanyBusinessT";
 
 
-    public enum FragmentEditMode {EDIT_TYPE, ADD_TYPE}
+    public enum FragmentEditMode2 {EDIT_TYPE, ADD_TYPE}
 
-    private FragmentEditMode mMode;
+    private FragmentEditMode2 mMode;
 
     private EditText mBusinessTypeName;
 
@@ -43,7 +43,7 @@ public class AddEditCompanyBusinessTypeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: Starts");
+        Log.d(TAG, "onCreateView: Starts >>>>>>>>>>>>>>>");
 
         View view = inflater.inflate(R.layout.fragment_add_edit_company_business_type, container, false);
 
@@ -59,14 +59,14 @@ public class AddEditCompanyBusinessTypeFragment extends Fragment {
                 Log.d(TAG, "onCreateView: Details found Editing ");
                 mBusinessTypeName.setText(businessTypeDto.getBusinessTypeName());
 
-                mMode = FragmentEditMode.EDIT_TYPE;
+                mMode = FragmentEditMode2.EDIT_TYPE;
             } else {
-                mMode = FragmentEditMode.ADD_TYPE;
+                mMode = FragmentEditMode2.ADD_TYPE;
             }
         } else {
             businessTypeDto = null;
             Log.d(TAG, "onCreateView : no BusinessType argument Found Adding new");
-            mMode = FragmentEditMode.ADD_TYPE;
+            mMode = FragmentEditMode2.ADD_TYPE;
         }
 
         mSaveButton.setOnClickListener(new View.OnClickListener() {
