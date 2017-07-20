@@ -43,6 +43,7 @@ public class BusinessType {
         return ContentUris.withAppendedId(CONTENT_URI, businessTypeId);
     }
 
+
     //For Query Method
     public static long getBusinessTypeId(Uri uri) {
         return ContentUris.parseId(uri);
