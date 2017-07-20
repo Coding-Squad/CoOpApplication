@@ -97,5 +97,6 @@
     <string name="use_galary">Select image from galery</string>
     <string name="companyTypeHolderName">Company Type</string>
     <string name="saveButton">Save</string>
+    <string name="upload">Upload</string>
 
 </resources>

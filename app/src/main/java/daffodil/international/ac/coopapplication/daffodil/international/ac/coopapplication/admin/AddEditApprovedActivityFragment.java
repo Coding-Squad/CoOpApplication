@@ -1,20 +1,33 @@
 package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin;
 
+import android.Manifest;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.icu.text.SimpleDateFormat;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.kosalgeek.android.photoutil.GalleryPhoto;
+import com.kosalgeek.android.photoutil.ImageLoader;
+
+import java.io.FileNotFoundException;
 import java.util.Date;
 
 import daffodil.international.ac.coopapplication.R;
@@ -24,6 +37,8 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -45,7 +60,20 @@ public class AddEditApprovedActivityFragment extends Fragment {
 
    /* private EditText mBusinessTypeName;*/
 
+    // Camera activity request codes
+    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    // file url to store image
+    private Uri fileUri;
+
     private EditText mBusinessTypeName;
+    private ImageView mCompanyTypeImage, mCompanyTypeImageHolder;
+    //  CameraPhoto mCameraPhoto;
+    GalleryPhoto mGalleryPhoto;
+    //   final int CAMERA_REQUEST = 20018;
+    final int GALLERY_REQUEST = 20018;
+    static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 99;
+    String photoPath = "";
 
     private Button mSaveButton;
 
@@ -114,7 +142,6 @@ public class AddEditApprovedActivityFragment extends Fragment {
                     String companyAddress = mCompanyAddress.getText().toString();
                     String companyWebLink = mCompanyWebLink.getText().toString();
 
-                    //    String businessTypeName = mBusinessTypeName.getText().toString();
 
                     switch (mMode) {
 
@@ -192,7 +219,6 @@ public class AddEditApprovedActivityFragment extends Fragment {
                             Log.d(TAG, "onClick: Nothing To worry about");
                             break;
                     }
-
                     getActivity().onBackPressed();
                 }
             });
@@ -200,7 +226,26 @@ public class AddEditApprovedActivityFragment extends Fragment {
         } else {
             view = inflater.inflate(R.layout.fragment_add_edit_company_business_type, container, false);
             mBusinessTypeName = (EditText) view.findViewById(R.id.ctype_item_name);
+//TODO upload Image
+
+            mGalleryPhoto = new GalleryPhoto(getContext().getApplicationContext());
+
+            mCompanyTypeImage = (ImageView) view.findViewById(R.id.category_type_Image);
+            mCompanyTypeImageHolder = (ImageView) view.findViewById(R.id.category_type_Image_holder);
+
+            mCompanyTypeImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    startActivityForResult(mGalleryPhoto.openGalleryIntent(), GALLERY_REQUEST);
+
+
+                }
+            });
+
+
             mSaveButton2 = (Button) view.findViewById(R.id.companyTypeButton_save);
+
 
             mSaveButton2.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -303,5 +348,79 @@ public class AddEditApprovedActivityFragment extends Fragment {
 
         Log.d(TAG, "onCreateView: Exiting....");
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //TODO:
+
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+            } else {
+
+                // No explanation needed, we can request the permission.
+
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
+
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == GALLERY_REQUEST) {
+                mGalleryPhoto.setPhotoUri(data.getData());
+                photoPath = mGalleryPhoto.getPath();
+                Log.d(TAG, "onActivityResult: >>>>" + photoPath);
+                try {
+                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512, 512).getBitmap();
+                    mCompanyTypeImageHolder.setImageBitmap(bitmap);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity().getApplicationContext(),
+                            "Something Missing on Choosing Photo !", Toast.LENGTH_SHORT).show();
+                }
+                Log.d(TAG, "onActivityResult: photoPath " + photoPath);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d(TAG, "onRequestPermissionsResult: 111111111111");
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+
+                } else {
+                    Log.d(TAG, "onRequestPermissionsResult: 222222222222");
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 }
