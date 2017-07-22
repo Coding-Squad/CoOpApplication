@@ -60,8 +60,10 @@ class CursorRecyclerCompanyTypeInfoViewAdapter extends RecyclerView.Adapter<Curs
             }
 
             final BusinessTypeDto businessType = new BusinessTypeDto(mCursor.getLong(mCursor.getColumnIndex(BusinessType.Columns._ID))
-                    , mCursor.getString(mCursor.getColumnIndex(BusinessType.Columns.BUSINESS_TYPE_NAME)));
+                    , mCursor.getString(mCursor.getColumnIndex(BusinessType.Columns.BUSINESS_TYPE_NAME))
+                    , mCursor.getBlob(mCursor.getColumnIndex(BusinessType.Columns.BUSINESS_TYPE_IMAGE))
 
+            );
 
             //   Log.d(TAG, "onBindViewHolder: " + businessType.getId() + " , " + businessType.getBusinessTypeName());
 
