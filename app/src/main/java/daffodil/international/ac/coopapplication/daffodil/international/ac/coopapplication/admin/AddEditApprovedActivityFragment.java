@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageLoader;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.util.Date;
 
@@ -256,10 +259,18 @@ public class AddEditApprovedActivityFragment extends Fragment {
 
                     String businessTypeName = mBusinessTypeName.getText().toString();
 
+                    //get from image view
+                    Bitmap bitmap = ((BitmapDrawable) mCompanyTypeImageHolder.getDrawable()).getBitmap();
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                    byte[] img = bos.toByteArray();
+
+
                     switch (mMode) {
                         case EDIT_TYPE:
 
                             values.put(BusinessType.Columns.BUSINESS_TYPE_NAME, businessTypeName);
+                            values.put(BusinessType.Columns.BUSINESS_TYPE_IMAGE, img);
                             values.put(BusinessType.Columns.MODIFIED_DATE, sdf.format(new Date()));
 
                             if (values.size() != 0) {
@@ -275,6 +286,7 @@ public class AddEditApprovedActivityFragment extends Fragment {
                             if (mBusinessTypeName.length() > 0) {
                                 Log.d(TAG, "onClick: Add new BUSINESS_TYPE info in table");
                                 values.put(BusinessType.Columns.BUSINESS_TYPE_NAME, businessTypeName);
+                                values.put(BusinessType.Columns.BUSINESS_TYPE_IMAGE, img);
                                 //TODO: Need to Add User Id of his Who is Creating this business Type !!
                                 values.put(BusinessType.Columns.CREATE_DATE, sdf.format(new Date()));
                                 values.put(BusinessType.Columns.MODIFIED_DATE, sdf.format(new Date()));
@@ -333,8 +345,14 @@ public class AddEditApprovedActivityFragment extends Fragment {
             Log.d(TAG, "onCreateView: retrieving Business Type Info");
             businessTypeDto = (BusinessTypeDto) arguments.getSerializable(BusinessTypeDto.class.getSimpleName());
             if (businessTypeDto != null) {
-                Log.d(TAG, "onCreateView: Details found Editing " + businessTypeDto);
+                Log.d(TAG, "onCreateView: Details found Editing " + businessTypeDto.getBusinessTypeImage());
                 mBusinessTypeName.setText(businessTypeDto.getBusinessTypeName());
+
+                byte[] byteArray = businessTypeDto.getBusinessTypeImage();
+                Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                mCompanyTypeImageHolder.setImageBitmap(bm);
+
+
 
                 mMode = FragmentEditMode.EDIT_TYPE;
             } else {
@@ -389,7 +407,9 @@ public class AddEditApprovedActivityFragment extends Fragment {
                 Log.d(TAG, "onActivityResult: >>>>" + photoPath);
                 try {
                     Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512, 512).getBitmap();
+
                     mCompanyTypeImageHolder.setImageBitmap(bitmap);
+
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(getActivity().getApplicationContext(),
@@ -416,7 +436,8 @@ public class AddEditApprovedActivityFragment extends Fragment {
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }
-                return;
+                break;
+                //     return;
             }
 
             // other 'case' lines to check for other

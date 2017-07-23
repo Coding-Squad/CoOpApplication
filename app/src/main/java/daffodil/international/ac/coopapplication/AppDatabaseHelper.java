@@ -175,8 +175,8 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                BusinessTypeDto dto = new BusinessTypeDto(cursor.getLong(0), cursor.getString(4));
-                //   Log.d(TAG, "getAllLabels: "+cursor.getLong(0)+" , "+cursor.getString(1));
+                BusinessTypeDto dto = new BusinessTypeDto(cursor.getLong(0), cursor.getString(5), cursor.getBlob(4));
+
                 businessTypeDtos.add(dto);
             } while (cursor.moveToNext());
         }
@@ -201,8 +201,6 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         // UniversityApprovedId = 0 (Not Approved), UniversityApprovedId = 1 (Approved).
 
         String selectQuery = "SELECT  * FROM " + UniversityInformation.TABLE_NAME;
-
-
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

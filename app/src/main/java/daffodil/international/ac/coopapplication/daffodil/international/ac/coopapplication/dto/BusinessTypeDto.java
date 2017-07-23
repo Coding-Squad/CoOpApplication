@@ -11,10 +11,13 @@ public class BusinessTypeDto implements Serializable {
 
     private long m_Id;
     private final String mBusinessTypeName;
+    private final byte[] mBusinessTypeImage;
 
-    public BusinessTypeDto(long id, String businessTypeName) {
+    public BusinessTypeDto(long id, String businessTypeName, byte[] businessTypeImage) {
         this.m_Id = id;
+        mBusinessTypeImage = businessTypeImage;
         mBusinessTypeName = businessTypeName;
+
     }
 
     public long getId() {
@@ -27,6 +30,10 @@ public class BusinessTypeDto implements Serializable {
 
     public String getBusinessTypeName() {
         return mBusinessTypeName;
+    }
+
+    public byte[] getBusinessTypeImage() {
+        return mBusinessTypeImage;
     }
 
     @Override
