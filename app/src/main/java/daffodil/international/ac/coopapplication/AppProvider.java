@@ -13,6 +13,7 @@ import android.util.Log;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.FeedBack;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UploadFiles;
@@ -22,7 +23,11 @@ import static daffodil.international.ac.coopapplication.daffodil.international.a
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType.getBusinessTypeId;
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation.getCompanyInformationId;
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation.getContactInformationId;
+import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.FeedBack.buildFeedBackUri;
+import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.FeedBack.getFeedBackId;
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation.getUniversityInformationId;
+import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UploadFiles.buildUploadFilesUri;
+import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UploadFiles.getUploadFilesId;
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation.getUserInformationId;
 
 /**
@@ -61,16 +66,19 @@ public class AppProvider extends ContentProvider {
     private static final int UPLOAD_FILE = 600;
     private static final int UPLOAD_FILE_ID = 601;
 
+    private static final int FEED_BACK = 700;
+    private static final int FEED_BACK_ID = 701;
+
 
     long userInfoId;
     long universityInfoId;
     long contactInfoId;
 
-
     long studentInformtaionId;
     long companyInfoId;
     long businessTypeId;
     long uploadFilesId;
+    long mFeedBackId;
 
 
     private static UriMatcher buildUriMatcher() {
@@ -104,9 +112,13 @@ public class AppProvider extends ContentProvider {
         matcher.addURI(CONTENT_AUTHORITY, BusinessType.TABLE_NAME, BUSINESS_TYPE);
         matcher.addURI(CONTENT_AUTHORITY, BusinessType.TABLE_NAME + "/#", BUSINESS_TYPE_ID);
 
-        //company info
+        //UPLOAD FILE info
         matcher.addURI(CONTENT_AUTHORITY, UploadFiles.TABLE_NAME, UPLOAD_FILE);
         matcher.addURI(CONTENT_AUTHORITY, UploadFiles.TABLE_NAME + "/#", UPLOAD_FILE_ID);
+
+        //FEED BACK info
+        matcher.addURI(CONTENT_AUTHORITY, FeedBack.TABLE_NAME, FEED_BACK);
+        matcher.addURI(CONTENT_AUTHORITY, FeedBack.TABLE_NAME + "/#", FEED_BACK_ID);
 
         return matcher;
     }
@@ -131,7 +143,6 @@ public class AppProvider extends ContentProvider {
             case USER_INFORMATION:
                 queryBuilder.setTables(UserInformation.TABLE_NAME);
                 break;
-
             case USER_INFORMATION_ID:
                 queryBuilder.setTables(UserInformation.TABLE_NAME);
                 long userInformationId = getUserInformationId(uri);
@@ -141,7 +152,6 @@ public class AppProvider extends ContentProvider {
             case CONTRACT_INFORMATION:
                 queryBuilder.setTables(ContactInformation.TABLE_NAME);
                 break;
-
             case CONTRACT_INFORMATION_ID:
                 queryBuilder.setTables(ContactInformation.TABLE_NAME);
                 long contractInformationId = getContactInformationId(uri);
@@ -151,7 +161,6 @@ public class AppProvider extends ContentProvider {
             case UNIVERSITY_INFORMATION:
                 queryBuilder.setTables(UniversityInformation.TABLE_NAME);
                 break;
-
             case UNIVERSITY_INFORMATION_ID:
                 queryBuilder.setTables(UniversityInformation.TABLE_NAME);
                 long universityInformationId = getUniversityInformationId(uri);
@@ -161,7 +170,6 @@ public class AppProvider extends ContentProvider {
             case COMPANY_INFORMATION:
                 queryBuilder.setTables(CompanyInformation.TABLE_NAME);
                 break;
-
             case COMPANY_INFORMATION_ID:
                 queryBuilder.setTables(CompanyInformation.TABLE_NAME);
                 long companyInformationId = getCompanyInformationId(uri);
@@ -171,7 +179,6 @@ public class AppProvider extends ContentProvider {
             case STUDENT_INFORMATION:
                 queryBuilder.setTables(StudentInformation.TABLE_NAME);
                 break;
-
             case STUDENT_INFORMATION_ID:
                 queryBuilder.setTables(StudentInformation.TABLE_NAME);
                 long studentInformationId = StudentInformation.getStudentInformationId(uri);
@@ -181,7 +188,6 @@ public class AppProvider extends ContentProvider {
             case BUSINESS_TYPE:
                 queryBuilder.setTables(BusinessType.TABLE_NAME);
                 break;
-
             case BUSINESS_TYPE_ID:
                 queryBuilder.setTables(BusinessType.TABLE_NAME);
                 long businessTypeId = getBusinessTypeId(uri);
@@ -191,11 +197,19 @@ public class AppProvider extends ContentProvider {
             case UPLOAD_FILE:
                 queryBuilder.setTables(UploadFiles.TABLE_NAME);
                 break;
-
             case UPLOAD_FILE_ID:
                 queryBuilder.setTables(UploadFiles.TABLE_NAME);
-                long uploadFileId = getBusinessTypeId(uri);
+                long uploadFileId = getUploadFilesId(uri);
                 queryBuilder.appendWhere(UploadFiles.Columns._ID + " = " + uploadFileId);
+                break;
+
+            case FEED_BACK:
+                queryBuilder.setTables(FeedBack.TABLE_NAME);
+                break;
+            case FEED_BACK_ID:
+                queryBuilder.setTables(FeedBack.TABLE_NAME);
+                long feedBackId = getFeedBackId(uri);
+                queryBuilder.appendWhere(FeedBack.Columns._ID + " = " + feedBackId);
                 break;
 
             default:
@@ -251,6 +265,11 @@ public class AppProvider extends ContentProvider {
                 return UploadFiles.CONTENT_TYPE;
             case UPLOAD_FILE_ID:
                 return UploadFiles.CONTENT_ITEM_TYPE;
+
+            case FEED_BACK:
+                return FeedBack.CONTENT_TYPE;
+            case FEED_BACK_ID:
+                return FeedBack.CONTENT_ITEM_TYPE;
 
             default:
                 throw new IllegalArgumentException("unknown Uri: " + uri);
@@ -355,7 +374,18 @@ public class AppProvider extends ContentProvider {
                 db = mOpenHelper.getWritableDatabase();
                 uploadFilesId = db.insert(UploadFiles.TABLE_NAME, null, values);
                 if (uploadFilesId >= 0) {
-                    returnUri = UploadFiles.buildUploadFilesUri(uploadFilesId);
+                    returnUri = buildUploadFilesUri(uploadFilesId);
+                } else {
+                    throw new android.database.SQLException("Failed to insert into " + uri.toString());
+                }
+                break;
+
+            case FEED_BACK:
+                Log.d(TAG, "Entering insert, called with uri:" + uri);
+                db = mOpenHelper.getWritableDatabase();
+                mFeedBackId = db.insert(FeedBack.TABLE_NAME, null, values);
+                if (mFeedBackId >= 0) {
+                    returnUri = buildFeedBackUri(mFeedBackId);
                 } else {
                     throw new android.database.SQLException("Failed to insert into " + uri.toString());
                 }
@@ -366,7 +396,7 @@ public class AppProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
 
-        if (userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || universityInfoId >= 0 || businessTypeId >= 0 || uploadFilesId >= 0) {
+        if (userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || universityInfoId >= 0 || businessTypeId >= 0 || uploadFilesId >= 0 || mFeedBackId >= 0) {
             Log.d(TAG, "insert: Setting Notify With Uri _ " + uri);
             getContext().getContentResolver().notifyChange(uri, null);
         } else {
@@ -460,8 +490,24 @@ public class AppProvider extends ContentProvider {
 
             case UPLOAD_FILE_ID:
                 db = mOpenHelper.getWritableDatabase();
-                long uploadFileInfoId = getBusinessTypeId(uri);
+                long uploadFileInfoId = getUploadFilesId(uri);
                 selectionCriteria = UploadFiles.Columns._ID + " = " + uploadFileInfoId;
+
+                if ((selection != null) && (selection.length() > 0)) {
+                    selectionCriteria += " AND (" + selection + ")";
+                }
+                count = db.delete(UploadFiles.TABLE_NAME, selectionCriteria, selectionArgs);
+                break;
+
+            case FEED_BACK:
+                db = mOpenHelper.getWritableDatabase();
+                count = db.delete(FeedBack.TABLE_NAME, selection, selectionArgs);
+                break;
+
+            case FEED_BACK_ID:
+                db = mOpenHelper.getWritableDatabase();
+                long feedBackId = getFeedBackId(uri);
+                selectionCriteria = FeedBack.Columns._ID + " = " + feedBackId;
 
                 if ((selection != null) && (selection.length() > 0)) {
                     selectionCriteria += " AND (" + selection + ")";
@@ -474,7 +520,7 @@ public class AppProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
-        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || businessTypeId >= 0 || uploadFilesId >= 0) {
+        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || businessTypeId >= 0 || uploadFilesId >= 0 || mFeedBackId >= 0) {
             Log.d(TAG, "Delete: Setting Notify With Uri _ " + uri);
             getContext().getContentResolver().notifyChange(uri, null);
         } else {
@@ -567,7 +613,7 @@ public class AppProvider extends ContentProvider {
 
             case UPLOAD_FILE_ID:
                 db = mOpenHelper.getWritableDatabase();
-                long uploadFileInfoId = getBusinessTypeId(uri);
+                long uploadFileInfoId = getUploadFilesId(uri);
                 selectionCriteria = UploadFiles.Columns._ID + " = " + uploadFileInfoId;
 
                 if ((selection != null) && (selection.length() > 0)) {
@@ -576,10 +622,26 @@ public class AppProvider extends ContentProvider {
                 count = db.update(BusinessType.TABLE_NAME, values, selectionCriteria, selectionArgs);
                 break;
 
+            case FEED_BACK:
+                db = mOpenHelper.getWritableDatabase();
+                count = db.update(FeedBack.TABLE_NAME, values, selection, selectionArgs);
+                break;
+
+            case FEED_BACK_ID:
+                db = mOpenHelper.getWritableDatabase();
+                long feedBackId = getFeedBackId(uri);
+                selectionCriteria = FeedBack.Columns._ID + " = " + feedBackId;
+
+                if ((selection != null) && (selection.length() > 0)) {
+                    selectionCriteria += " AND (" + selection + ")";
+                }
+                count = db.update(FeedBack.TABLE_NAME, values, selectionCriteria, selectionArgs);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
-        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || businessTypeId >= 0 || uploadFilesId >= 0) {
+        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || businessTypeId >= 0 || uploadFilesId >= 0 || mFeedBackId >= 0) {
             Log.d(TAG, "Update: Setting Notify With Uri _ " + uri);
             getContext().getContentResolver().notifyChange(uri, null);
         } else {

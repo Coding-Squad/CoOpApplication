@@ -103,13 +103,13 @@ CREATE TABLE uploadFiles (
 INSERT INTO uploadFiles VALUES();
 
 
-CREATE TABLE feedback (
-    feedbackId LONG PRIMARY KEY NOT NULL DEFAULT "0",
-    submissionByUserId LONG,
-    ratedUserId LONG,
-    review VARCHAR(75),  
-    rating VARCHAR
-);
+    CREATE TABLE feedback (
+        feedbackId LONG PRIMARY KEY NOT NULL DEFAULT "0",
+        submissionByUserId LONG,
+        ratedUserId LONG,
+        review VARCHAR(75),
+        rating VARCHAR
+    );
 
 INSERT INTO feedback VALUES();
 
