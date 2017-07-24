@@ -1,4 +1,4 @@
-package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company;
+package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin;
 
 import android.app.Fragment;
 import android.content.ContentResolver;

@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.icu.text.SimpleDateFormat;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -64,10 +63,10 @@ public class AddEditApprovedActivityFragment extends Fragment {
    /* private EditText mBusinessTypeName;*/
 
     // Camera activity request codes
-    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
-    public static final int MEDIA_TYPE_IMAGE = 1;
+//    private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
+//    public static final int MEDIA_TYPE_IMAGE = 1;
     // file url to store image
-    private Uri fileUri;
+//    private Uri fileUri;
 
     private EditText mBusinessTypeName;
     private ImageView mCompanyTypeImage, mCompanyTypeImageHolder;
@@ -230,7 +229,6 @@ public class AddEditApprovedActivityFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_add_edit_company_business_type, container, false);
             mBusinessTypeName = (EditText) view.findViewById(R.id.ctype_item_name);
 //TODO upload Image
-
             mGalleryPhoto = new GalleryPhoto(getContext().getApplicationContext());
 
             mCompanyTypeImage = (ImageView) view.findViewById(R.id.category_type_Image);
@@ -239,9 +237,7 @@ public class AddEditApprovedActivityFragment extends Fragment {
             mCompanyTypeImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     startActivityForResult(mGalleryPhoto.openGalleryIntent(), GALLERY_REQUEST);
-
 
                 }
             });

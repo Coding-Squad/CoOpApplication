@@ -15,8 +15,10 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UploadFiles;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
 
+import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType.buildBusinessTypeUri;
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType.getBusinessTypeId;
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation.getCompanyInformationId;
 import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation.getContactInformationId;
@@ -56,6 +58,9 @@ public class AppProvider extends ContentProvider {
     private static final int BUSINESS_TYPE = 500;
     private static final int BUSINESS_TYPE_ID = 501;
 
+    private static final int UPLOAD_FILE = 600;
+    private static final int UPLOAD_FILE_ID = 601;
+
 
     long userInfoId;
     long universityInfoId;
@@ -65,6 +70,7 @@ public class AppProvider extends ContentProvider {
     long studentInformtaionId;
     long companyInfoId;
     long businessTypeId;
+    long uploadFilesId;
 
 
     private static UriMatcher buildUriMatcher() {
@@ -97,6 +103,10 @@ public class AppProvider extends ContentProvider {
         //company info
         matcher.addURI(CONTENT_AUTHORITY, BusinessType.TABLE_NAME, BUSINESS_TYPE);
         matcher.addURI(CONTENT_AUTHORITY, BusinessType.TABLE_NAME + "/#", BUSINESS_TYPE_ID);
+
+        //company info
+        matcher.addURI(CONTENT_AUTHORITY, UploadFiles.TABLE_NAME, UPLOAD_FILE);
+        matcher.addURI(CONTENT_AUTHORITY, UploadFiles.TABLE_NAME + "/#", UPLOAD_FILE_ID);
 
         return matcher;
     }
@@ -178,6 +188,16 @@ public class AppProvider extends ContentProvider {
                 queryBuilder.appendWhere(BusinessType.Columns._ID + " = " + businessTypeId);
                 break;
 
+            case UPLOAD_FILE:
+                queryBuilder.setTables(UploadFiles.TABLE_NAME);
+                break;
+
+            case UPLOAD_FILE_ID:
+                queryBuilder.setTables(UploadFiles.TABLE_NAME);
+                long uploadFileId = getBusinessTypeId(uri);
+                queryBuilder.appendWhere(UploadFiles.Columns._ID + " = " + uploadFileId);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
 
@@ -226,6 +246,11 @@ public class AppProvider extends ContentProvider {
                 return BusinessType.CONTENT_TYPE;
             case BUSINESS_TYPE_ID:
                 return BusinessType.CONTENT_ITEM_TYPE;
+
+            case UPLOAD_FILE:
+                return UploadFiles.CONTENT_TYPE;
+            case UPLOAD_FILE_ID:
+                return UploadFiles.CONTENT_ITEM_TYPE;
 
             default:
                 throw new IllegalArgumentException("unknown Uri: " + uri);
@@ -319,7 +344,18 @@ public class AppProvider extends ContentProvider {
                 db = mOpenHelper.getWritableDatabase();
                 businessTypeId = db.insert(BusinessType.TABLE_NAME, null, values);
                 if (businessTypeId >= 0) {
-                    returnUri = BusinessType.buildBusinessTypeUri(businessTypeId);
+                    returnUri = buildBusinessTypeUri(businessTypeId);
+                } else {
+                    throw new android.database.SQLException("Failed to insert into " + uri.toString());
+                }
+                break;
+
+            case UPLOAD_FILE:
+                Log.d(TAG, "Entering insert, called with uri:" + uri);
+                db = mOpenHelper.getWritableDatabase();
+                uploadFilesId = db.insert(UploadFiles.TABLE_NAME, null, values);
+                if (uploadFilesId >= 0) {
+                    returnUri = UploadFiles.buildUploadFilesUri(uploadFilesId);
                 } else {
                     throw new android.database.SQLException("Failed to insert into " + uri.toString());
                 }
@@ -330,7 +366,7 @@ public class AppProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
 
-        if (userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || universityInfoId >= 0 || businessTypeId >= 0) {
+        if (userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || universityInfoId >= 0 || businessTypeId >= 0 || uploadFilesId >= 0) {
             Log.d(TAG, "insert: Setting Notify With Uri _ " + uri);
             getContext().getContentResolver().notifyChange(uri, null);
         } else {
@@ -417,11 +453,28 @@ public class AppProvider extends ContentProvider {
                 count = db.delete(BusinessType.TABLE_NAME, selectionCriteria, selectionArgs);
                 break;
 
+            case UPLOAD_FILE:
+                db = mOpenHelper.getWritableDatabase();
+                count = db.delete(UploadFiles.TABLE_NAME, selection, selectionArgs);
+                break;
+
+            case UPLOAD_FILE_ID:
+                db = mOpenHelper.getWritableDatabase();
+                long uploadFileInfoId = getBusinessTypeId(uri);
+                selectionCriteria = UploadFiles.Columns._ID + " = " + uploadFileInfoId;
+
+                if ((selection != null) && (selection.length() > 0)) {
+                    selectionCriteria += " AND (" + selection + ")";
+                }
+                count = db.delete(UploadFiles.TABLE_NAME, selectionCriteria, selectionArgs);
+                break;
+
+
 
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
-        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || businessTypeId >= 0) {
+        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || businessTypeId >= 0 || uploadFilesId >= 0) {
             Log.d(TAG, "Delete: Setting Notify With Uri _ " + uri);
             getContext().getContentResolver().notifyChange(uri, null);
         } else {
@@ -507,10 +560,26 @@ public class AppProvider extends ContentProvider {
                 count = db.update(BusinessType.TABLE_NAME, values, selectionCriteria, selectionArgs);
                 break;
 
+            case UPLOAD_FILE:
+                db = mOpenHelper.getWritableDatabase();
+                count = db.update(UploadFiles.TABLE_NAME, values, selection, selectionArgs);
+                break;
+
+            case UPLOAD_FILE_ID:
+                db = mOpenHelper.getWritableDatabase();
+                long uploadFileInfoId = getBusinessTypeId(uri);
+                selectionCriteria = UploadFiles.Columns._ID + " = " + uploadFileInfoId;
+
+                if ((selection != null) && (selection.length() > 0)) {
+                    selectionCriteria += " AND (" + selection + ")";
+                }
+                count = db.update(BusinessType.TABLE_NAME, values, selectionCriteria, selectionArgs);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
         }
-        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || businessTypeId >= 0) {
+        if (universityInfoId >= 0 || userInfoId >= 0 || contactInfoId >= 0 || companyInfoId >= 0 || businessTypeId >= 0 || uploadFilesId >= 0) {
             Log.d(TAG, "Update: Setting Notify With Uri _ " + uri);
             getContext().getContentResolver().notifyChange(uri, null);
         } else {
