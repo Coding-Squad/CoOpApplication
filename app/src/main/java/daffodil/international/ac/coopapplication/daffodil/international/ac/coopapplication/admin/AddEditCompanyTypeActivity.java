@@ -1,4 +1,4 @@
-package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company;
+package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

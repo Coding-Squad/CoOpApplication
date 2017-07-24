@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import daffodil.international.ac.coopapplication.R;
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.AddEditCompanyTypeActivity;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.CompanyInfoDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UniversityInfoDto;

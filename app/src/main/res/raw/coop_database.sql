@@ -75,9 +75,18 @@ CREATE TABLE universityInformation (
 
 INSERT INTO universityInformation VALUES();
 
++ BusinessType.Columns.CREATE_DATE + " DATE, "
+            + BusinessType.Columns.MODIFIED_DATE + " DATE, "
+            + BusinessType.Columns.USER_ID + " INTEGER, "
+            + BusinessType.Columns.BUSINESS_TYPE_IMAGE + " BLOB, "
+            + BusinessType.Columns.BUSINESS_TYPE_NAME + " TEXT);";
 
 CREATE TABLE businessType(
     businessTypeId LONG PRIMARY KEY NOT NULL DEFAULT "0",
+    CREATE_DATE DATE,
+    MODIFIED_DATE DATE,
+    USER_ID INTEGER,
+    BUSINESS_TYPE_IMAGE BLOB,
     businessTypeName VARCHAR(25)
 );
 
@@ -87,7 +96,7 @@ CREATE TABLE uploadFiles (
     fileId LONG PRIMARY KEY NOT NULL DEFAULT "0",
     filyType INTEGER,
     filesize VARCHAR(10),
-    fileDirectory VARCHAR(50),
+    file VARCHAR(50),
     userId  LONG
 );
 

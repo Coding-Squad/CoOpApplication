@@ -33,6 +33,7 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
     compile files('libs/stanford-android-lib.jar')
+    compile files('libs/PhotoUtil.jar')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.nineoldandroids:library:2.4.0'
@@ -50,5 +51,4 @@ dependencies {
     compile 'com.android.support:gridlayout-v7:25.3.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
-    compile files('libs/PhotoUtil.jar')
 }

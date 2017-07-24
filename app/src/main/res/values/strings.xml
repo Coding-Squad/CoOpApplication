@@ -98,5 +98,9 @@
     <string name="companyTypeHolderName">Company Type</string>
     <string name="saveButton">Save</string>
     <string name="upload">Upload</string>
+    <string name="btn_upload">Upload</string>
+    <string name="btn_details">Details</string>
+    <string name="total_employee">Total Employee : 10</string>
+    <string name="title_activity_employer_home">EmployerHomeActivity</string>
 
 </resources>

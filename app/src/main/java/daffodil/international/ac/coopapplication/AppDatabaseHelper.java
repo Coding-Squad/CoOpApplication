@@ -16,6 +16,7 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UploadFiles;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UserInformation;
 
 /**
@@ -122,6 +123,16 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + BusinessType.Columns.BUSINESS_TYPE_IMAGE + " BLOB, "
             + BusinessType.Columns.BUSINESS_TYPE_NAME + " TEXT);";
 
+    //Business Type Table
+    public static final String CREATE_UPLOAD_FILES_TABLE = "CREATE TABLE " + UploadFiles.TABLE_NAME + " ("
+            + UploadFiles.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
+            + UploadFiles.Columns.CREATE_DATE + " DATE, "
+            + UploadFiles.Columns.MODIFIED_DATE + " DATE, "
+            + UploadFiles.Columns.USER_ID + " INTEGER, "
+            + UploadFiles.Columns.FILE_ + " BLOB, "
+            + UploadFiles.Columns.FILE_SIZE + " TEXT, "
+            + UploadFiles.Columns.FILE_TYPE + " TEXT);";
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "onCreate: starts");
@@ -139,6 +150,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_USER_INFORMATION_TABLE);
         db.execSQL(CREATE_COMPANY_INFORMATION_TABLE);
         db.execSQL(CREATE_BUSINESS_TYPE_TABLE);
+        db.execSQL(CREATE_UPLOAD_FILES_TABLE);
 
         Log.d(TAG, "onCreate: ends");
 

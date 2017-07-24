@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import daffodil.international.ac.coopapplication.R;
-import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.CompanyHomeActivity;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.EmployerHomeActivity;
 import stanford.androidlib.SimpleActivity;
 
 public class SignUpAsActivity extends SimpleActivity {
@@ -38,7 +38,7 @@ public class SignUpAsActivity extends SimpleActivity {
     // TODO : Delete this Code later along with @{link goToAdminHomePage} and Button on signUpAs
 
     public void goToCompanyHomePage(View view) {
-        Intent companyHomeIntent = new Intent(this, CompanyHomeActivity.class);
+        Intent companyHomeIntent = new Intent(this, EmployerHomeActivity.class);
         startActivity(companyHomeIntent);
     }
 
