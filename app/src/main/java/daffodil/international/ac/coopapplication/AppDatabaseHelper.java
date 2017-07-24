@@ -14,6 +14,7 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.FeedBack;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UniversityInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UploadFiles;
@@ -123,7 +124,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + BusinessType.Columns.BUSINESS_TYPE_IMAGE + " BLOB, "
             + BusinessType.Columns.BUSINESS_TYPE_NAME + " TEXT);";
 
-    //Business Type Table
+    //Upload File Table
     public static final String CREATE_UPLOAD_FILES_TABLE = "CREATE TABLE " + UploadFiles.TABLE_NAME + " ("
             + UploadFiles.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
             + UploadFiles.Columns.CREATE_DATE + " DATE, "
@@ -132,6 +133,16 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + UploadFiles.Columns.FILE_ + " BLOB, "
             + UploadFiles.Columns.FILE_SIZE + " TEXT, "
             + UploadFiles.Columns.FILE_TYPE + " TEXT);";
+
+    //Upload FeedBack Table
+    public static final String CREATE_FEED_BACK_TABLE = "CREATE TABLE " + FeedBack.TABLE_NAME + " ("
+            + FeedBack.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
+            + FeedBack.Columns.CREATE_DATE + " DATE, "
+            + FeedBack.Columns.MODIFIED_DATE + " DATE, "
+            + FeedBack.Columns.SUBMISSION_BY_USER_ID + " INTEGER, "
+            + FeedBack.Columns.RATED_USER_ID + " INTEGER, "
+            + FeedBack.Columns.REVIEW_RATTING + " INTEGER, "
+            + FeedBack.Columns.REVIEW_COMMENTS + " TEXT);";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -151,6 +162,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_COMPANY_INFORMATION_TABLE);
         db.execSQL(CREATE_BUSINESS_TYPE_TABLE);
         db.execSQL(CREATE_UPLOAD_FILES_TABLE);
+        db.execSQL(CREATE_FEED_BACK_TABLE);
 
         Log.d(TAG, "onCreate: ends");
 
