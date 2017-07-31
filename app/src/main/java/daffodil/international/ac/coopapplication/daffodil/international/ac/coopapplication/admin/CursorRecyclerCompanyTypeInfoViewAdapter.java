@@ -30,7 +30,7 @@ class CursorRecyclerCompanyTypeInfoViewAdapter extends RecyclerView.Adapter<Curs
     }
 
     public CursorRecyclerCompanyTypeInfoViewAdapter(Cursor cursor, OnCompanyTypeClickListner listener) {
-        Log.d(TAG, "CursorRecyclerUniversityInfoViewAdapter: Constrictor called");
+        Log.d(TAG, "CursorRecyclerCompanyTypeInfoViewAdapter: Constrictor called");
         mCursor = cursor;
         mListner = listener;
     }

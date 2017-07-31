@@ -3,7 +3,6 @@ package daffodil.international.ac.coopapplication.daffodil.international.ac.coop
 import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import daffodil.international.ac.coopapplication.R;
@@ -23,7 +23,7 @@ import daffodil.international.ac.coopapplication.daffodil.international.ac.coopa
 public class AddEditCompanyBusinessTypeFragment extends Fragment {
     private static final String TAG = "AddEditCompanyBusinessT";
 
-
+    //TODO : Use less
     public enum FragmentEditMode2 {EDIT_TYPE, ADD_TYPE}
 
     private FragmentEditMode2 mMode;

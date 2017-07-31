@@ -5,14 +5,20 @@ import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +33,8 @@ import com.kosalgeek.android.photoutil.ImageLoader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.security.InvalidParameterException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import daffodil.international.ac.coopapplication.R;
@@ -39,15 +47,21 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class EmployerHomeActivityFragment extends Fragment {
+public class EmployerHomeActivityFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = "EmployerHomeActivityFra";
+
+    public static final int LOADER_ID_COMP_HOME = 221100;
+
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
     public enum FragmentEditMode {EDIT_EMPLOYEE, ADD_EMPLOYEE}
 
     private FragmentEditMode mMode;
 
-    private ImageView mCompanyCoverImage, mCompanyCoverImageHolder;
+    private CursorRecyclerCompanyHomeViewAdapter mCompanyHomeViewAdapter;
+
+    private ImageView mCompanyCoverImage;
+    private ImageView mCompanyCoverImageHolder;
     private RatingBar mRattingBar;
     private TextView mHiredEmployeeAmount;
     private TextView mTotalHourByCompany;
@@ -62,6 +76,13 @@ public class EmployerHomeActivityFragment extends Fragment {
 
     public EmployerHomeActivityFragment() {
         Log.d(TAG, "EmployerHomeActivityFragment: Constructor called");
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        getLoaderManager().initLoader(LOADER_ID_COMP_HOME, null, this);
     }
 
     @Override
@@ -92,7 +113,6 @@ public class EmployerHomeActivityFragment extends Fragment {
         mRattingBar = (RatingBar) view.findViewById(R.id.company_ratting);
         mHiredEmployeeAmount = (TextView) view.findViewById(R.id.hired_employee_amount);
         mTotalHourByCompany = (TextView) view.findViewById(R.id.total_hour_by_company);
-
 
         //set text
         mHiredEmployeeAmount.setText("Employee Hired 150 taka");
@@ -145,6 +165,19 @@ public class EmployerHomeActivityFragment extends Fragment {
             Log.d(TAG, "onCreateView : no Image argument Found Adding new");
             mMode = FragmentEditMode.ADD_EMPLOYEE;
         }
+
+        // TODO: list view added
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.company_type_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        mCompanyHomeViewAdapter = new CursorRecyclerCompanyHomeViewAdapter(
+                null,
+                (CursorRecyclerCompanyHomeViewAdapter.OnCompanyHomeClickListener) getActivity());
+
+        recyclerView.setAdapter(mCompanyHomeViewAdapter);
+
+        Log.d(TAG, "onCreateView: Rerunning");
+
         return view;
     }
 
@@ -159,16 +192,25 @@ public class EmployerHomeActivityFragment extends Fragment {
             if (requestCode == GALLERY_REQUEST) {
                 mOpenGalleryPhoto.setPhotoUri(data.getData());
                 photoPath = mOpenGalleryPhoto.getPath();
-                try {
-                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512, 512).getBitmap();
 
+                /*DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+                int width = displayMetrics.widthPixels;
+                int height = displayMetrics.heightPixels;
+                int persent20 = (int)(height*(.20));
+                Log.d(TAG, "onActivityResult: width >>"+width+" >>>>>height >>>"+height);
+*/
+                try {
+                    //  Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512, 512).getBitmap();
+                    //  Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(width, persent20).getBitmap();
+
+                    Bitmap bitmap = ImageLoader.init().from(photoPath).getBitmap();
+                    mCompanyCoverImageHolder.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     mCompanyCoverImageHolder.setImageBitmap(bitmap);
 
                     //get from image view
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
                     byte[] img = bos.toByteArray();
-                    Log.d(TAG, "onClick: img" + img);
 
                     switch (mMode) {
                         case EDIT_EMPLOYEE:
@@ -182,7 +224,7 @@ public class EmployerHomeActivityFragment extends Fragment {
                                 String where = UploadFiles.Columns._ID + " = " + id;
                                 contentResolver.update(UploadFiles.buildUploadFilesUri(id), values, where, null);
                             }
-                            Log.d(TAG, "onClick 2 : Done Editing Company Type Information By Date" + sdf.format(new Date()));
+                            //   Log.d(TAG, "onClick 2 : Done Editing Company Type Information By Date" + sdf.format(new Date()));
                             break;
 
                         case ADD_EMPLOYEE:
@@ -229,8 +271,51 @@ public class EmployerHomeActivityFragment extends Fragment {
                 //     return;
             }
 
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "onCreateLoader: Starts with Id :" + id);
+
+        String[] projection_Type = {BusinessType.Columns._ID,
+                BusinessType.Columns.BUSINESS_TYPE_NAME,
+                BusinessType.Columns.BUSINESS_TYPE_IMAGE
+        };
+
+        String sortOrder_type = BusinessType.Columns.BUSINESS_TYPE_NAME + " COLLATE NOCASE ";
+
+        switch (id) {
+
+            case LOADER_ID_COMP_HOME:
+                return new CursorLoader(getActivity(),
+                        BusinessType.CONTENT_URI,
+                        projection_Type,
+                        null,
+                        null,
+                        sortOrder_type);
+
+            default:
+                throw new InvalidParameterException(TAG + ".onCreateLoader called with invalid loader id - " + id);
+        }
+
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.d(TAG, "onLoadFinished: Starts");
+        mCompanyHomeViewAdapter.swapCursor(data);
+        int countCompanyTypeAdapter = mCompanyHomeViewAdapter.getItemCount();
+        Log.d(TAG, "onLoadFinished: countCompanyTypeAdapter is :++++++++++++++++++++ " + countCompanyTypeAdapter);
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        Log.d(TAG, "onLoaderReset: Starts");
+        mCompanyHomeViewAdapter.swapCursor(null);
+    }
+
+
 }

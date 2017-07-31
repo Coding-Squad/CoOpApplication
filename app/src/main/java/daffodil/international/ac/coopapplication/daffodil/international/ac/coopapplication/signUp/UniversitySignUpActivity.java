@@ -3,13 +3,14 @@ package daffodil.international.ac.coopapplication.daffodil.international.ac.coop
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import daffodil.international.ac.coopapplication.R;

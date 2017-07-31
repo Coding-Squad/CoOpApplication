@@ -40,4 +40,5 @@ public class BusinessTypeDto implements Serializable {
     public String toString() {
         return getBusinessTypeName();
     }
+
 }
