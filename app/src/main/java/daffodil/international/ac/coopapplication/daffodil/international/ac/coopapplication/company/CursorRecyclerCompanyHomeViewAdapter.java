@@ -1,6 +1,8 @@
 package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,15 +47,16 @@ class CursorRecyclerCompanyHomeViewAdapter extends RecyclerView.Adapter<CursorRe
     @Override
     public void onBindViewHolder(CompanyHomeViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: Starts");
+        Log.d(TAG, "onBindViewHolder: 1 : " + (mCursor == null));
+
         if ((mCursor == null) || (mCursor.getCount() == 0)) {
             Log.d(TAG, "onBindViewHolder: Providing Instraction");
-
             holder.mCompanyTypeImage.setVisibility(View.GONE);
             holder.mCompanyTypeName.setText("No Type Registered !");
             holder.mTotalEmployee.setVisibility(View.GONE);
             holder.mDetailsButton.setVisibility(View.GONE);
-
         } else {
+            Log.d(TAG, "onBindViewHolder: Getting data from database");
             if (!mCursor.moveToPosition(position)) {
                 throw new IllegalStateException("Cant not Move Cursor To Position " + position);
             }
@@ -63,12 +66,14 @@ class CursorRecyclerCompanyHomeViewAdapter extends RecyclerView.Adapter<CursorRe
                     , mCursor.getBlob(mCursor.getColumnIndex(BusinessType.Columns.BUSINESS_TYPE_IMAGE))
             );
 
-          /*  byte[] byteArray = businessTypeDto.getBusinessTypeImage();
+            byte[] byteArray = businessTypeDto.getBusinessTypeImage();
             Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            holder.mCompanyTypeImage.setImageBitmap(bm);*/
+            holder.mCompanyTypeImage.setImageBitmap(bm);
 
             holder.mCompanyTypeName.setText(businessTypeDto.getBusinessTypeName());
-            holder.mTotalEmployee.setText("Total employee : 11");
+            holder.mCompanyTypeName.setEnabled(false);
+            holder.mTotalEmployee.setEnabled(false);
+            //  holder.mTotalEmployee.setText("Total employee : 11");
 
             holder.mCompanyTypeImage.setVisibility(View.VISIBLE);
             holder.mTotalEmployee.setVisibility(View.VISIBLE);
@@ -146,7 +151,7 @@ class CursorRecyclerCompanyHomeViewAdapter extends RecyclerView.Adapter<CursorRe
 
         CompanyHomeViewHolder(View itemView) {
             super(itemView);
-            Log.d(TAG, "CompanyInfoViewHolder: Starts");
+            Log.d(TAG, "CompanyHomeViewHolder: Starts");
             this.mCompanyTypeImage = (ImageView) itemView.findViewById(R.id.category_type_Image);
             this.mCompanyTypeName = (TextView) itemView.findViewById(R.id.ctype_item_name);
             this.mTotalEmployee = (TextView) itemView.findViewById(R.id.ctype_total_employee);

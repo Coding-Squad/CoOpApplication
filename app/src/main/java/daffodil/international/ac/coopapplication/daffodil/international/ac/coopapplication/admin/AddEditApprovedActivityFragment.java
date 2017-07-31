@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +29,7 @@ import com.kosalgeek.android.photoutil.ImageLoader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import daffodil.international.ac.coopapplication.R;
@@ -47,6 +47,8 @@ import static android.app.Activity.RESULT_OK;
  */
 public class AddEditApprovedActivityFragment extends Fragment {
     private static final String TAG = "AddEditUniversityActivi";
+
+    //TODO : this class is not used any where
 
     public enum FragmentEditMode {EDIT_UNI, ADD_UNI, EDIT_COM, ADD_COM, EDIT_TYPE, ADD_TYPE}
 
@@ -230,7 +232,6 @@ public class AddEditApprovedActivityFragment extends Fragment {
             mBusinessTypeName = (EditText) view.findViewById(R.id.ctype_item_name);
 //TODO upload Image
             mGalleryPhoto = new GalleryPhoto(getContext().getApplicationContext());
-
             mCompanyTypeImage = (ImageView) view.findViewById(R.id.category_type_Image);
             mCompanyTypeImageHolder = (ImageView) view.findViewById(R.id.category_type_Image_holder);
 
@@ -239,9 +240,7 @@ public class AddEditApprovedActivityFragment extends Fragment {
                 public void onClick(View v) {
 
                     // Here, thisActivity is the current activity
-                    if (ContextCompat.checkSelfPermission(getActivity(),
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                            != PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
 
                         // Should we show an explanation?
                         if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
@@ -255,16 +254,17 @@ public class AddEditApprovedActivityFragment extends Fragment {
 
                             // No explanation needed, we can request the permission.
 
-                            ActivityCompat.requestPermissions(getActivity(),
-                                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                     MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
 
                             // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                             // app-defined int constant. The callback method gets the
                             // result of the request.
                         }
+                    } else {
+                        startActivityForResult(mGalleryPhoto.openGalleryIntent(), GALLERY_REQUEST);
                     }
-                    startActivityForResult(mGalleryPhoto.openGalleryIntent(), GALLERY_REQUEST);
+
 
                 }
             });
@@ -281,11 +281,10 @@ public class AddEditApprovedActivityFragment extends Fragment {
                     ContentValues values = new ContentValues();
 
                     String businessTypeName = mBusinessTypeName.getText().toString();
-
                     //get from image view
                     Bitmap bitmap = ((BitmapDrawable) mCompanyTypeImageHolder.getDrawable()).getBitmap();
                     ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, bos);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
                     byte[] img = bos.toByteArray();
 
 
@@ -375,8 +374,6 @@ public class AddEditApprovedActivityFragment extends Fragment {
                 Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                 mCompanyTypeImageHolder.setImageBitmap(bm);
 
-
-
                 mMode = FragmentEditMode.EDIT_TYPE;
             } else {
                 mMode = FragmentEditMode.ADD_TYPE;
@@ -399,7 +396,7 @@ public class AddEditApprovedActivityFragment extends Fragment {
                 photoPath = mGalleryPhoto.getPath();
                 Log.d(TAG, "onActivityResult: >>>>" + photoPath);
                 try {
-                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512, 512).getBitmap();
+                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(200, 200).getBitmap();
 
                     mCompanyTypeImageHolder.setImageBitmap(bitmap);
 
