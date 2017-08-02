@@ -2,9 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="daffodil.international.ac.coopapplication">
 
-    <!--    <uses-sdk android:minSdkVersion="integer"
+    <!--
+            <uses-sdk android:minSdkVersion="integer"
                   android:targetSdkVersion="integer"
-                  android:maxSdkVersion="integer" />-->
+                  android:maxSdkVersion="integer" />
+    -->
+
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
@@ -32,6 +35,7 @@
         <activity android:name=".CoOpMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -119,6 +123,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="daffodil.international.ac.coopapplication.SignInActivity"/>
+        </activity>
+        <activity
+            android:name=".daffodil.international.ac.coopapplication.company.EmployeeListActivity"
+            android:label="@string/title_activity_employee_list"
+            android:parentActivityName=".daffodil.international.ac.coopapplication.company.EmployerHomeActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.EmployerHomeActivity"/>
         </activity>
     </application>
 

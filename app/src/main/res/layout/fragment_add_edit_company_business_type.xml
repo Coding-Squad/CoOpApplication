@@ -11,7 +11,7 @@
         android:id="@+id/category_type_Image_holder"
         android:layout_width="253dp"
         android:layout_height="118dp"
-        android:layout_marginStart="8dp"
+
         android:layout_marginTop="8dp"
         android:contentDescription="@string/icon_company_type"
         android:src="@android:drawable/ic_menu_gallery"
@@ -20,10 +20,10 @@
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1"
-        tools:layout_editor_absoluteY="10dp"/>
+        android:layout_marginStart="8dp"/>
 
     <ImageView
-        android:id="@+id/category_type_Image"
+        android:id="@+id/Image_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -41,7 +41,7 @@
         android:layout_marginTop="32dp"/>
 
     <EditText
-        android:id="@+id/ctype_item_name"
+        android:id="@+id/company_type_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
@@ -63,12 +63,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/saveButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ctype_item_name"
+        app:layout_constraintTop_toBottomOf="@+id/company_type_name"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintTop_creator="1"/>

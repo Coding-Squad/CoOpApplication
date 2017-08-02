@@ -20,8 +20,18 @@ public class StudentInformationDto {
     private long m_userId;
     private String      m_description;
 
+    //   private byte[] mStudentImage;
+
     public StudentInformationDto() {
 
+    }
+
+    public StudentInformationDto(long m_id, String m_firstName, String m_lastName, String m_mobile_number, String m_address) {
+        this.m_id = m_id;
+        this.m_firstName = m_firstName;
+        this.m_lastName = m_lastName;
+        this.m_mobile_number = m_mobile_number;
+        this.m_address = m_address;
     }
 
     public StudentInformationDto(long id, long userId,
@@ -132,22 +142,17 @@ public class StudentInformationDto {
         this.m_description = m_description;
     }
 
+   /* public byte[] getStudentImage() {
+        return mStudentImage;
+    }
+
+    public void setStudentImage(byte[] studentImage) {
+        mStudentImage = studentImage;
+    }*/
+
     @Override
     public String toString() {
-        return "StudentInformationDto{" +
-                "m_id=" + m_id +
-                ", m_userId=" + m_userId +
-                ", m_firstName='" + m_firstName + '\'' +
-                ", m_lastName='" + m_lastName + '\'' +
-                ", m_mobile_number='" + m_mobile_number + '\'' +
-                ", m_address='" + m_address + '\'' +
-                ", m_gendar=" + m_gender +
-                ", m_bloodGroup=" + m_bloodGroup +
-                ", m_date_of_Birth=" + m_date_of_Birth +
-                ", m_universityId='" + m_universityId + '\'' +
-                ", m_studentId=" + m_studentId +
-                ", m_description='" + m_description + '\'' +
-                '}';
+        return getM_firstName() + " " + getM_lastName();
     }
 
 }
