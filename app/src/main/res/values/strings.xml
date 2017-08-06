@@ -102,5 +102,10 @@
     <string name="btn_details">Details</string>
     <string name="total_employee">Total Employee : 10</string>
     <string name="title_activity_employer_home">EmployerHomeActivity</string>
+    <string name="title_activity_employee_list">EmployeeListActivity</string>
+    <string name="student_name">Student Name</string>
+    <string name="hire">Hire</string>
+    <string name="wish_list">Wish List</string>
+    <string name="student_image_holder">Student Image</string>
 
 </resources>

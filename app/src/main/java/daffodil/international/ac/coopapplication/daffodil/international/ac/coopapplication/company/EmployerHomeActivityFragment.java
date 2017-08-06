@@ -73,6 +73,8 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
 
     UploadFileDto mUploadFileDto;
 
+    /*private ImageButton mDetailsButton;*/
+
 
     public EmployerHomeActivityFragment() {
         Log.d(TAG, "EmployerHomeActivityFragment: Constructor called");
@@ -114,6 +116,7 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
         mHiredEmployeeAmount = (TextView) view.findViewById(R.id.hired_employee_amount);
         mTotalHourByCompany = (TextView) view.findViewById(R.id.total_hour_by_company);
 
+
         //set text
         mHiredEmployeeAmount.setText("Employee Hired 150 taka");
         mTotalHourByCompany.setText("Total Service 500 hour");
@@ -143,6 +146,7 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
 
             }
         });
+
 
         Bundle arguments = getActivity().getIntent().getExtras();
 
@@ -175,15 +179,14 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
                 (CursorRecyclerCompanyHomeViewAdapter.OnCompanyHomeClickListener) getActivity());
 
         recyclerView.setAdapter(mCompanyHomeViewAdapter);
-
         Log.d(TAG, "onCreateView: Rerunning");
-
         return view;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Update uploadFile to the database from here
+
 
         ContentResolver contentResolver = getActivity().getContentResolver();
         ContentValues values = new ContentValues();

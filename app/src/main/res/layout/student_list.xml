@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:id="@+id/stu_list"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="wrap_content"
+                                             android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/Image_holder"
+        android:layout_width="0dp"
+        android:layout_height="118dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/student_image_holder"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/student_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_menu_report_image"/>
+
+    <EditText
+        android:id="@+id/student_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/student_name"
+        android:inputType="textPersonName"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <EditText
+        android:id="@+id/student_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/address"
+        android:inputType="textMultiLine"
+        app:layout_constraintLeft_toLeftOf="@+id/student_name"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/student_name"/>
+
+    <EditText
+        android:id="@+id/student_phone_no"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/phone_no"
+        android:inputType="phone"
+        app:layout_constraintLeft_toLeftOf="@+id/student_address"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/student_address"/>
+
+    <ImageButton
+        android:id="@+id/btn_student_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="@string/btn_details"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/btn_student_hire"
+        app:layout_constraintTop_toBottomOf="@+id/student_phone_no"
+        app:layout_constraintVertical_bias="0.01999998"
+        app:srcCompat="@android:drawable/ic_menu_info_details"/>
+
+    <ImageButton
+        android:id="@+id/btn_student_hire"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
+        android:contentDescription="@string/hire"
+        app:layout_constraintRight_toLeftOf="@+id/btn_wish_list"
+        app:layout_constraintTop_toTopOf="@+id/btn_student_details"
+        app:srcCompat="@android:drawable/ic_input_add"/>
+
+    <ImageButton
+        android:id="@+id/btn_wish_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
+        android:contentDescription="@string/wish_list"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_student_hire"
+        app:srcCompat="?android:attr/listChoiceIndicatorSingle"
+        />
+
+</android.support.constraint.ConstraintLayout>

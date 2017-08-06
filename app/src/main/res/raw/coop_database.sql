@@ -8,6 +8,10 @@ CREATE TABLE users (
     secretQuestion VARCHAR(60),
     userRole INTEGER DEFAULT "1"
 );
+//  >> UserInformation.Columns.USER_ROLE_ID, 1
+//  >> UserInformation.Columns.USER_ROLE_ID, 2
+// Student >> UserInformation.Columns.USER_ROLE_ID, 3
+// Admin >> UserInformation.Columns.USER_ROLE_ID, 4
 
 INSERT INTO users VALUES();
 

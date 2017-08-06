@@ -1,5 +1,6 @@
 package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,6 +22,15 @@ public class EmployerHomeActivity extends AppCompatActivity implements CursorRec
 
     @Override
     public void onCompDetailsClicked(BusinessTypeDto businessTypeDto) {
-        Log.d(TAG, "onCompDetailsClicked: businessTypeDto >> " + businessTypeDto);
+        Log.d(TAG, "onCompDetailsClicked: businessTypeDto >> " + businessTypeDto.getBusinessTypeName());
+
+        Intent detailIntent = new Intent(this, EmployeeListActivity.class);
+        if (businessTypeDto != null) {
+
+            detailIntent.putExtra(BusinessTypeDto.class.getSimpleName(), businessTypeDto);
+            startActivity(detailIntent);
+        } else {
+            startActivity(detailIntent);
+        }
     }
 }

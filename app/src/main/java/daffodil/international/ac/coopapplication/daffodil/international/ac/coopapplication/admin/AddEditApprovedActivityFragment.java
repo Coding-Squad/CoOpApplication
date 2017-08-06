@@ -229,10 +229,10 @@ public class AddEditApprovedActivityFragment extends Fragment {
 
         } else {
             view = inflater.inflate(R.layout.fragment_add_edit_company_business_type, container, false);
-            mBusinessTypeName = (EditText) view.findViewById(R.id.ctype_item_name);
+            mBusinessTypeName = (EditText) view.findViewById(R.id.company_type_name);
 //TODO upload Image
             mGalleryPhoto = new GalleryPhoto(getContext().getApplicationContext());
-            mCompanyTypeImage = (ImageView) view.findViewById(R.id.category_type_Image);
+            mCompanyTypeImage = (ImageView) view.findViewById(R.id.Image_holder);
             mCompanyTypeImageHolder = (ImageView) view.findViewById(R.id.category_type_Image_holder);
 
             mCompanyTypeImage.setOnClickListener(new View.OnClickListener() {

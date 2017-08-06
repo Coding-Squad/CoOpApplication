@@ -47,7 +47,7 @@ public class AddEditCompanyBusinessTypeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_add_edit_company_business_type, container, false);
 
-        mBusinessTypeName = (EditText) view.findViewById(R.id.ctype_item_name);
+        mBusinessTypeName = (EditText) view.findViewById(R.id.company_type_name);
         mSaveButton = (Button) view.findViewById(R.id.companyTypeButton_save);
 
         Bundle arguments = getActivity().getIntent().getExtras();

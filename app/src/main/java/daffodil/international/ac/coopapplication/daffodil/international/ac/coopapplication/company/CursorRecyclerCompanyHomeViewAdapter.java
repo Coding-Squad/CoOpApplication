@@ -47,8 +47,6 @@ class CursorRecyclerCompanyHomeViewAdapter extends RecyclerView.Adapter<CursorRe
     @Override
     public void onBindViewHolder(CompanyHomeViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder: Starts");
-        Log.d(TAG, "onBindViewHolder: 1 : " + (mCursor == null));
-
         if ((mCursor == null) || (mCursor.getCount() == 0)) {
             Log.d(TAG, "onBindViewHolder: Providing Instraction");
             holder.mCompanyTypeImage.setVisibility(View.GONE);
@@ -106,11 +104,32 @@ class CursorRecyclerCompanyHomeViewAdapter extends RecyclerView.Adapter<CursorRe
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "getItemCount: Starts");
         if ((mCursor == null) || (mCursor.getCount() == 0)) {
             return 1;
         } else {
             return mCursor.getCount();
+        }
+    }
+
+
+    static class CompanyHomeViewHolder extends RecyclerView.ViewHolder {
+        private static final String TAG = "CompanyInfoViewHolder";
+
+        ImageView mCompanyTypeImage = null;
+        TextView mCompanyTypeName = null;
+        TextView mTotalEmployee = null;
+
+        ImageButton mDetailsButton = null;
+
+
+        CompanyHomeViewHolder(View itemView) {
+            super(itemView);
+            Log.d(TAG, "CompanyHomeViewHolder: Starts");
+            this.mCompanyTypeImage = (ImageView) itemView.findViewById(R.id.Image_holder);
+            this.mCompanyTypeName = (TextView) itemView.findViewById(R.id.company_type_name);
+            this.mTotalEmployee = (TextView) itemView.findViewById(R.id.total_employee);
+            this.mDetailsButton = (ImageButton) itemView.findViewById(R.id.btn_details);
+
         }
     }
 
@@ -136,27 +155,5 @@ class CursorRecyclerCompanyHomeViewAdapter extends RecyclerView.Adapter<CursorRe
             notifyItemRangeRemoved(0, getItemCount());
         }
         return oldCursor;
-    }
-
-
-    static class CompanyHomeViewHolder extends RecyclerView.ViewHolder {
-        private static final String TAG = "CompanyInfoViewHolder";
-
-        ImageView mCompanyTypeImage = null;
-        TextView mCompanyTypeName = null;
-        TextView mTotalEmployee = null;
-
-        ImageButton mDetailsButton = null;
-
-
-        CompanyHomeViewHolder(View itemView) {
-            super(itemView);
-            Log.d(TAG, "CompanyHomeViewHolder: Starts");
-            this.mCompanyTypeImage = (ImageView) itemView.findViewById(R.id.category_type_Image);
-            this.mCompanyTypeName = (TextView) itemView.findViewById(R.id.ctype_item_name);
-            this.mTotalEmployee = (TextView) itemView.findViewById(R.id.ctype_total_employee);
-            this.mDetailsButton = (ImageButton) itemView.findViewById(R.id.btn_details);
-
-        }
     }
 }
