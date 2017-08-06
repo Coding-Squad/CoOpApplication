@@ -90,22 +90,7 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-/* if their is more then 2 fragment then it might usefull
-  PackageManager packageManager = getActivity().getPackageManager();
-
-        ActivityInfo info = null;
-        try {
-            info = packageManager.getActivityInfo(getActivity().getComponentName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        Log.d(TAG, "onCreateView: Activity name:" + info.name);
-
-        String employerHome = "daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.EmployerHomeActivity";*/
-
-
         View view = inflater.inflate(R.layout.fragment_employer_home, container, false);
-
 
         mOpenGalleryPhoto = new GalleryPhoto(getContext().getApplicationContext());
 

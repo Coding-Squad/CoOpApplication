@@ -1,6 +1,8 @@
 package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import daffodil.international.ac.coopapplication.R;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.StudentInformationDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UploadFiles;
 
 /**
  * Created by Pranto on 02-Aug-17.
@@ -98,13 +101,22 @@ class CursorRecyclerStudentListViewAdapter extends RecyclerView.Adapter<CursorRe
             final StudentInformationDto informationDto = new StudentInformationDto(mCursor.getLong(mCursor.getColumnIndex(StudentInformation.Columns._ID))
                     , mCursor.getString(mCursor.getColumnIndex(StudentInformation.Columns.FIRST_NAME))
                     , mCursor.getString(mCursor.getColumnIndex(StudentInformation.Columns.LAST_NAME))
-                    , mCursor.getString(mCursor.getColumnIndex(StudentInformation.Columns.ADDRESS))
                     , mCursor.getString(mCursor.getColumnIndex(StudentInformation.Columns.MOBILE_NUMBER))
+                    , mCursor.getString(mCursor.getColumnIndex(StudentInformation.Columns.ADDRESS))
+                    , mCursor.getBlob(mCursor.getColumnIndex(UploadFiles.Columns.FILE_))
             );
 
-            /*byte[] byteArray = businessTypeDto.getBusinessTypeImage();
-            Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-            holder.mCompanyTypeImage.setImageBitmap(bm);*/
+          /*  //test
+            final UploadFileDto uploadFileDto= new UploadFileDto(mCursor.getLong(mCursor.getColumnIndex(UploadFiles.Columns._ID))
+                    , mCursor.getBlob(mCursor.getColumnIndex(UploadFiles.Columns.FILE_))
+                    , mCursor.getLong(mCursor.getColumnIndex(UploadFiles.Columns.USER_ID))
+            );*/
+
+            byte[] byteArray = informationDto.getStudentImage();
+            if (byteArray != null) {
+                Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                holder.mStudentImage.setImageBitmap(bm);
+            }
 
             holder.mStudentName.setText(informationDto.getM_firstName() + " " + informationDto.getM_lastName());
             holder.mStudentAddress.setText(informationDto.getM_address());

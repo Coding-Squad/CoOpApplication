@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.WindowManager;
 
 import daffodil.international.ac.coopapplication.R;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
@@ -17,6 +18,7 @@ public class EmployerHomeActivity extends AppCompatActivity implements CursorRec
         Log.d(TAG, "onCreate: Starts");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employer_home);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
     }
 

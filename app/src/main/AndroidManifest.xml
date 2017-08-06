@@ -128,10 +128,20 @@
             android:name=".daffodil.international.ac.coopapplication.company.EmployeeListActivity"
             android:label="@string/title_activity_employee_list"
             android:parentActivityName=".daffodil.international.ac.coopapplication.company.EmployerHomeActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.EmployerHomeActivity"/>
+        </activity>
+        <activity
+            android:name=".daffodil.international.ac.coopapplication.company.StudentDetailsActivity"
+            android:label="@string/title_activity_student_details"
+            android:parentActivityName=".daffodil.international.ac.coopapplication.company.EmployeeListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.EmployeeListActivity"/>
         </activity>
     </application>
 

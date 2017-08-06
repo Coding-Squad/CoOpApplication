@@ -20,6 +20,7 @@ import java.security.InvalidParameterException;
 import daffodil.international.ac.coopapplication.R;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UploadFiles;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -31,6 +32,8 @@ public class EmployeeListActivityFragment extends Fragment implements LoaderMana
 
     private TextView mCompanyTypeName;
     BusinessTypeDto mBusinessTypeDto;
+    //  UploadFileDto mUploadFileDto;
+
 
     private CursorRecyclerStudentListViewAdapter mCursorRecyclerStudentListViewAdapter;
 
@@ -90,24 +93,27 @@ public class EmployeeListActivityFragment extends Fragment implements LoaderMana
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.d(TAG, "onCreateLoader: Starts with Id :" + id);
 
-        String[] projection_Type = {StudentInformation.Columns._ID,
-                StudentInformation.Columns.FIRST_NAME,
-                StudentInformation.Columns.LAST_NAME,
-                StudentInformation.Columns.ADDRESS,
-                StudentInformation.Columns.MOBILE_NUMBER
+        String[] projection_Type = {"a." + StudentInformation.Columns._ID,
+                "a." + StudentInformation.Columns.FIRST_NAME,
+                "a." + StudentInformation.Columns.LAST_NAME,
+                "a." + StudentInformation.Columns.ADDRESS,
+                "a." + StudentInformation.Columns.MOBILE_NUMBER,
+                "b." + UploadFiles.Columns.FILE_
         };
+        //TODO : where Statement;
+        String selection = "b." + UploadFiles.Columns.FILE_TYPE + " = 2"; //id = 2 for profile picture
 
-        String sortOrder_type = StudentInformation.Columns._ID + " COLLATE NOCASE ";
+        String sortOrder_type = "a." + StudentInformation.Columns._ID + " COLLATE NOCASE ";
 
-        //TODO : need to add where Statement;
+
 
         switch (id) {
 
             case LOADER_ID_STUDENT_LIST:
                 return new CursorLoader(getActivity(),
-                        StudentInformation.CONTENT_URI,
+                        StudentInformation.CONTENT_URI_STUDENT_INFO_PHOTO,
                         projection_Type,
-                        null,
+                        selection,
                         null,
                         sortOrder_type);
 
