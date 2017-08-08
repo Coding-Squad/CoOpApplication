@@ -100,8 +100,8 @@ public class EmployeeListActivityFragment extends Fragment implements LoaderMana
                 "a." + StudentInformation.Columns.MOBILE_NUMBER,
                 "b." + UploadFiles.Columns.FILE_
         };
-        //TODO : where Statement;
-        String selection = "b." + UploadFiles.Columns.FILE_TYPE + " = 2"; //id = 2 for profile picture
+        //TODO : where Statement if Photo not upload stop show student .
+        //  String selection = "b." + UploadFiles.Columns.FILE_TYPE + " = 2"; //id = 2 for profile picture
 
         String sortOrder_type = "a." + StudentInformation.Columns._ID + " COLLATE NOCASE ";
 
@@ -113,7 +113,7 @@ public class EmployeeListActivityFragment extends Fragment implements LoaderMana
                 return new CursorLoader(getActivity(),
                         StudentInformation.CONTENT_URI_STUDENT_INFO_PHOTO,
                         projection_Type,
-                        selection,
+                        null, //selection
                         null,
                         sortOrder_type);
 

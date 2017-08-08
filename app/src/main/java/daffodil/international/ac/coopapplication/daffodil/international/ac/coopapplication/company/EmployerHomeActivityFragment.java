@@ -36,13 +36,16 @@ import java.io.FileNotFoundException;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
+import daffodil.international.ac.coopapplication.AppDatabaseHelper;
 import daffodil.international.ac.coopapplication.R;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UploadFileDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.UploadFiles;
 
 import static android.app.Activity.RESULT_OK;
+import static daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.EmployerHomeActivityFragment.FragmentEditMode.ADD_EMPLOYEE_PHOTO;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -54,11 +57,14 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
-    public enum FragmentEditMode {EDIT_EMPLOYEE, ADD_EMPLOYEE}
+    public enum FragmentEditMode {EDIT_EMPLOYEE_PHOTO, ADD_EMPLOYEE_PHOTO}
 
     private FragmentEditMode mMode;
 
     private CursorRecyclerCompanyHomeViewAdapter mCompanyHomeViewAdapter;
+
+    private AppDatabaseHelper databaseHelper;
+    long userId;
 
     private ImageView mCompanyCoverImage;
     private ImageView mCompanyCoverImageHolder;
@@ -73,6 +79,7 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
 
     UploadFileDto mUploadFileDto;
 
+    List<UploadFileDto> mUploadFileList;
     /*private ImageButton mDetailsButton;*/
 
 
@@ -80,6 +87,28 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
         Log.d(TAG, "EmployerHomeActivityFragment: Constructor called");
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle arguments = getActivity().getIntent().getExtras();
+
+        String emailAddress;
+        if (savedInstanceState == null) {
+
+            if (arguments == null) {
+                emailAddress = null;
+            } else {
+                emailAddress = arguments.getString("EMAIL");
+            }
+        } else {
+            emailAddress = (String) savedInstanceState.getSerializable("EMAIL");
+        }
+        Log.d(TAG, "onCreateView: emailAddress >>>>> " + emailAddress);
+        databaseHelper = new AppDatabaseHelper(getContext());
+        userId = databaseHelper.getUserIdByEmail(emailAddress);
+        Log.d(TAG, "onCreateView: userId >>>>> " + userId);
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -132,27 +161,40 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
             }
         });
 
-
         Bundle arguments = getActivity().getIntent().getExtras();
-
         if (arguments != null) {
-            Log.d(TAG, "onCreateView: retrieving Photo Info");
+            Log.d(TAG, "onCreateView: retrieving Photo Info ");
             mUploadFileDto = (UploadFileDto) arguments.getSerializable(UploadFileDto.class.getSimpleName());
+
+            mUploadFileList = databaseHelper.getImageFromUploadFilesByUserId(userId, 1);//1 for coverPhoto
+            Log.d(TAG, "onCreateView: size >" + mUploadFileList.size() + " userId > " + userId);
+            if (mUploadFileList != null) {
+                for (UploadFileDto dto : mUploadFileList) {
+                    Log.d(TAG, "onCreateView: > " + dto.getId() + " > " + dto.getUploadImage() + " > " + dto.getUserId());
+                    mUploadFileDto = new UploadFileDto();
+                    mUploadFileDto.setId(dto.getId());
+                    mUploadFileDto.setUploadImage(dto.getUploadImage());
+                    mUploadFileDto.setUserId(dto.getUserId());
+                    Log.d(TAG, "onCreateView: > " + dto.getId() + " " + dto.getUploadImage() + " " + dto.getUserId());
+                }
+            }
             if (mUploadFileDto != null) {
                 Log.d(TAG, "onCreateView: Details found Editing ");
 
                 byte[] byteArray = mUploadFileDto.getUploadImage();
+                Log.d(TAG, "onCreateView: " + byteArray);
                 Bitmap bm = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                mCompanyCoverImageHolder.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 mCompanyCoverImageHolder.setImageBitmap(bm);
 
-                mMode = FragmentEditMode.EDIT_EMPLOYEE;
+                mMode = FragmentEditMode.EDIT_EMPLOYEE_PHOTO;
             } else {
-                mMode = FragmentEditMode.ADD_EMPLOYEE;
+                mMode = ADD_EMPLOYEE_PHOTO;
             }
         } else {
             mUploadFileDto = null;
             Log.d(TAG, "onCreateView : no Image argument Found Adding new");
-            mMode = FragmentEditMode.ADD_EMPLOYEE;
+            mMode = ADD_EMPLOYEE_PHOTO;
         }
 
         // TODO: list view added
@@ -171,8 +213,6 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //Update uploadFile to the database from here
-
-
         ContentResolver contentResolver = getActivity().getContentResolver();
         ContentValues values = new ContentValues();
 
@@ -180,13 +220,6 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
             if (requestCode == GALLERY_REQUEST) {
                 mOpenGalleryPhoto.setPhotoUri(data.getData());
                 photoPath = mOpenGalleryPhoto.getPath();
-
-                /*DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-                int width = displayMetrics.widthPixels;
-                int height = displayMetrics.heightPixels;
-                int persent20 = (int)(height*(.20));
-                Log.d(TAG, "onActivityResult: width >>"+width+" >>>>>height >>>"+height);
-*/
                 try {
                     //  Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512, 512).getBitmap();
                     //  Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(width, persent20).getBitmap();
@@ -201,28 +234,33 @@ public class EmployerHomeActivityFragment extends Fragment implements LoaderMana
                     byte[] img = bos.toByteArray();
 
                     switch (mMode) {
-                        case EDIT_EMPLOYEE:
+                        case EDIT_EMPLOYEE_PHOTO:
 
                             values.put(UploadFiles.Columns.FILE_, img);
-                            values.put(BusinessType.Columns.MODIFIED_DATE, sdf.format(new Date()));
+                            values.put(UploadFiles.Columns.MODIFIED_DATE, sdf.format(new Date()));
+                            values.put(UploadFiles.Columns.USER_ID, userId);
 
                             if (values.size() != 0) {
-                                //TODO: Need to Add User Id of his Who is Approving this business Type  !!
-                                long id = mUploadFileDto.getId();
-                                String where = UploadFiles.Columns._ID + " = " + id;
-                                contentResolver.update(UploadFiles.buildUploadFilesUri(id), values, where, null);
+                                Log.d(TAG, "onActivityResult: " + userId);
+                                long photoId = mUploadFileDto.getId();
+                                Log.d(TAG, "EDIT_EMPLOYEE_PHOTO onActivityResult: Photo Id" + photoId + " ,User id " + userId + " , img > " + img);
+                                contentResolver.update(UploadFiles.buildUploadFilesUri(photoId), values, null, null);
+
                             }
                             //   Log.d(TAG, "onClick 2 : Done Editing Company Type Information By Date" + sdf.format(new Date()));
                             break;
 
-                        case ADD_EMPLOYEE:
+                        case ADD_EMPLOYEE_PHOTO:
                             if (img != null) {
                                 Log.d(TAG, "onClick: Add new Image info in table");
-                                values.put(UploadFiles.Columns.FILE_, img);
-                                //TODO: Need to Add User Id of his Who is Creating this business Type !!
-                                values.put(BusinessType.Columns.CREATE_DATE, sdf.format(new Date()));
-                                values.put(BusinessType.Columns.MODIFIED_DATE, sdf.format(new Date()));
 
+                                Log.d(TAG, "ADD_EMPLOYEE_PHOTO onActivityResult: " + userId);
+                                values.put(UploadFiles.Columns.FILE_, img);
+                                values.put(UploadFiles.Columns.CREATE_DATE, sdf.format(new Date()));
+                                values.put(UploadFiles.Columns.MODIFIED_DATE, sdf.format(new Date()));
+                                values.put(UploadFiles.Columns.USER_ID, userId);//user id of company
+                                values.put(UploadFiles.Columns.FILE_TYPE, 1);//1 for coverPhoto
+                                Log.d(TAG, "onActivityResult: values" + values);
                                 contentResolver.insert(UploadFiles.CONTENT_URI, values);
                                 Log.d(TAG, "onClick 2 : Add  By Date" + sdf.format(new Date()));
                             }

@@ -624,7 +624,7 @@ public class AppProvider extends ContentProvider {
                 if ((selection != null) && (selection.length() > 0)) {
                     selectionCriteria += " AND (" + selection + ")";
                 }
-                count = db.update(BusinessType.TABLE_NAME, values, selectionCriteria, selectionArgs);
+                count = db.update(UploadFiles.TABLE_NAME, values, selectionCriteria, selectionArgs);
                 break;
 
             case FEED_BACK:
