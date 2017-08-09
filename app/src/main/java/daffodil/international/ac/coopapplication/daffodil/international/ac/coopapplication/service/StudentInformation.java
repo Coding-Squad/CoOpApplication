@@ -13,12 +13,13 @@ import static daffodil.international.ac.coopapplication.AppProvider.CONTENT_AUTH
 
 public class StudentInformation {
 
-
+    private static final String TAG = "StudentInformation";
     public static final String TABLE_NAME = "StudentInformation";
 
 
     // Student Information fields
     public static class Columns {
+
         public static final String _ID = BaseColumns._ID;
         public static final String FIRST_NAME = "FirstName";
         public static final String LAST_NAME = "LastName";
@@ -43,6 +44,15 @@ public class StudentInformation {
      */
     public static final Uri CONTENT_URI = Uri.withAppendedPath(CONTENT_AUTHORITY_URI, TABLE_NAME);
 
+    public static final String STUDENT_INFO_PHOTO = StudentInformation.TABLE_NAME + " a LEFT JOIN " + UploadFiles.TABLE_NAME
+            + " b ON (a." + StudentInformation.Columns.USER_ID
+            + " = b."
+            + UploadFiles.Columns.USER_ID
+            + " )";
+
+    public static final Uri CONTENT_URI_STUDENT_INFO_PHOTO = Uri.withAppendedPath(CONTENT_AUTHORITY_URI, STUDENT_INFO_PHOTO);
+
+
     public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd." + CONTENT_AUTHORITY + "." + TABLE_NAME;
     public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd." + CONTENT_AUTHORITY + "." + TABLE_NAME;
 
@@ -57,6 +67,5 @@ public class StudentInformation {
         return ContentUris.parseId(uri);
 
     }
-
 
 }

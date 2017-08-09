@@ -1,12 +1,13 @@
 package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Programmer on 10-Jun-17.
  */
 
-public class StudentInformationDto {
+public class StudentInformationDto implements Serializable {
     private long        m_id;
     private String      m_firstName;
     private String      m_lastName;
@@ -20,18 +21,27 @@ public class StudentInformationDto {
     private long m_userId;
     private String      m_description;
 
-    //   private byte[] mStudentImage;
+    private byte[] mStudentImage;
 
     public StudentInformationDto() {
 
     }
 
-    public StudentInformationDto(long m_id, String m_firstName, String m_lastName, String m_mobile_number, String m_address) {
+/*    public StudentInformationDto(long m_id, String m_firstName, String m_lastName, String m_mobile_number, String m_address) {
         this.m_id = m_id;
         this.m_firstName = m_firstName;
         this.m_lastName = m_lastName;
         this.m_mobile_number = m_mobile_number;
         this.m_address = m_address;
+    }*/
+
+    public StudentInformationDto(long m_id, String m_firstName, String m_lastName, String m_mobile_number, String m_address, byte[] studentImage) {
+        this.m_id = m_id;
+        this.m_firstName = m_firstName;
+        this.m_lastName = m_lastName;
+        this.m_mobile_number = m_mobile_number;
+        this.m_address = m_address;
+        mStudentImage = studentImage;
     }
 
     public StudentInformationDto(long id, long userId,
@@ -142,13 +152,13 @@ public class StudentInformationDto {
         this.m_description = m_description;
     }
 
-   /* public byte[] getStudentImage() {
+    public byte[] getStudentImage() {
         return mStudentImage;
     }
 
     public void setStudentImage(byte[] studentImage) {
         mStudentImage = studentImage;
-    }*/
+    }
 
     @Override
     public String toString() {

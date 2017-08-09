@@ -12,6 +12,16 @@ public class UploadFileDto implements Serializable {
 
     long m_Id;
     byte[] mUploadImage;
+    long userId;
+
+    public UploadFileDto() {
+    }
+
+    public UploadFileDto(long id, byte[] image, long userId) {
+        this.m_Id = id;
+        mUploadImage = image;
+        this.userId = userId;
+    }
 
     public long getId() {
         return m_Id;
@@ -27,5 +37,13 @@ public class UploadFileDto implements Serializable {
 
     public void setUploadImage(byte[] uploadImage) {
         mUploadImage = uploadImage;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 }

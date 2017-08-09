@@ -12,6 +12,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.admin.AdminHomeUniversityActivity;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.company.EmployerHomeActivity;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.signUp.SignUpAsActivity;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
@@ -127,10 +128,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 , textInputEditTextPassword.getText().toString().trim()
                 , "2")) {
 //Company Login Part
-            Intent accountsIntent = new Intent(activity, DashBoardActivity.class);
-            accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+            Intent companyHomeIntent = new Intent(activity, EmployerHomeActivity.class);
+            companyHomeIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
             emptyInputEditText();
-            startActivity(accountsIntent);
+            startActivity(companyHomeIntent);
 
 
         } else if (databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()

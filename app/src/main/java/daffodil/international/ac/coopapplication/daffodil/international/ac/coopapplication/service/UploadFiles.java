@@ -14,12 +14,13 @@ import static daffodil.international.ac.coopapplication.AppProvider.CONTENT_AUTH
 public class UploadFiles {
     private static final String TAG = "UploadFiles";
 /*
-    CREATE TABLE uploadFiles (
-            fileId LONG PRIMARY KEY NOT NULL DEFAULT "0",
-            filyType VARCHAR(10),
-            fileSize VARCHAR(10),
-            file VARCHAR(50),
-    userId  LONG
+
+    fileType    Type name
+    1           Cover Photo
+    2           profile Picture
+    3
+
+
 );*/
 
     public static final String TABLE_NAME = "UploadFiles";

@@ -56,6 +56,7 @@ public class AppProvider extends ContentProvider {
 
     private static final int STUDENT_INFORMATION = 300;
     private static final int STUDENT_INFORMATION_ID = 301;
+    private static final int STUDENT_DTAILS_WITH_PHOTO = 302;
 
     private static final int COMPANY_INFORMATION = 400;
     private static final int COMPANY_INFORMATION_ID = 401;
@@ -102,6 +103,8 @@ public class AppProvider extends ContentProvider {
         matcher.addURI(CONTENT_AUTHORITY, StudentInformation.TABLE_NAME, STUDENT_INFORMATION);
         // e.g. content://daffodil.international.ac.coopapplication.provider/StudentInformation/8
         matcher.addURI(CONTENT_AUTHORITY, StudentInformation.TABLE_NAME + "/#", STUDENT_INFORMATION_ID);
+
+        matcher.addURI(CONTENT_AUTHORITY, StudentInformation.STUDENT_INFO_PHOTO, STUDENT_DTAILS_WITH_PHOTO);
 
         //  eg. content://daffodil.international.ac.coopapplication.provider/ContactInformation
         matcher.addURI(CONTENT_AUTHORITY, ContactInformation.TABLE_NAME, CONTRACT_INFORMATION);
@@ -183,6 +186,9 @@ public class AppProvider extends ContentProvider {
                 queryBuilder.setTables(StudentInformation.TABLE_NAME);
                 long studentInformationId = StudentInformation.getStudentInformationId(uri);
                 queryBuilder.appendWhere(StudentInformation.Columns._ID + " = " + studentInformationId);
+                break;
+            case STUDENT_DTAILS_WITH_PHOTO:
+                queryBuilder.setTables(StudentInformation.STUDENT_INFO_PHOTO);
                 break;
 
             case BUSINESS_TYPE:
@@ -390,7 +396,6 @@ public class AppProvider extends ContentProvider {
                     throw new android.database.SQLException("Failed to insert into " + uri.toString());
                 }
                 break;
-
 
             default:
                 throw new IllegalArgumentException("Unknown uri: " + uri);
@@ -619,7 +624,7 @@ public class AppProvider extends ContentProvider {
                 if ((selection != null) && (selection.length() > 0)) {
                     selectionCriteria += " AND (" + selection + ")";
                 }
-                count = db.update(BusinessType.TABLE_NAME, values, selectionCriteria, selectionArgs);
+                count = db.update(UploadFiles.TABLE_NAME, values, selectionCriteria, selectionArgs);
                 break;
 
             case FEED_BACK:

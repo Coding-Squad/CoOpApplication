@@ -136,9 +136,9 @@ public class StudentSignUpActivity extends SimpleActivity {
                 mStudentDescription.getText().toString());
         studentInformationValues.put(StudentInformation.Columns.UNIVERSITY_ID,
                 approvedUniversityId);
-        studentInformationValues.put(StudentInformation.Columns.MOBILE_NUMBER,
+       /* studentInformationValues.put(StudentInformation.Columns.MOBILE_NUMBER,
                 mStudentMobileTextView.getText().toString());
-        /*studentInformationValues.put(StudentInformation.Columns.DATE_OF_BIRTH,
+        studentInformationValues.put(StudentInformation.Columns.DATE_OF_BIRTH,
                 mStudentDateOfBirth.getText().toString());*/
         /*studentInformationValues.put(StudentInformation.Columns.GENDER,
                 mStudentGenderRadioButton.getText().toString());*/

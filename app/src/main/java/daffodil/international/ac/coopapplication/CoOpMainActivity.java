@@ -17,14 +17,12 @@ public class CoOpMainActivity extends SimpleActivity {
     }
 
     public void goToSignUpAsPage(View view) {
-        Intent signUpPageIntent = new Intent
-                (this, SignUpAsActivity.class);
+        Intent signUpPageIntent = new Intent(this, SignUpAsActivity.class);
         startActivity(signUpPageIntent);
     }
 
     public void goToSignInPage(View view) {
-        Intent signInPageIntent = new Intent
-                (this, SignInActivity.class);
+        Intent signInPageIntent = new Intent(this, SignInActivity.class);
         startActivity(signInPageIntent);
 
     }

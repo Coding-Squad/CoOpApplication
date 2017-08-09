@@ -107,5 +107,6 @@
     <string name="hire">Hire</string>
     <string name="wish_list">Wish List</string>
     <string name="student_image_holder">Student Image</string>
+    <string name="title_activity_student_details">StudentDetailsActivity</string>
 
 </resources>

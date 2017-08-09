@@ -11,6 +11,7 @@ import java.util.List;
 
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.BusinessTypeDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UniversityInfoDto;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UploadFileDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.BusinessType;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.CompanyInformation;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.ContactInformation;
@@ -132,8 +133,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + UploadFiles.Columns.USER_ID + " INTEGER, "
             + UploadFiles.Columns.FILE_ + " BLOB, "
             + UploadFiles.Columns.FILE_SIZE + " TEXT, "
-            + UploadFiles.Columns.FILE_TYPE + " TEXT);";
-
+            + UploadFiles.Columns.FILE_TYPE + " INTEGER);";
     //Upload FeedBack Table
     public static final String CREATE_FEED_BACK_TABLE = "CREATE TABLE " + FeedBack.TABLE_NAME + " ("
             + FeedBack.Columns._ID + " INTEGER PRIMARY KEY NOT NULL, "
@@ -175,6 +175,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         switch (oldVersion) {
             case 1:
                 // upgrade logic from version 1
+                db.execSQL(CREATE_UPLOAD_FILES_TABLE);
                 break;
             default:
                 throw new IllegalStateException("onUpgrade() with unknown newVersion: " + newVersion);
@@ -245,6 +246,50 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
         // returning lables
         return approvedUniversityDtos;
     }
+
+
+    public long getUserIdByEmail(String email) {
+        long userId = 0;
+        Log.d(TAG, "getUserIdByEmail: Starts...." + email);
+        String selectQuery = "SELECT  * FROM " + UserInformation.TABLE_NAME + " WHERE Email = '" + email + "' ;";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        cursor.moveToFirst();
+        userId = cursor.getLong(0);
+        Log.d(TAG, "getUserIdByEmail: User id : " + userId);
+        cursor.close();
+        db.close();
+        return userId;
+    }
+
+    public List<UploadFileDto> getImageFromUploadFilesByUserId(long id, long type) {
+
+        List<UploadFileDto> uploadFileDtos = new ArrayList<UploadFileDto>();
+
+        // Select All Query
+        // UniversityApprovedId = 0 (Not Approved), UniversityApprovedId = 1 (Approved).
+
+        String selectQuery = "SELECT  * FROM " + UploadFiles.TABLE_NAME + " WHERE UserId = " + id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Log.d(TAG, "get All Image : ");
+                UploadFileDto dto = new UploadFileDto(cursor.getLong(0), cursor.getBlob(4), cursor.getLong(3));
+                uploadFileDtos.add(dto);
+            } while (cursor.moveToNext());
+        }
+        // closing connection
+        cursor.close();
+        db.close();
+
+        // returning lables
+        return uploadFileDtos;
+    }
+
 
 
     public boolean checkUser(String email) {
