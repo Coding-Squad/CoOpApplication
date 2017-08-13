@@ -24,7 +24,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp">
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp">
 
         <EditText
             android:id="@+id/stu_first_name"
@@ -96,7 +97,40 @@
             app:layout_constraintTop_toBottomOf="@+id/stu_email_address"/>
 
 
-        <DatePicker
+        <TextView
+            android:id="@+id/pickedDateViewer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/date_of_birth"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/date_of_birth"
+            app:layout_constraintTop_toTopOf="@+id/date_of_birth" />
+
+        <Button
+            android:id="@+id/date_of_birth"
+            android:onClick="pickDate"
+            android:layout_width="107dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="-1dp"
+            android:ems="10"
+            android:hint="@string/date_of_birth"
+            android:inputType="date"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stu_password"
+            tools:layout_editor_absoluteX="245dp"
+            tools:layout_editor_absoluteY="204dp" />
+
+
+        <!--<DatePicker
             android:id="@+id/date_of_birth"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -109,7 +143,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stu_password"/>
+            app:layout_constraintTop_toBottomOf="@+id/stu_password"/>-->
 
         <EditText
             android:id="@+id/stu_address"
@@ -139,7 +173,8 @@
             android:hint="@string/gender"
             android:inputType="textPersonName"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stu_address"/>
+            app:layout_constraintTop_toBottomOf="@+id/stu_address"
+            android:layout_marginLeft="8dp" />
 
         <RadioGroup
             android:id="@+id/stu_gender"

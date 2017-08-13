@@ -1,5 +1,6 @@
 package daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.signUp;
 
+import android.app.DialogFragment;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -13,11 +14,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 import daffodil.international.ac.coopapplication.AppDatabaseHelper;
 import daffodil.international.ac.coopapplication.R;
+import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.datepicker.DatePickerFragment;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.StudentInformationDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.dto.UniversityInfoDto;
 import daffodil.international.ac.coopapplication.daffodil.international.ac.coopapplication.service.StudentInformation;
@@ -37,7 +41,7 @@ public class StudentSignUpActivity extends SimpleActivity {
     private Spinner mStudentUniversityNameSpinner;
     private EditText mStudentIDTextView;
     private EditText mStudentDescription;
-    private EditText mStudentDateOfBirth;
+    private TextView mStudentDateOfBirth;
     private RadioGroup mRadioButtonGroup;
     private RadioButton mStudentGenderRadioButton;
 
@@ -128,6 +132,8 @@ public class StudentSignUpActivity extends SimpleActivity {
                 mStudentFirstNameTextView.getText().toString());
         studentInformationValues.put(StudentInformation.Columns.LAST_NAME,
                 mLastNameTextView.getText().toString());
+        /*studentInformationValues.put(StudentInformation.Columns.DATE_OF_BIRTH,
+                mStudentDateOfBirth.getText().toString());*/
         studentInformationValues.put(StudentInformation.Columns.ADDRESS,
                 mStudentAddressTextView.getText().toString());
         studentInformationValues.put(StudentInformation.Columns.STUDENT_ID,
@@ -204,4 +210,8 @@ public class StudentSignUpActivity extends SimpleActivity {
     }
 
 
+    public void pickDate(View view) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getFragmentManager(),"Date Picker");
+    }
 }
