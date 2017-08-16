@@ -38,10 +38,10 @@ public class StudentSignUpActivity extends SimpleActivity {
     private EditText mLastNameTextView;
     private EditText mStudentAddressTextView;
     private EditText mStudentMobileTextView;
-    private Spinner mStudentUniversityNameSpinner;
+    private Spinner  mStudentUniversityNameSpinner;
     private EditText mStudentIDTextView;
     private EditText mStudentDescription;
-    private TextView mStudentDateOfBirth;
+    private EditText mStudentDateOfBirth;
     private RadioGroup mRadioButtonGroup;
     private RadioButton mStudentGenderRadioButton;
 
@@ -83,6 +83,7 @@ public class StudentSignUpActivity extends SimpleActivity {
         mStudentFirstNameTextView = (EditText) findViewById(R.id.stu_first_name);
         mLastNameTextView = (EditText) findViewById(R.id.stu_last_name);
         mStudentAddressTextView = (EditText) findViewById(R.id.stu_address);
+        mStudentDateOfBirth = (EditText) findViewById(R.id.date_of_birth);
         //mStudentMobileTextView = (EditText) findViewById(R.id.stu_mobile);
         //mStudentGenderRadioButton = (RadioButton) findViewById(mRadioButtonGroup.getCheckedRadioButtonId());
         mStudentUniversityNameSpinner = (Spinner) findViewById(R.id.spinner);
@@ -132,8 +133,8 @@ public class StudentSignUpActivity extends SimpleActivity {
                 mStudentFirstNameTextView.getText().toString());
         studentInformationValues.put(StudentInformation.Columns.LAST_NAME,
                 mLastNameTextView.getText().toString());
-        /*studentInformationValues.put(StudentInformation.Columns.DATE_OF_BIRTH,
-                mStudentDateOfBirth.getText().toString());*/
+        studentInformationValues.put(StudentInformation.Columns.DATE_OF_BIRTH,
+                mStudentDateOfBirth.getText().toString());
         studentInformationValues.put(StudentInformation.Columns.ADDRESS,
                 mStudentAddressTextView.getText().toString());
         studentInformationValues.put(StudentInformation.Columns.STUDENT_ID,

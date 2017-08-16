@@ -88,7 +88,7 @@ public class AppDatabaseHelper extends SQLiteOpenHelper {
             + StudentInformation.Columns.BLOOD_GROUP + " INTEGER, "
             + StudentInformation.Columns.DATE_OF_BIRTH + " DATE, "
             + StudentInformation.Columns.DESCRIPTION + " TEXT, "
-            + StudentInformation.Columns.GENDER + " INTEGER, "
+            + StudentInformation.Columns.GENDER + " TEXT, "
             + StudentInformation.Columns.STUDENT_ID + " LONG, "
             + StudentInformation.Columns.USER_ID + " LONG, "
             + StudentInformation.Columns.UNIVERSITY_ID + " INTEGER);";
