@@ -41,7 +41,7 @@ public class StudentSignUpActivity extends SimpleActivity {
     private Spinner  mStudentUniversityNameSpinner;
     private EditText mStudentIDTextView;
     private EditText mStudentDescription;
-    private EditText mStudentDateOfBirth;
+    private TextView mStudentDateOfBirth;
     private RadioGroup mRadioButtonGroup;
     private RadioButton mStudentGenderRadioButton;
 
@@ -83,8 +83,8 @@ public class StudentSignUpActivity extends SimpleActivity {
         mStudentFirstNameTextView = (EditText) findViewById(R.id.stu_first_name);
         mLastNameTextView = (EditText) findViewById(R.id.stu_last_name);
         mStudentAddressTextView = (EditText) findViewById(R.id.stu_address);
-        mStudentDateOfBirth = (EditText) findViewById(R.id.date_of_birth);
-        //mStudentMobileTextView = (EditText) findViewById(R.id.stu_mobile);
+        mStudentDateOfBirth = (TextView) findViewById(R.id.date_of_birth);
+        mStudentMobileTextView = (EditText) findViewById(R.id.stu_phone_no);
         //mStudentGenderRadioButton = (RadioButton) findViewById(mRadioButtonGroup.getCheckedRadioButtonId());
         mStudentUniversityNameSpinner = (Spinner) findViewById(R.id.spinner);
         mStudentIDTextView = (EditText) findViewById(R.id.stu_university_student_id);
@@ -135,6 +135,7 @@ public class StudentSignUpActivity extends SimpleActivity {
                 mLastNameTextView.getText().toString());
         studentInformationValues.put(StudentInformation.Columns.DATE_OF_BIRTH,
                 mStudentDateOfBirth.getText().toString());
+        log("date of birth"+mStudentDateOfBirth.getText().toString());
         studentInformationValues.put(StudentInformation.Columns.ADDRESS,
                 mStudentAddressTextView.getText().toString());
         studentInformationValues.put(StudentInformation.Columns.STUDENT_ID,
@@ -143,12 +144,16 @@ public class StudentSignUpActivity extends SimpleActivity {
                 mStudentDescription.getText().toString());
         studentInformationValues.put(StudentInformation.Columns.UNIVERSITY_ID,
                 approvedUniversityId);
+        studentInformationValues.put(StudentInformation.Columns.MOBILE_NUMBER,
+                mStudentMobileTextView.getText().toString());
        /* studentInformationValues.put(StudentInformation.Columns.MOBILE_NUMBER,
                 mStudentMobileTextView.getText().toString());
         studentInformationValues.put(StudentInformation.Columns.DATE_OF_BIRTH,
                 mStudentDateOfBirth.getText().toString());*/
         /*studentInformationValues.put(StudentInformation.Columns.GENDER,
                 mStudentGenderRadioButton.getText().toString());*/
+         studentInformationValues.put(StudentInformation.Columns.GENDER,
+               gender);
 
         contentResolver.insert(StudentInformation.CONTENT_URI, studentInformationValues);
 
@@ -192,14 +197,18 @@ public class StudentSignUpActivity extends SimpleActivity {
         }
     }
 
+
+
     public void onRadioButtonClicked(View view) {
         //Is that button now checked?
         boolean checked = ((RadioButton) view).isChecked();
+        log("button checked or not:-----------------------------"+checked);
         // Check which radio button was clicked
         switch (view.getId()) {
             case R.id.stu_male:
                 if (checked)
                     gender = 1;
+
                 Log.d(TAG, "male checked : " + gender);
                 break;
             case R.id.stu_female:
@@ -211,7 +220,11 @@ public class StudentSignUpActivity extends SimpleActivity {
     }
 
 
+
+
     public void pickDate(View view) {
+        TextView datePicker = (TextView) findViewById(R.id.date_of_birth);
+        datePicker.setText(null);
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(),"Date Picker");
     }
