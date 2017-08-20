@@ -167,60 +167,18 @@
 
         <TextView
             android:id="@+id/stu_gender_text"
-            android:layout_width="100dp"
-            android:layout_height="0dp"
+            android:layout_width="99dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:enabled="false"
             android:hint="@string/gender"
             android:inputType="textPersonName"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stu_address"
-            android:layout_marginLeft="8dp" />
-
-        <RadioGroup
-            android:id="@+id/stu_gender"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            android:weightSum="1"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toRightOf="@+id/stu_gender_text"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stu_address">
-
-            <RadioButton
-                android:id="@+id/stu_male"
-                android:onClick="onRadioButtonClicked"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@string/male"
-                app:layout_constraintTop_toBottomOf="@+id/stu_gender"
-                tools:layout_editor_absoluteX="179dp"/>
-
-            <RadioButton
-                android:id="@+id/stu_female"
-                android:onClick="onRadioButtonClicked"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_weight="0.51"
-                android:text="@string/female"
-                app:layout_constraintBaseline_toBaselineOf="@+id/stu_male"
-                app:layout_constraintLeft_toRightOf="@+id/stu_male"
-                tools:text="Female"/>
-
-        </RadioGroup>
+            app:layout_constraintTop_toBottomOf="@+id/stu_address" />
 
         <EditText
             android:id="@+id/university_name"
@@ -230,7 +188,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             android:ems="10"
             android:enabled="false"
             android:hint="@string/university_name_2"
@@ -277,7 +235,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="8dp"
             android:ems="10"
             android:hint="@string/phone_no"
             android:inputType="phone"
@@ -320,6 +278,56 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stu_about_me"
             app:layout_constraintVertical_bias="0.3"/>
+
+        <RadioGroup
+            android:id="@+id/stu_gender"
+            android:layout_width="205dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="11dp"
+            android:orientation="horizontal"
+            android:textAlignment="center"
+            android:weightSum="1"
+            app:layout_constraintHorizontal_bias="0.281"
+            app:layout_constraintLeft_toRightOf="@+id/stu_gender_text"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stu_address">
+
+            <RadioButton
+                android:id="@+id/stu_male"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/male"
+                app:layout_constraintTop_toBottomOf="@+id/stu_gender"
+                tools:layout_editor_absoluteX="179dp" />
+
+            <RadioButton
+                android:id="@+id/stu_female"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="0.51"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/female"
+                app:layout_constraintBaseline_toBaselineOf="@+id/stu_male"
+                app:layout_constraintLeft_toRightOf="@+id/stu_male"
+                tools:layout_marginTop="8dp"
+                tools:text="Female" />
+
+        </RadioGroup>
 
     </android.support.constraint.ConstraintLayout>
 
