@@ -152,11 +152,15 @@ public class StudentSignUpActivity extends SimpleActivity {
                 mStudentDateOfBirth.getText().toString());*/
         /*studentInformationValues.put(StudentInformation.Columns.GENDER,
                 mStudentGenderRadioButton.getText().toString());*/
-         studentInformationValues.put(StudentInformation.Columns.GENDER,
-               gender);
+        if(gender!=0) {
+            studentInformationValues.put(StudentInformation.Columns.GENDER,
+                    gender);
+
 
         contentResolver.insert(StudentInformation.CONTENT_URI, studentInformationValues);
-
+        }else{
+            Toast.makeText(this, "Please Select Your Gender", Toast.LENGTH_SHORT).show();
+        }
 
         Intent signUpFeedbackIntent = new Intent(this, SignUpFeedback.class);
         startActivity(signUpFeedbackIntent);
